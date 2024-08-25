@@ -1,5 +1,6 @@
 import pandas as pd
 from enum import Enum
+import json
 
 NUM_GOALKEEPERS = 2
 NUM_DEFENDERS = 5
@@ -8,10 +9,17 @@ NUM_MID = 5
 
 BUDGET = 1000
 
+instance_count = 0
+
 class SolverMode(Enum):
     CHEAPEST_FIRST = 1
     HIGHEST_COST_FIRST = 2
-    pass
+    def __str__(self):
+        if(self.value == 1):
+            return "cheapest first"
+        elif (self.value == 2):
+            return "most expensive first"
+
 class TeamSolver():
     def __init__(self,heuristic: str, max_iters: int, mode: SolverMode,log: bool=True, use_form: bool=True):
         data = pd.read_csv("./data/data.csv")
@@ -45,6 +53,9 @@ class TeamSolver():
         self.total_score = self.calculate_score()
         self.profit = BUDGET-self.total_cost
         self.iter = 0
+        global instance_count
+        instance_count += 1
+        self.id = instance_count
     
     def get_cost(self):
         return self.goalkeepers["cost"].sum() + \
@@ -68,17 +79,39 @@ class TeamSolver():
         team = team.sort_values(by="score",ascending=False)
         return team.iloc[1]["name"]
 
-    def print_team(self):
-        print("Final team:")
-        print("Cost:",self.total_cost)
-        print("Total score:",self.total_score)
+    def team_to_str(self) -> str:
+        txt = "\n"
+        txt += f"Cost: {self.total_cost}\n"
         final_team = self.concat_team()
-        print(final_team)
+        txt += final_team.to_string() + "\n"
         captain = self.get_captain_name(final_team)
-        print("Suggested captain:",captain)
+        txt += f"Suggested captain: {captain}\n"
         vice_captain = self.get_vice_captain_name(final_team)
-        print("Suggested vice captain:",vice_captain)
-        print("\n")
+        txt += f"Suggested vice captain: {vice_captain}"
+        return txt
+    
+    def prettyify_str(self,txt: str):
+        if txt.strip() == "": return ""
+        new_str = txt.replace("_"," ")
+        new_str = txt.title().replace("_"," ")
+        return new_str
+
+    def __str__(self) -> str:
+        txt = f"Team Solver {self.id} - {self.prettyify_str(self.score_heuristic)} with mode {self.mode}"
+        return txt
+
+    def save_summary(self,filename, mode: str = "a+"):
+        with open(filename,mode) as f:
+            f.writelines([str(self),self.team_to_str(),"\n\n"])
+
+    def to_json(self,filename: str) -> None:
+        with open(filename,"r") as f:
+            json_data = json.load(f)
+        team_json = self.concat_team().to_dict(orient="records")
+        json_data["data"].append(team_json)
+        json_str = json.dumps(json_data,indent=4)
+        with open(filename,"w+") as f:
+            f.write(json_str)
 
     def adjust_forward(self,cost,id) -> bool:
         old_forwards = self.forwards
@@ -177,7 +210,6 @@ class TeamSolver():
         if self.total_cost <= BUDGET:
             if(self.log):
                 print("Successfully found team!")
-            self.print_team()
             return
         
         if(self.log):
@@ -187,6 +219,5 @@ class TeamSolver():
 
         if self.iter > self.max_iters:
             print("Failed to find optimal team.")
-            self.print_team()
         else:
             return self.find_team()
