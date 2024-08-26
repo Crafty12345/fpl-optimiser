@@ -3,7 +3,7 @@ import os
 from team_solver import TeamSolver,SolverMode
 
 MAX_ITERS = 300
-CURRENT_DATE = "25-08-2024"
+CURRENT_DATE = "26-08-2024"
 summary_filename = f"./results/{CURRENT_DATE}/summary_{CURRENT_DATE}.txt"
 
 if(not os.path.exists(f"./results/{CURRENT_DATE}")):
