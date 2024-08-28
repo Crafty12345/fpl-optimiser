@@ -74,10 +74,10 @@ class TeamSolver():
 
     def get_captain_name(self,team: pd.DataFrame):
         team = team.sort_values(by="score",ascending=False)
-        return team.iloc[0]["name"]
+        return team.iloc[0]["first_name"] + team.iloc[0]["second_name"]
     def get_vice_captain_name(self,team: pd.DataFrame):
         team = team.sort_values(by="score",ascending=False)
-        return team.iloc[1]["name"]
+        return team.iloc[1]["first_name"] + team.iloc[1]["second_name"] 
 
     def team_to_str(self) -> str:
         txt = "\n"
@@ -107,7 +107,12 @@ class TeamSolver():
     def to_json(self,filename: str) -> None:
         with open(filename,"r") as f:
             json_data = json.load(f)
-        team_json = self.concat_team().to_dict(orient="records")
+        team = self.concat_team()
+        # Use the pre-existing "first_name" column, rather than creating a new one, in order to preserve column order
+        team["first_name"] = team["first_name"] + " " + team["second_name"]
+        team = team.rename(columns={"first_name":"name"})
+        team = team.drop(columns=["second_name"])
+        team_json = team.to_dict(orient="records")
         json_data["data"].append(team_json)
         json_str = json.dumps(json_data,indent=4)
         with open(filename,"w+") as f:
