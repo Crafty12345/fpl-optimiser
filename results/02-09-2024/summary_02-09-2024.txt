@@ -1,0 +1,131 @@
+Team Solver 1 - Ict Index with mode cheapest first
+Cost: 989
+Score: 2366.7499999999995
+      id first_name second_name  cost  ict_index  total_points  points_per_game  form position team   score
+438  594     Łukasz   Fabiański    40        1.6             1              1.0   0.3      GKP  WHU    0.48
+190  272     Steven       Benda    40        0.0             0              0.0   0.0      GKP  FUL    0.00
+172  250    Michael       Keane    40       11.7             7              2.3   2.3      DEF  EVE   26.91
+383  521        Jan    Bednarek    40        9.5             4              1.3   1.3      DEF  SOU   12.35
+214  305      Jacob     Greaves    40       10.1             3              1.0   1.0      DEF  IPS   10.10
+396  538       Jack    Stephens    40        6.5             4              1.3   1.3      DEF  SOU    8.45
+418  567      Pedro       Porro    55       23.3            16              5.3   5.3      DEF  TOT  123.49
+291  401     Erling     Haaland   151       44.3            41             13.7  13.7      FWD  MCI  606.91
+324  446      Ethan    Wheatley    45        0.0             0              0.0   0.0      FWD  MUN    0.00
+369  504      Hwang       Ui-jo    45        0.0             0              0.0   0.0      FWD  NFO    0.00
+272  378    Mohamed       Salah   126       41.0            41             13.7  13.7      MID  LIV  561.70
+271  377       Luis        Díaz    75       36.4            32             10.7  10.7      MID  LIV  389.48
+9     13     Bukayo        Saka   101       43.0            24              8.0   8.0      MID  ARS  344.00
+129  197       Cole      Palmer   106       32.3            25              8.3   8.3      MID  CHE  268.09
+170  248        Tim  Iroegbunam    45        8.7             5              1.7   1.7      MID  EVE   14.79
+Suggested captain: Erling Haaland
+Suggested vice captain: Mohamed Salah
+
+Team Solver 2 - Ict Index with mode most expensive first
+Cost: 991
+Score: 2613.96
+      id first_name       second_name  cost  ict_index  total_points  points_per_game  form position team   score
+8     11      David       Raya Martin    55        9.0            20              6.7   6.7      GKP  ARS   60.30
+343  469       Nick              Pope    50        8.6            16              5.3   5.3      GKP  NEW   45.58
+418  567      Pedro             Porro    55       23.3            16              5.3   5.3      DEF  TOT  123.49
+277  385     Andrew         Robertson    60       18.6            18              6.0   6.0      DEF  LIV  111.60
+260  362      Trent  Alexander-Arnold    70       14.8            20              6.7   6.7      DEF  LIV   99.16
+420  570   Cristian            Romero    51       17.3            17              5.7   5.7      DEF  TOT   98.61
+64    96     Nathan           Collins    45       18.0            12              4.0   4.0      DEF  BRE   72.00
+103  159      Danny           Welbeck    56       24.4            23              7.7   7.7      FWD  BHA  187.88
+79   118      Yoane             Wissa    61       26.3            21              7.0   7.0      FWD  BRE  184.10
+1      3        Kai           Havertz    81       24.7            22              7.3   7.3      FWD  ARS  180.31
+271  377       Luis              Díaz    75       36.4            32             10.7  10.7      MID  LIV  389.48
+9     13     Bukayo              Saka   101       43.0            24              8.0   8.0      MID  ARS  344.00
+129  197       Cole            Palmer   106       32.3            25              8.3   8.3      MID  CHE  268.09
+72   107      Bryan            Mbeumo    70       31.6            24              8.0   8.0      MID  BRE  252.80
+51    82    Antoine           Semenyo    55       31.2            19              6.3   6.3      MID  BOU  196.56
+Suggested captain: Luis Díaz
+Suggested vice captain: Bukayo Saka
+
+Team Solver 3 - Total Points with mode cheapest first
+Cost: 986
+Score: 1858.7999999999997
+      id first_name  second_name  cost  ict_index  total_points  points_per_game  form position team  score
+438  594     Łukasz    Fabiański    40        1.6             1              1.0   0.3      GKP  WHU    0.3
+190  272     Steven        Benda    40        0.0             0              0.0   0.0      GKP  FUL    0.0
+172  250    Michael        Keane    40       11.7             7              2.3   2.3      DEF  EVE   16.1
+396  538       Jack     Stephens    40        6.5             4              1.3   1.3      DEF  SOU    5.2
+383  521        Jan     Bednarek    40        9.5             4              1.3   1.3      DEF  SOU    5.2
+32    50      Kosta  Nedeljković    40        2.9             3              1.0   1.0      DEF  AVL    3.0
+214  305      Jacob      Greaves    40       10.1             3              1.0   1.0      DEF  IPS    3.0
+291  401     Erling      Haaland   151       44.3            41             13.7  13.7      FWD  MCI  561.7
+1      3        Kai      Havertz    81       24.7            22              7.3   7.3      FWD  ARS  160.6
+324  446      Ethan     Wheatley    45        0.0             0              0.0   0.0      FWD  MUN    0.0
+272  378    Mohamed        Salah   126       41.0            41             13.7  13.7      MID  LIV  561.7
+129  197       Cole       Palmer   106       32.3            25              8.3   8.3      MID  CHE  207.5
+9     13     Bukayo         Saka   101       43.0            24              8.0   8.0      MID  ARS  192.0
+170  248        Tim   Iroegbunam    45        8.7             5              1.7   1.7      MID  EVE    8.5
+39    59     Amadou        Onana    51       19.2            20              6.7   6.7      MID  AVL  134.0
+Suggested captain: Erling Haaland
+Suggested vice captain: Mohamed Salah
+
+Team Solver 4 - Total Points with mode most expensive first
+Cost: 966
+Score: 2273.3999999999996
+      id first_name       second_name  cost  ict_index  total_points  points_per_game  form position team  score
+259  361    Alisson     Ramses Becker    55        6.0            21              7.0   7.0      GKP  LIV  147.0
+8     11      David       Raya Martin    55        9.0            20              6.7   6.7      GKP  ARS  134.0
+260  362      Trent  Alexander-Arnold    70       14.8            20              6.7   6.7      DEF  LIV  134.0
+277  385     Andrew         Robertson    60       18.6            18              6.0   6.0      DEF  LIV  108.0
+280  388     Virgil          van Dijk    60        9.3            18              6.0   6.0      DEF  LIV  108.0
+420  570   Cristian            Romero    51       17.3            17              5.7   5.7      DEF  TOT   96.9
+418  567      Pedro             Porro    55       23.3            16              5.3   5.3      DEF  TOT   84.8
+103  159      Danny           Welbeck    56       24.4            23              7.7   7.7      FWD  BHA  177.1
+1      3        Kai           Havertz    81       24.7            22              7.3   7.3      FWD  ARS  160.6
+79   118      Yoane             Wissa    61       26.3            21              7.0   7.0      FWD  BRE  147.0
+271  377       Luis              Díaz    75       36.4            32             10.7  10.7      MID  LIV  342.4
+72   107      Bryan            Mbeumo    70       31.6            24              8.0   8.0      MID  BRE  192.0
+124  192       Noni           Madueke    66       26.4            22             11.0   7.3      MID  CHE  160.6
+422  574        Son         Heung-min   100       27.6            21              7.0   7.0      MID  TOT  147.0
+39    59     Amadou             Onana    51       19.2            20              6.7   6.7      MID  AVL  134.0
+Suggested captain: Luis Díaz
+Suggested vice captain: Bryan Mbeumo
+
+Team Solver 5 - Points Per Game with mode cheapest first
+Cost: 986
+Score: 620.81
+      id first_name     second_name  cost  ict_index  total_points  points_per_game  form position team   score
+438  594     Łukasz       Fabiański    40        1.6             1              1.0   0.3      GKP  WHU    0.30
+190  272     Steven           Benda    40        0.0             0              0.0   0.0      GKP  FUL    0.00
+172  250    Michael           Keane    40       11.7             7              2.3   2.3      DEF  EVE    5.29
+396  538       Jack        Stephens    40        6.5             4              1.3   1.3      DEF  SOU    1.69
+383  521        Jan        Bednarek    40        9.5             4              1.3   1.3      DEF  SOU    1.69
+216  310        Ben         Johnson    40        6.0             3              1.5   1.0      DEF  IPS    1.50
+388  527     Taylor  Harwood-Bellis    40        8.4             3              1.0   1.0      DEF  SOU    1.00
+291  401     Erling         Haaland   151       44.3            41             13.7  13.7      FWD  MCI  187.69
+1      3        Kai         Havertz    81       24.7            22              7.3   7.3      FWD  ARS   53.29
+324  446      Ethan        Wheatley    45        0.0             0              0.0   0.0      FWD  MUN    0.00
+272  378    Mohamed           Salah   126       41.0            41             13.7  13.7      MID  LIV  187.69
+129  197       Cole          Palmer   106       32.3            25              8.3   8.3      MID  CHE   68.89
+9     13     Bukayo            Saka   101       43.0            24              8.0   8.0      MID  ARS   64.00
+254  355      Harry           Winks    45        8.2             5              1.7   1.7      MID  LEI    2.89
+39    59     Amadou           Onana    51       19.2            20              6.7   6.7      MID  AVL   44.89
+Suggested captain: Erling Haaland
+Suggested vice captain: Mohamed Salah
+
+Team Solver 6 - Points Per Game with mode most expensive first
+Cost: 966
+Score: 785.62
+      id first_name       second_name  cost  ict_index  total_points  points_per_game  form position team   score
+259  361    Alisson     Ramses Becker    55        6.0            21              7.0   7.0      GKP  LIV   49.00
+8     11      David       Raya Martin    55        9.0            20              6.7   6.7      GKP  ARS   44.89
+260  362      Trent  Alexander-Arnold    70       14.8            20              6.7   6.7      DEF  LIV   44.89
+277  385     Andrew         Robertson    60       18.6            18              6.0   6.0      DEF  LIV   36.00
+280  388     Virgil          van Dijk    60        9.3            18              6.0   6.0      DEF  LIV   36.00
+420  570   Cristian            Romero    51       17.3            17              5.7   5.7      DEF  TOT   32.49
+418  567      Pedro             Porro    55       23.3            16              5.3   5.3      DEF  TOT   28.09
+103  159      Danny           Welbeck    56       24.4            23              7.7   7.7      FWD  BHA   59.29
+1      3        Kai           Havertz    81       24.7            22              7.3   7.3      FWD  ARS   53.29
+79   118      Yoane             Wissa    61       26.3            21              7.0   7.0      FWD  BRE   49.00
+271  377       Luis              Díaz    75       36.4            32             10.7  10.7      MID  LIV  114.49
+124  192       Noni           Madueke    66       26.4            22             11.0   7.3      MID  CHE   80.30
+72   107      Bryan            Mbeumo    70       31.6            24              8.0   8.0      MID  BRE   64.00
+422  574        Son         Heung-min   100       27.6            21              7.0   7.0      MID  TOT   49.00
+39    59     Amadou             Onana    51       19.2            20              6.7   6.7      MID  AVL   44.89
+Suggested captain: Luis Díaz
+Suggested vice captain: Noni Madueke

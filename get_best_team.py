@@ -1,16 +1,17 @@
 import pandas as pd
 import os
 from team_solver import TeamSolver,SolverMode
+# TODO: Output into markdown document
 
 MAX_ITERS = 300
-CURRENT_DATE = "26-08-2024"
+CURRENT_DATE = "02-09-2024"
 summary_filename = f"./results/{CURRENT_DATE}/summary_{CURRENT_DATE}.txt"
 
 if(not os.path.exists(f"./results/{CURRENT_DATE}")):
     os.makedirs(f"./results/{CURRENT_DATE}")
 
 json_filename = f"./results/{CURRENT_DATE}/results_{CURRENT_DATE}.json"
-with open(json_filename,"w+") as f:
+with open(json_filename,"w+",encoding="utf-8") as f:
     f.write("{\"data\": []}")
 
 all_teams: list[TeamSolver] = []

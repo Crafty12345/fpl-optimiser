@@ -2,12 +2,12 @@ import pandas as pd
 from enum import Enum
 import json
 
-NUM_GOALKEEPERS = 2
-NUM_DEFENDERS = 5
-NUM_FORWARD = 3
-NUM_MID = 5
+NUM_GOALKEEPERS = 1
+NUM_DEFENDERS = 4
+NUM_FORWARD = 2
+NUM_MID = 4
 
-BUDGET = 1000
+MAX_BUDGET = 1000
 
 instance_count = 0
 
@@ -23,6 +23,11 @@ class SolverMode(Enum):
 class TeamSolver():
     def __init__(self,heuristic: str, max_iters: int, mode: SolverMode,log: bool=True, use_form: bool=True):
         data = pd.read_csv("./data/data.csv")
+        
+        # Use the pre-existing "first_name" column, rather than creating a new one, in order to preserve column order
+        data["first_name"] = data["first_name"] + " " + data["last_name"]
+        data.drop(columns=["last_name"])
+        data = data.rename({"first_name": "name"})
         self.score_heuristic = heuristic
 
         if(use_form):
@@ -38,7 +43,6 @@ class TeamSolver():
         self.max_iters = max_iters
         self.mode = mode
         self.log = log
-
 
         self.default_goalkeepers = goalkeepers.sort_values(by="score",ascending=False)
         self.default_defenders = defenders.sort_values(by="score",ascending=False)
@@ -56,6 +60,28 @@ class TeamSolver():
         global instance_count
         instance_count += 1
         self.id = instance_count
+
+    def get_bench(self):
+        '''
+        Get average players to put on bench, in order to allow more budget to be spent on players who are actually playing
+        '''
+        players = pd.DataFrame(columns=self.default_goalkeepers.columns) # Arbitrarily use the goalkeepers' columns as reference
+
+        goalkeeper_index = len(self.default_goalkeepers) // 2
+        goalkeeper = self.default_goalkeepers.iloc[goalkeeper_index]
+
+        defender_index = len(self.default_defenders) // 2
+        defenders = self.default_defenders.iloc[defender_index]
+
+        forward_index = len(self.default_forwards) // 2
+        forward = self.default_mid.iloc[forward_index]
+
+        mid_index = len(self.default_mid) // 2
+        mid = self.default_mid.iloc[mid_index]
+
+        pd.concat([])
+
+        pass
     
     def get_cost(self):
         return self.goalkeepers["cost"].sum() + \
@@ -74,14 +100,15 @@ class TeamSolver():
 
     def get_captain_name(self,team: pd.DataFrame):
         team = team.sort_values(by="score",ascending=False)
-        return team.iloc[0]["first_name"] + team.iloc[0]["second_name"]
+        return team.iloc[0]["name"]
     def get_vice_captain_name(self,team: pd.DataFrame):
         team = team.sort_values(by="score",ascending=False)
-        return team.iloc[1]["first_name"] + team.iloc[1]["second_name"] 
+        return team.iloc[1]["name"] 
 
     def team_to_str(self) -> str:
         txt = "\n"
         txt += f"Cost: {self.total_cost}\n"
+        txt += f"Score: {self.total_score}\n"
         final_team = self.concat_team()
         txt += final_team.to_string() + "\n"
         captain = self.get_captain_name(final_team)
@@ -101,17 +128,14 @@ class TeamSolver():
         return txt
 
     def save_summary(self,filename, mode: str = "a+"):
-        with open(filename,mode) as f:
+        with open(filename,mode,encoding="utf-8") as f:
             f.writelines([str(self),self.team_to_str(),"\n\n"])
 
     def to_json(self,filename: str) -> None:
         with open(filename,"r") as f:
             json_data = json.load(f)
         team = self.concat_team()
-        # Use the pre-existing "first_name" column, rather than creating a new one, in order to preserve column order
-        team["first_name"] = team["first_name"] + " " + team["second_name"]
-        team = team.rename(columns={"first_name":"name"})
-        team = team.drop(columns=["second_name"])
+ 
         team_json = team.to_dict(orient="records")
         json_data["data"].append(team_json)
         json_str = json.dumps(json_data,indent=4)
