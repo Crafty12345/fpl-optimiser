@@ -2,20 +2,7 @@
     "data": [
         [
             {
-                "id": 521,
-                "name": "Jan Bednarek",
-                "cost": 40,
-                "ict_index": 9.5,
-                "total_points": 4,
-                "points_per_game": 1.3,
-                "form": 1.3,
-                "position": "DEF",
-                "team": "SOU",
-                "score": 12.35,
-                "is_benched": false
-            },
-            {
-                "id": 250,
+                "id": 253,
                 "name": "Michael Keane",
                 "cost": 40,
                 "ict_index": 11.7,
@@ -28,7 +15,7 @@
                 "is_benched": false
             },
             {
-                "id": 250,
+                "id": 253,
                 "name": "Michael Keane",
                 "cost": 40,
                 "ict_index": 11.7,
@@ -54,20 +41,33 @@
                 "is_benched": false
             },
             {
-                "id": 305,
-                "name": "Jacob Greaves",
-                "cost": 40,
-                "ict_index": 10.1,
-                "total_points": 3,
-                "points_per_game": 1.0,
-                "form": 1.0,
+                "id": 366,
+                "name": "Trent Alexander-Arnold",
+                "cost": 70,
+                "ict_index": 14.8,
+                "total_points": 20,
+                "points_per_game": 6.7,
+                "form": 6.7,
                 "position": "DEF",
-                "team": "IPS",
-                "score": 10.1,
+                "team": "LIV",
+                "score": 99.16000000000001,
+                "is_benched": false
+            },
+            {
+                "id": 526,
+                "name": "Jan Bednarek",
+                "cost": 40,
+                "ict_index": 9.5,
+                "total_points": 4,
+                "points_per_game": 1.3,
+                "form": 1.3,
+                "position": "DEF",
+                "team": "SOU",
+                "score": 12.35,
                 "is_benched": true
             },
             {
-                "id": 303,
+                "id": 307,
                 "name": "Liam Delap",
                 "cost": 55,
                 "ict_index": 12.9,
@@ -80,9 +80,9 @@
                 "is_benched": false
             },
             {
-                "id": 401,
+                "id": 405,
                 "name": "Erling Haaland",
-                "cost": 151,
+                "cost": 152,
                 "ict_index": 44.3,
                 "total_points": 41,
                 "points_per_game": 13.7,
@@ -93,7 +93,7 @@
                 "is_benched": false
             },
             {
-                "id": 446,
+                "id": 449,
                 "name": "Ethan Wheatley",
                 "cost": 45,
                 "ict_index": 0.0,
@@ -119,7 +119,7 @@
                 "is_benched": false
             },
             {
-                "id": 594,
+                "id": 599,
                 "name": "\u0141ukasz Fabia\u0144ski",
                 "cost": 40,
                 "ict_index": 1.6,
@@ -132,16 +132,16 @@
                 "is_benched": true
             },
             {
-                "id": 197,
-                "name": "Cole Palmer",
-                "cost": 106,
-                "ict_index": 32.3,
-                "total_points": 25,
-                "points_per_game": 8.3,
-                "form": 8.3,
+                "id": 107,
+                "name": "Bryan Mbeumo",
+                "cost": 71,
+                "ict_index": 31.6,
+                "total_points": 24,
+                "points_per_game": 8.0,
+                "form": 8.0,
                 "position": "MID",
-                "team": "CHE",
-                "score": 268.09,
+                "team": "BRE",
+                "score": 252.8,
                 "is_benched": false
             },
             {
@@ -158,9 +158,9 @@
                 "is_benched": false
             },
             {
-                "id": 377,
+                "id": 381,
                 "name": "Luis D\u00edaz",
-                "cost": 75,
+                "cost": 76,
                 "ict_index": 36.4,
                 "total_points": 32,
                 "points_per_game": 10.7,
@@ -171,7 +171,7 @@
                 "is_benched": false
             },
             {
-                "id": 378,
+                "id": 382,
                 "name": "Mohamed Salah",
                 "cost": 126,
                 "ict_index": 41.0,
@@ -184,7 +184,7 @@
                 "is_benched": false
             },
             {
-                "id": 269,
+                "id": 273,
                 "name": "Adama Traor\u00e9",
                 "cost": 50,
                 "ict_index": 21.2,
@@ -199,7 +199,7 @@
         ],
         [
             {
-                "id": 570,
+                "id": 575,
                 "name": "Cristian Romero",
                 "cost": 51,
                 "ict_index": 17.3,
@@ -212,7 +212,7 @@
                 "is_benched": false
             },
             {
-                "id": 362,
+                "id": 366,
                 "name": "Trent Alexander-Arnold",
                 "cost": 70,
                 "ict_index": 14.8,
@@ -225,7 +225,7 @@
                 "is_benched": false
             },
             {
-                "id": 385,
+                "id": 389,
                 "name": "Andrew Robertson",
                 "cost": 60,
                 "ict_index": 18.6,
@@ -238,7 +238,7 @@
                 "is_benched": false
             },
             {
-                "id": 567,
+                "id": 572,
                 "name": "Pedro Porro",
                 "cost": 55,
                 "ict_index": 23.3,
@@ -251,7 +251,7 @@
                 "is_benched": false
             },
             {
-                "id": 250,
+                "id": 253,
                 "name": "Michael Keane",
                 "cost": 40,
                 "ict_index": 11.7,
@@ -277,9 +277,9 @@
                 "is_benched": false
             },
             {
-                "id": 159,
+                "id": 160,
                 "name": "Danny Welbeck",
-                "cost": 56,
+                "cost": 57,
                 "ict_index": 24.4,
                 "total_points": 23,
                 "points_per_game": 7.7,
@@ -290,7 +290,7 @@
                 "is_benched": false
             },
             {
-                "id": 303,
+                "id": 307,
                 "name": "Liam Delap",
                 "cost": 55,
                 "ict_index": 12.9,
@@ -331,7 +331,7 @@
             {
                 "id": 107,
                 "name": "Bryan Mbeumo",
-                "cost": 70,
+                "cost": 71,
                 "ict_index": 31.6,
                 "total_points": 24,
                 "points_per_game": 8.0,
@@ -339,19 +339,6 @@
                 "position": "MID",
                 "team": "BRE",
                 "score": 252.8,
-                "is_benched": false
-            },
-            {
-                "id": 197,
-                "name": "Cole Palmer",
-                "cost": 106,
-                "ict_index": 32.3,
-                "total_points": 25,
-                "points_per_game": 8.3,
-                "form": 8.3,
-                "position": "MID",
-                "team": "CHE",
-                "score": 268.09,
                 "is_benched": false
             },
             {
@@ -368,9 +355,9 @@
                 "is_benched": false
             },
             {
-                "id": 377,
+                "id": 381,
                 "name": "Luis D\u00edaz",
-                "cost": 75,
+                "cost": 76,
                 "ict_index": 36.4,
                 "total_points": 32,
                 "points_per_game": 10.7,
@@ -381,7 +368,20 @@
                 "is_benched": false
             },
             {
-                "id": 269,
+                "id": 382,
+                "name": "Mohamed Salah",
+                "cost": 126,
+                "ict_index": 41.0,
+                "total_points": 41,
+                "points_per_game": 13.7,
+                "form": 13.7,
+                "position": "MID",
+                "team": "LIV",
+                "score": 561.6999999999999,
+                "is_benched": false
+            },
+            {
+                "id": 273,
                 "name": "Adama Traor\u00e9",
                 "cost": 50,
                 "ict_index": 21.2,
@@ -396,20 +396,7 @@
         ],
         [
             {
-                "id": 521,
-                "name": "Jan Bednarek",
-                "cost": 40,
-                "ict_index": 9.5,
-                "total_points": 4,
-                "points_per_game": 1.3,
-                "form": 1.3,
-                "position": "DEF",
-                "team": "SOU",
-                "score": 5.2,
-                "is_benched": false
-            },
-            {
-                "id": 250,
+                "id": 253,
                 "name": "Michael Keane",
                 "cost": 40,
                 "ict_index": 11.7,
@@ -422,7 +409,7 @@
                 "is_benched": false
             },
             {
-                "id": 337,
+                "id": 341,
                 "name": "Wout Faes",
                 "cost": 41,
                 "ict_index": 14.0,
@@ -435,23 +422,36 @@
                 "is_benched": false
             },
             {
-                "id": 444,
-                "name": "Noussair Mazraoui",
-                "cost": 45,
-                "ict_index": 13.1,
-                "total_points": 13,
-                "points_per_game": 4.3,
-                "form": 4.3,
+                "id": 409,
+                "name": "Rico Lewis",
+                "cost": 46,
+                "ict_index": 12.6,
+                "total_points": 14,
+                "points_per_game": 4.7,
+                "form": 4.7,
                 "position": "DEF",
-                "team": "MUN",
-                "score": 55.9,
+                "team": "MCI",
+                "score": 65.8,
                 "is_benched": false
             },
             {
-                "id": 538,
-                "name": "Jack Stephens",
+                "id": 366,
+                "name": "Trent Alexander-Arnold",
+                "cost": 70,
+                "ict_index": 14.8,
+                "total_points": 20,
+                "points_per_game": 6.7,
+                "form": 6.7,
+                "position": "DEF",
+                "team": "LIV",
+                "score": 134.0,
+                "is_benched": false
+            },
+            {
+                "id": 526,
+                "name": "Jan Bednarek",
                 "cost": 40,
-                "ict_index": 6.5,
+                "ict_index": 9.5,
                 "total_points": 4,
                 "points_per_game": 1.3,
                 "form": 1.3,
@@ -461,7 +461,7 @@
                 "is_benched": true
             },
             {
-                "id": 303,
+                "id": 307,
                 "name": "Liam Delap",
                 "cost": 55,
                 "ict_index": 12.9,
@@ -474,9 +474,9 @@
                 "is_benched": false
             },
             {
-                "id": 401,
+                "id": 405,
                 "name": "Erling Haaland",
-                "cost": 151,
+                "cost": 152,
                 "ict_index": 44.3,
                 "total_points": 41,
                 "points_per_game": 13.7,
@@ -487,7 +487,7 @@
                 "is_benched": false
             },
             {
-                "id": 446,
+                "id": 449,
                 "name": "Ethan Wheatley",
                 "cost": 45,
                 "ict_index": 0.0,
@@ -500,7 +500,7 @@
                 "is_benched": true
             },
             {
-                "id": 502,
+                "id": 506,
                 "name": "Matz Sels",
                 "cost": 45,
                 "ict_index": 3.8,
@@ -513,7 +513,7 @@
                 "is_benched": false
             },
             {
-                "id": 594,
+                "id": 599,
                 "name": "\u0141ukasz Fabia\u0144ski",
                 "cost": 40,
                 "ict_index": 1.6,
@@ -539,22 +539,22 @@
                 "is_benched": false
             },
             {
-                "id": 197,
-                "name": "Cole Palmer",
-                "cost": 106,
-                "ict_index": 32.3,
-                "total_points": 25,
-                "points_per_game": 8.3,
-                "form": 8.3,
+                "id": 107,
+                "name": "Bryan Mbeumo",
+                "cost": 71,
+                "ict_index": 31.6,
+                "total_points": 24,
+                "points_per_game": 8.0,
+                "form": 8.0,
                 "position": "MID",
-                "team": "CHE",
-                "score": 207.50000000000003,
+                "team": "BRE",
+                "score": 192.0,
                 "is_benched": false
             },
             {
-                "id": 377,
+                "id": 381,
                 "name": "Luis D\u00edaz",
-                "cost": 75,
+                "cost": 76,
                 "ict_index": 36.4,
                 "total_points": 32,
                 "points_per_game": 10.7,
@@ -565,7 +565,7 @@
                 "is_benched": false
             },
             {
-                "id": 378,
+                "id": 382,
                 "name": "Mohamed Salah",
                 "cost": 126,
                 "ict_index": 41.0,
@@ -578,7 +578,7 @@
                 "is_benched": false
             },
             {
-                "id": 269,
+                "id": 273,
                 "name": "Adama Traor\u00e9",
                 "cost": 50,
                 "ict_index": 21.2,
@@ -593,7 +593,7 @@
         ],
         [
             {
-                "id": 570,
+                "id": 575,
                 "name": "Cristian Romero",
                 "cost": 51,
                 "ict_index": 17.3,
@@ -606,7 +606,7 @@
                 "is_benched": false
             },
             {
-                "id": 385,
+                "id": 389,
                 "name": "Andrew Robertson",
                 "cost": 60,
                 "ict_index": 18.6,
@@ -619,7 +619,7 @@
                 "is_benched": false
             },
             {
-                "id": 388,
+                "id": 392,
                 "name": "Virgil van Dijk",
                 "cost": 60,
                 "ict_index": 9.3,
@@ -632,7 +632,7 @@
                 "is_benched": false
             },
             {
-                "id": 362,
+                "id": 366,
                 "name": "Trent Alexander-Arnold",
                 "cost": 70,
                 "ict_index": 14.8,
@@ -645,7 +645,7 @@
                 "is_benched": false
             },
             {
-                "id": 337,
+                "id": 341,
                 "name": "Wout Faes",
                 "cost": 41,
                 "ict_index": 14.0,
@@ -671,9 +671,9 @@
                 "is_benched": false
             },
             {
-                "id": 159,
+                "id": 160,
                 "name": "Danny Welbeck",
-                "cost": 56,
+                "cost": 57,
                 "ict_index": 24.4,
                 "total_points": 23,
                 "points_per_game": 7.7,
@@ -684,7 +684,7 @@
                 "is_benched": false
             },
             {
-                "id": 303,
+                "id": 307,
                 "name": "Liam Delap",
                 "cost": 55,
                 "ict_index": 12.9,
@@ -697,7 +697,7 @@
                 "is_benched": true
             },
             {
-                "id": 361,
+                "id": 365,
                 "name": "Alisson Ramses Becker",
                 "cost": 55,
                 "ict_index": 6.0,
@@ -710,7 +710,7 @@
                 "is_benched": false
             },
             {
-                "id": 502,
+                "id": 506,
                 "name": "Matz Sels",
                 "cost": 45,
                 "ict_index": 3.8,
@@ -738,7 +738,7 @@
             {
                 "id": 107,
                 "name": "Bryan Mbeumo",
-                "cost": 70,
+                "cost": 71,
                 "ict_index": 31.6,
                 "total_points": 24,
                 "points_per_game": 8.0,
@@ -749,22 +749,9 @@
                 "is_benched": false
             },
             {
-                "id": 197,
-                "name": "Cole Palmer",
-                "cost": 106,
-                "ict_index": 32.3,
-                "total_points": 25,
-                "points_per_game": 8.3,
-                "form": 8.3,
-                "position": "MID",
-                "team": "CHE",
-                "score": 207.50000000000003,
-                "is_benched": false
-            },
-            {
-                "id": 377,
+                "id": 381,
                 "name": "Luis D\u00edaz",
-                "cost": 75,
+                "cost": 76,
                 "ict_index": 36.4,
                 "total_points": 32,
                 "points_per_game": 10.7,
@@ -775,7 +762,20 @@
                 "is_benched": false
             },
             {
-                "id": 269,
+                "id": 382,
+                "name": "Mohamed Salah",
+                "cost": 126,
+                "ict_index": 41.0,
+                "total_points": 41,
+                "points_per_game": 13.7,
+                "form": 13.7,
+                "position": "MID",
+                "team": "LIV",
+                "score": 561.6999999999999,
+                "is_benched": false
+            },
+            {
+                "id": 273,
                 "name": "Adama Traor\u00e9",
                 "cost": 50,
                 "ict_index": 21.2,
@@ -785,400 +785,6 @@
                 "position": "MID",
                 "team": "FUL",
                 "score": 96.9,
-                "is_benched": true
-            }
-        ],
-        [
-            {
-                "id": 521,
-                "name": "Jan Bednarek",
-                "cost": 40,
-                "ict_index": 9.5,
-                "total_points": 4,
-                "points_per_game": 1.3,
-                "form": 1.3,
-                "position": "DEF",
-                "team": "SOU",
-                "score": 1.6900000000000002,
-                "is_benched": false
-            },
-            {
-                "id": 250,
-                "name": "Michael Keane",
-                "cost": 40,
-                "ict_index": 11.7,
-                "total_points": 7,
-                "points_per_game": 2.3,
-                "form": 2.3,
-                "position": "DEF",
-                "team": "EVE",
-                "score": 5.289999999999999,
-                "is_benched": false
-            },
-            {
-                "id": 570,
-                "name": "Cristian Romero",
-                "cost": 51,
-                "ict_index": 17.3,
-                "total_points": 17,
-                "points_per_game": 5.7,
-                "form": 5.7,
-                "position": "DEF",
-                "team": "TOT",
-                "score": 32.49,
-                "is_benched": false
-            },
-            {
-                "id": 362,
-                "name": "Trent Alexander-Arnold",
-                "cost": 70,
-                "ict_index": 14.8,
-                "total_points": 20,
-                "points_per_game": 6.7,
-                "form": 6.7,
-                "position": "DEF",
-                "team": "LIV",
-                "score": 44.89,
-                "is_benched": false
-            },
-            {
-                "id": 538,
-                "name": "Jack Stephens",
-                "cost": 40,
-                "ict_index": 6.5,
-                "total_points": 4,
-                "points_per_game": 1.3,
-                "form": 1.3,
-                "position": "DEF",
-                "team": "SOU",
-                "score": 1.6900000000000002,
-                "is_benched": true
-            },
-            {
-                "id": 159,
-                "name": "Danny Welbeck",
-                "cost": 56,
-                "ict_index": 24.4,
-                "total_points": 23,
-                "points_per_game": 7.7,
-                "form": 7.7,
-                "position": "FWD",
-                "team": "BHA",
-                "score": 59.290000000000006,
-                "is_benched": false
-            },
-            {
-                "id": 401,
-                "name": "Erling Haaland",
-                "cost": 151,
-                "ict_index": 44.3,
-                "total_points": 41,
-                "points_per_game": 13.7,
-                "form": 13.7,
-                "position": "FWD",
-                "team": "MCI",
-                "score": 187.68999999999997,
-                "is_benched": false
-            },
-            {
-                "id": 446,
-                "name": "Ethan Wheatley",
-                "cost": 45,
-                "ict_index": 0.0,
-                "total_points": 0,
-                "points_per_game": 0.0,
-                "form": 0.0,
-                "position": "FWD",
-                "team": "MUN",
-                "score": 0.0,
-                "is_benched": true
-            },
-            {
-                "id": 469,
-                "name": "Nick Pope",
-                "cost": 50,
-                "ict_index": 8.6,
-                "total_points": 16,
-                "points_per_game": 5.3,
-                "form": 5.3,
-                "position": "GKP",
-                "team": "NEW",
-                "score": 28.09,
-                "is_benched": false
-            },
-            {
-                "id": 594,
-                "name": "\u0141ukasz Fabia\u0144ski",
-                "cost": 40,
-                "ict_index": 1.6,
-                "total_points": 1,
-                "points_per_game": 1.0,
-                "form": 0.3,
-                "position": "GKP",
-                "team": "WHU",
-                "score": 0.3,
-                "is_benched": true
-            },
-            {
-                "id": 59,
-                "name": "Amadou Onana",
-                "cost": 51,
-                "ict_index": 19.2,
-                "total_points": 20,
-                "points_per_game": 6.7,
-                "form": 6.7,
-                "position": "MID",
-                "team": "AVL",
-                "score": 44.89,
-                "is_benched": false
-            },
-            {
-                "id": 197,
-                "name": "Cole Palmer",
-                "cost": 106,
-                "ict_index": 32.3,
-                "total_points": 25,
-                "points_per_game": 8.3,
-                "form": 8.3,
-                "position": "MID",
-                "team": "CHE",
-                "score": 68.89000000000001,
-                "is_benched": false
-            },
-            {
-                "id": 377,
-                "name": "Luis D\u00edaz",
-                "cost": 75,
-                "ict_index": 36.4,
-                "total_points": 32,
-                "points_per_game": 10.7,
-                "form": 10.7,
-                "position": "MID",
-                "team": "LIV",
-                "score": 114.48999999999998,
-                "is_benched": false
-            },
-            {
-                "id": 378,
-                "name": "Mohamed Salah",
-                "cost": 126,
-                "ict_index": 41.0,
-                "total_points": 41,
-                "points_per_game": 13.7,
-                "form": 13.7,
-                "position": "MID",
-                "team": "LIV",
-                "score": 187.68999999999997,
-                "is_benched": false
-            },
-            {
-                "id": 269,
-                "name": "Adama Traor\u00e9",
-                "cost": 50,
-                "ict_index": 21.2,
-                "total_points": 17,
-                "points_per_game": 5.7,
-                "form": 5.7,
-                "position": "MID",
-                "team": "FUL",
-                "score": 32.49,
-                "is_benched": true
-            }
-        ],
-        [
-            {
-                "id": 570,
-                "name": "Cristian Romero",
-                "cost": 51,
-                "ict_index": 17.3,
-                "total_points": 17,
-                "points_per_game": 5.7,
-                "form": 5.7,
-                "position": "DEF",
-                "team": "TOT",
-                "score": 32.49,
-                "is_benched": false
-            },
-            {
-                "id": 385,
-                "name": "Andrew Robertson",
-                "cost": 60,
-                "ict_index": 18.6,
-                "total_points": 18,
-                "points_per_game": 6.0,
-                "form": 6.0,
-                "position": "DEF",
-                "team": "LIV",
-                "score": 36.0,
-                "is_benched": false
-            },
-            {
-                "id": 388,
-                "name": "Virgil van Dijk",
-                "cost": 60,
-                "ict_index": 9.3,
-                "total_points": 18,
-                "points_per_game": 6.0,
-                "form": 6.0,
-                "position": "DEF",
-                "team": "LIV",
-                "score": 36.0,
-                "is_benched": false
-            },
-            {
-                "id": 362,
-                "name": "Trent Alexander-Arnold",
-                "cost": 70,
-                "ict_index": 14.8,
-                "total_points": 20,
-                "points_per_game": 6.7,
-                "form": 6.7,
-                "position": "DEF",
-                "team": "LIV",
-                "score": 44.89,
-                "is_benched": false
-            },
-            {
-                "id": 570,
-                "name": "Cristian Romero",
-                "cost": 51,
-                "ict_index": 17.3,
-                "total_points": 17,
-                "points_per_game": 5.7,
-                "form": 5.7,
-                "position": "DEF",
-                "team": "TOT",
-                "score": 32.49,
-                "is_benched": true
-            },
-            {
-                "id": 159,
-                "name": "Danny Welbeck",
-                "cost": 56,
-                "ict_index": 24.4,
-                "total_points": 23,
-                "points_per_game": 7.7,
-                "form": 7.7,
-                "position": "FWD",
-                "team": "BHA",
-                "score": 59.290000000000006,
-                "is_benched": false
-            },
-            {
-                "id": 159,
-                "name": "Danny Welbeck",
-                "cost": 56,
-                "ict_index": 24.4,
-                "total_points": 23,
-                "points_per_game": 7.7,
-                "form": 7.7,
-                "position": "FWD",
-                "team": "BHA",
-                "score": 59.290000000000006,
-                "is_benched": false
-            },
-            {
-                "id": 3,
-                "name": "Kai Havertz",
-                "cost": 81,
-                "ict_index": 24.7,
-                "total_points": 22,
-                "points_per_game": 7.3,
-                "form": 7.3,
-                "position": "FWD",
-                "team": "ARS",
-                "score": 53.29,
-                "is_benched": true
-            },
-            {
-                "id": 361,
-                "name": "Alisson Ramses Becker",
-                "cost": 55,
-                "ict_index": 6.0,
-                "total_points": 21,
-                "points_per_game": 7.0,
-                "form": 7.0,
-                "position": "GKP",
-                "team": "LIV",
-                "score": 49.0,
-                "is_benched": false
-            },
-            {
-                "id": 469,
-                "name": "Nick Pope",
-                "cost": 50,
-                "ict_index": 8.6,
-                "total_points": 16,
-                "points_per_game": 5.3,
-                "form": 5.3,
-                "position": "GKP",
-                "team": "NEW",
-                "score": 28.09,
-                "is_benched": true
-            },
-            {
-                "id": 13,
-                "name": "Bukayo Saka",
-                "cost": 101,
-                "ict_index": 43.0,
-                "total_points": 24,
-                "points_per_game": 8.0,
-                "form": 8.0,
-                "position": "MID",
-                "team": "ARS",
-                "score": 64.0,
-                "is_benched": false
-            },
-            {
-                "id": 197,
-                "name": "Cole Palmer",
-                "cost": 106,
-                "ict_index": 32.3,
-                "total_points": 25,
-                "points_per_game": 8.3,
-                "form": 8.3,
-                "position": "MID",
-                "team": "CHE",
-                "score": 68.89000000000001,
-                "is_benched": false
-            },
-            {
-                "id": 192,
-                "name": "Noni Madueke",
-                "cost": 66,
-                "ict_index": 26.4,
-                "total_points": 22,
-                "points_per_game": 11.0,
-                "form": 7.3,
-                "position": "MID",
-                "team": "CHE",
-                "score": 80.3,
-                "is_benched": false
-            },
-            {
-                "id": 377,
-                "name": "Luis D\u00edaz",
-                "cost": 75,
-                "ict_index": 36.4,
-                "total_points": 32,
-                "points_per_game": 10.7,
-                "form": 10.7,
-                "position": "MID",
-                "team": "LIV",
-                "score": 114.48999999999998,
-                "is_benched": false
-            },
-            {
-                "id": 269,
-                "name": "Adama Traor\u00e9",
-                "cost": 50,
-                "ict_index": 21.2,
-                "total_points": 17,
-                "points_per_game": 5.7,
-                "form": 5.7,
-                "position": "MID",
-                "team": "FUL",
-                "score": 32.49,
                 "is_benched": true
             }
         ]

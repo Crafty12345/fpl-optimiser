@@ -4,8 +4,8 @@ from team_solver import TeamSolver,SolverMode
 # TODO: Output into markdown document
 
 MAX_ITERS = 300
-CURRENT_DATE = "02-09-2024"
-summary_filename = f"./results/{CURRENT_DATE}/summary_{CURRENT_DATE}.txt"
+CURRENT_DATE = "05-09-2024"
+summary_filename = f"./results/{CURRENT_DATE}/summary_{CURRENT_DATE}.html"
 
 if(not os.path.exists(f"./results/{CURRENT_DATE}")):
     os.makedirs(f"./results/{CURRENT_DATE}")
@@ -36,5 +36,5 @@ all_teams.append(team_solver)
 
 for team in all_teams:
     team.find_team()
-    team.save_summary(summary_filename)
+    team.save_summary(summary_filename,date=CURRENT_DATE)
     team.to_json(json_filename)
