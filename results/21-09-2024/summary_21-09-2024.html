@@ -1,0 +1,272 @@
+
+<html>
+    <head>
+        <meta charset='UTF-8'>
+        <title>21-09-2024 Team Solver</title>
+    </head>
+    <body>
+
+        <h1> Team Solver 1 - Points Per Game with mode cheapest first </h1>
+        
+        <p>Cost:821</p>
+        <p>Score:764.52</p>
+        <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>name</th>
+      <th>cost</th>
+      <th>ict_index</th>
+      <th>total_points</th>
+      <th>points_per_game</th>
+      <th>form</th>
+      <th>position</th>
+      <th>team</th>
+      <th>score</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>8</th>
+      <td>11</td>
+      <td>David Raya Martin</td>
+      <td>55</td>
+      <td>13.1</td>
+      <td>29</td>
+      <td>7.2</td>
+      <td>7.0</td>
+      <td>GKP</td>
+      <td>ARS</td>
+      <td>50.40</td>
+      <td>0.916364</td>
+    </tr>
+    <tr>
+      <th>226</th>
+      <td>333</td>
+      <td>Dara O'Shea</td>
+      <td>40</td>
+      <td>5.1</td>
+      <td>7</td>
+      <td>7.0</td>
+      <td>3.5</td>
+      <td>DEF</td>
+      <td>IPS</td>
+      <td>24.50</td>
+      <td>0.612500</td>
+    </tr>
+    <tr>
+      <th>218</th>
+      <td>325</td>
+      <td>Axel Tuanzebe</td>
+      <td>40</td>
+      <td>11.5</td>
+      <td>9</td>
+      <td>2.2</td>
+      <td>2.7</td>
+      <td>DEF</td>
+      <td>IPS</td>
+      <td>5.94</td>
+      <td>0.148500</td>
+    </tr>
+    <tr>
+      <th>210</th>
+      <td>313</td>
+      <td>Jacob Greaves</td>
+      <td>40</td>
+      <td>13.2</td>
+      <td>9</td>
+      <td>2.2</td>
+      <td>2.7</td>
+      <td>DEF</td>
+      <td>IPS</td>
+      <td>5.94</td>
+      <td>0.148500</td>
+    </tr>
+    <tr>
+      <th>226</th>
+      <td>333</td>
+      <td>Dara O'Shea</td>
+      <td>40</td>
+      <td>5.1</td>
+      <td>7</td>
+      <td>7.0</td>
+      <td>3.5</td>
+      <td>DEF</td>
+      <td>IPS</td>
+      <td>24.50</td>
+      <td>0.612500</td>
+    </tr>
+    <tr>
+      <th>286</th>
+      <td>409</td>
+      <td>Erling Haaland</td>
+      <td>153</td>
+      <td>60.2</td>
+      <td>54</td>
+      <td>13.5</td>
+      <td>15.7</td>
+      <td>FWD</td>
+      <td>MCI</td>
+      <td>211.95</td>
+      <td>1.385294</td>
+    </tr>
+    <tr>
+      <th>286</th>
+      <td>409</td>
+      <td>Erling Haaland</td>
+      <td>153</td>
+      <td>60.2</td>
+      <td>54</td>
+      <td>13.5</td>
+      <td>15.7</td>
+      <td>FWD</td>
+      <td>MCI</td>
+      <td>211.95</td>
+      <td>1.385294</td>
+    </tr>
+    <tr>
+      <th>268</th>
+      <td>386</td>
+      <td>Mohamed Salah</td>
+      <td>127</td>
+      <td>49.3</td>
+      <td>43</td>
+      <td>10.8</td>
+      <td>9.7</td>
+      <td>MID</td>
+      <td>LIV</td>
+      <td>104.76</td>
+      <td>0.824882</td>
+    </tr>
+    <tr>
+      <th>251</th>
+      <td>363</td>
+      <td>Harry Winks</td>
+      <td>45</td>
+      <td>9.5</td>
+      <td>7</td>
+      <td>1.8</td>
+      <td>1.7</td>
+      <td>MID</td>
+      <td>LEI</td>
+      <td>3.06</td>
+      <td>0.068000</td>
+    </tr>
+    <tr>
+      <th>267</th>
+      <td>385</td>
+      <td>Luis Díaz</td>
+      <td>78</td>
+      <td>37.9</td>
+      <td>35</td>
+      <td>8.8</td>
+      <td>10.7</td>
+      <td>MID</td>
+      <td>LIV</td>
+      <td>94.16</td>
+      <td>1.207179</td>
+    </tr>
+    <tr>
+      <th>455</th>
+      <td>646</td>
+      <td>Mario Lemina</td>
+      <td>50</td>
+      <td>19.7</td>
+      <td>19</td>
+      <td>4.8</td>
+      <td>5.7</td>
+      <td>MID</td>
+      <td>WOL</td>
+      <td>27.36</td>
+      <td>0.547200</td>
+    </tr>
+  </tbody>
+</table>
+        <p>Suggested captain: Erling Haaland</p>
+        <p>Suggested vice captain: Erling Haaland</p>
+        <h2>Bench</h2>
+        <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>name</th>
+      <th>cost</th>
+      <th>ict_index</th>
+      <th>total_points</th>
+      <th>points_per_game</th>
+      <th>form</th>
+      <th>position</th>
+      <th>team</th>
+      <th>score</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>222</th>
+      <td>329</td>
+      <td>Arijanet Muric</td>
+      <td>44</td>
+      <td>7.7</td>
+      <td>14</td>
+      <td>4.7</td>
+      <td>4.7</td>
+      <td>GKP</td>
+      <td>IPS</td>
+      <td>22.09</td>
+      <td>0.502045</td>
+    </tr>
+    <tr>
+      <th>386</th>
+      <td>548</td>
+      <td>Ross Stewart</td>
+      <td>45</td>
+      <td>0.1</td>
+      <td>1</td>
+      <td>1.0</td>
+      <td>0.3</td>
+      <td>FWD</td>
+      <td>SOU</td>
+      <td>0.30</td>
+      <td>0.006667</td>
+    </tr>
+    <tr>
+      <th>167</th>
+      <td>255</td>
+      <td>Tim Iroegbunam</td>
+      <td>45</td>
+      <td>9.5</td>
+      <td>6</td>
+      <td>1.5</td>
+      <td>1.3</td>
+      <td>MID</td>
+      <td>EVE</td>
+      <td>1.95</td>
+      <td>0.043333</td>
+    </tr>
+    <tr>
+      <th>213</th>
+      <td>318</td>
+      <td>Ben Johnson</td>
+      <td>40</td>
+      <td>6.0</td>
+      <td>3</td>
+      <td>1.5</td>
+      <td>1.0</td>
+      <td>DEF</td>
+      <td>IPS</td>
+      <td>1.50</td>
+      <td>0.037500</td>
+    </tr>
+  </tbody>
+</table>
+        <p>Bench cost: 174</p>
+        <p>Bench score: 25.840000000000003</p>
+        <h2>Summary</h2>
+        Total cost: 995
+        Total score: 790.36
+        
+        <hr>

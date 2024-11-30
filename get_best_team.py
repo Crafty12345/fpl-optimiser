@@ -4,7 +4,7 @@ from team_solver import TeamSolver,SolverMode
 # TODO: Output into markdown document
 
 MAX_ITERS = 300
-CURRENT_DATE = "05-09-2024"
+CURRENT_DATE = "29-11-2024"
 summary_filename = f"./results/{CURRENT_DATE}/summary_{CURRENT_DATE}.html"
 
 if(not os.path.exists(f"./results/{CURRENT_DATE}")):
@@ -28,13 +28,13 @@ all_teams.append(team_solver)
 team_solver = TeamSolver("total_points",MAX_ITERS,SolverMode.HIGHEST_COST_FIRST,log=False)
 all_teams.append(team_solver)
 
-team_solver = TeamSolver("points_per_game",MAX_ITERS,SolverMode.CHEAPEST_FIRST,log=False)
+team_solver = TeamSolver("points_per_game",MAX_ITERS,SolverMode.CHEAPEST_FIRST,log=True)
 all_teams.append(team_solver)
 
-team_solver = TeamSolver("points_per_game",MAX_ITERS,SolverMode.HIGHEST_COST_FIRST,log=False)
+team_solver = TeamSolver("points_per_game",MAX_ITERS,SolverMode.HIGHEST_COST_FIRST,log=True)
 all_teams.append(team_solver)
 
 for team in all_teams:
-    team.find_team()
-    team.save_summary(summary_filename,date=CURRENT_DATE)
-    team.to_json(json_filename)
+     team.find_team()
+     team.save_summary(summary_filename,date=CURRENT_DATE)
+     team.to_json(json_filename)

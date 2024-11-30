@@ -10,7 +10,7 @@ NUM_FORWARD = 2
 NUM_MID = 4
 
 MAX_BUDGET = 995
-MAX_AMT_REMAINING = 5
+MAX_AMT_REMAINING = 20
 
 instance_count = 0
 
@@ -54,10 +54,16 @@ class TeamSolver():
         self.get_bench()
 
         self.players: dict[str,pd.DataFrame] = dict()
-        self.players["GKP"] = self.default_players["GKP"][0:NUM_GOALKEEPERS]
-        self.players["DEF"] = self.default_players["DEF"][0:NUM_DEFENDERS]
-        self.players["FWD"] = self.default_players["FWD"][0:NUM_FORWARD]
-        self.players["MID"] = self.default_players["MID"][0:NUM_MID]
+        default_not_bench = self.default_players.copy()
+        for position in default_not_bench.keys():
+            temp_players = default_not_bench[position]
+            default_not_bench[position] = temp_players.loc[~temp_players["id"].isin(self.bench["id"])]
+        
+        self.players["GKP"] = default_not_bench["GKP"][0:NUM_GOALKEEPERS]
+        self.players["DEF"] = default_not_bench["DEF"][0:NUM_DEFENDERS]
+        self.players["FWD"] = default_not_bench["FWD"][0:NUM_FORWARD]
+        self.players["MID"] = default_not_bench["MID"][0:NUM_MID]
+        self.validate_team()
 
         self.total_cost = self.sum_stat("cost")
         self.total_score = self.sum_stat("score")
@@ -74,11 +80,15 @@ class TeamSolver():
         valid_options = {"GKP", "DEF", "FWD", "MID"}
         assert (position in valid_options), f"Position {position} is an invalid position. Valid options: {valid_options}"
 
-        temp_players: pd.DataFrame = self.default_players[position]
-        temp_players.loc[:,"value"] = temp_players["score"] / temp_players["cost"]
-        temp_players = temp_players.sort_values(by=["value"],ascending=False)
-        ARBITRARY_THRESHOLD = 0.5
-        temp_players = temp_players.loc[temp_players["value"] >= ARBITRARY_THRESHOLD]
+        players_value: pd.DataFrame = self.default_players[position]
+        players_value.loc[:,"value"] = players_value["score"] / players_value["cost"]
+        players_value = players_value.sort_values(by=["value"],ascending=False)
+        threshold = 0.5
+        temp_players = players_value.loc[players_value["value"] >= threshold]
+        while len(temp_players) == 0:
+            threshold -= 0.05
+            temp_players = players_value.loc[players_value["value"] >= threshold]
+
         player_index = temp_players["cost"].argmin()
         player = temp_players.iloc[[player_index]]
         return player
@@ -277,7 +287,7 @@ f"""
         new_players = self.default_players[position][(self.default_players[position]["cost"] < cost)]
         #print(new_players)
         #new_players = new_players.loc[new_players["score"] >= score_threshold]
-        new_players = new_players[~(new_players["id"].isin(self.players[position]["id"]))]
+        new_players = new_players[~(new_players["id"].isin(self.players[position]["id"])) & ~(new_players["id"].isin(self.bench["id"]))]
         new_players = new_players.sort_values(by="score",ascending=False)
         #print(new_players)
         new_players = new_players.head(1)
@@ -362,11 +372,12 @@ f"""
                 self.players[position] = new_team
                 self.update_stats()
         amount_remaining = MAX_BUDGET - (self.bench_cost + self.total_cost)
-        if amount_remaining > 0:
-            new_bench = self.try_replace(self.bench)
-            if(new_bench is not None):
-                self.bench = new_bench
-                self.bench_cost = self.sum_bench_column("cost")
+        # if amount_remaining > 0:
+        #     new_bench = self.try_replace(self.bench)
+        #     if(new_bench is not None):
+        #         self.bench = new_bench
+        #         self.validate_team()
+        #         self.bench_cost = self.sum_bench_column("cost")
         
     def swap_bench(self, old_bench_player: pd.DataFrame, new_bench_player: pd.DataFrame, position: str):
         '''
@@ -407,13 +418,23 @@ f"""
         self.total_score = self.sum_stat("score")
         self.profit = self.budget - self.total_cost
 
+    def validate_team(self):
+        ids = list(self.players.values())
+        for player in ids:
+            _id = player["id"].values[0]
+            for id2 in self.bench["id"]:
+                assert _id != id2, f"Detected duplicate player with id: {_id}"
+        pass
+
     def find_team(self):
         self.update_stats()
         amount_remaining = MAX_BUDGET - (self.total_cost + self.bench_cost)
         MAX_ITERS = 50
-        if self.total_cost <= self.budget:
+        if (self.total_cost <= self.budget):
             iter = 0
             while (amount_remaining > MAX_AMT_REMAINING) and (amount_remaining >= 0) and (iter < MAX_ITERS):
+                if(self.log):
+                    print(f"Iter: {iter}")
                 self.backward_adjust()
                 amount_remaining = MAX_BUDGET - (self.total_cost + self.bench_cost)
                 iter += 1
