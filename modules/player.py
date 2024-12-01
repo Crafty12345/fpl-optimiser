@@ -50,7 +50,7 @@ class Player():
         self.viceCaptain = False
         self.benchPlayer = False
         matrix = FixtureDifficultyMatrix()
-        self.fixtureDifficulty = matrix.getFixtureDifficulty(self.teamName)
+        self.normalisedFixtureDifficulty = matrix.getFixtureDifficulty(self.teamName)
         pass
 
     @classmethod
@@ -84,6 +84,7 @@ class Player():
         isViceCaptainStr = " (Vice Captain) " if (self.isViceCaptain() and not self.isBenched()) else ""
         string = self.name + isCaptainStr + isViceCaptainStr
         string += "\tScore: " + str(round(self.score,2)) + "\tCost: " + str(self.cost)
+        string += "\tFixture Difficulty: " + str(self.normalisedFixtureDifficulty)
         return string
     
     def __gt__(self, pOther):
@@ -99,10 +100,10 @@ class Player():
         """
         Calculate score using points per game as a heuristic
         """
-        self.score = self.form * self.pointsPerGame * self.fixtureDifficulty
+        self.score = self.form * self.pointsPerGame + self.normalisedFixtureDifficulty
 
     def calculateScoreTotalPoints(self):
         """
         Calculate score using total points as a heuristic
         """
-        self.score = self.form * self.totalPoints * self.fixtureDifficulty
+        self.score = self.form * self.totalPoints + self.normalisedFixtureDifficulty
