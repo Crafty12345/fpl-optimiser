@@ -35,7 +35,10 @@ class Player():
                  pointsPerGame: float,
                  form: float,
                  position: Position,
-                 teamName: str):
+                 teamName: str,
+                 pCombinedScore: float,
+                 pIsAvailable: bool,
+                 pStartsPer90: float):
         self.id = id
         self.name = name
         self.cost = cost
@@ -45,12 +48,15 @@ class Player():
         self.form = form
         self.position = position
         self.teamName = teamName
+        self.combinedScore = pCombinedScore
         self.score = 0
         self.captain = False
         self.viceCaptain = False
         self.benchPlayer = False
-        matrix = FixtureDifficultyMatrix()
-        self.normalisedFixtureDifficulty = matrix.getFixtureDifficulty(self.teamName)
+        self.fixtureDifficulty = 0.0
+        self.normalisedFixtureDifficulty = 0.0
+        self.available = pIsAvailable
+        self.startsPer90 = pStartsPer90
         pass
 
     @classmethod
@@ -64,11 +70,14 @@ class Player():
         totalPoints = playerDf["total_points"].values[0]
         pointsPerGame = playerDf["points_per_game"].values[0]
         form = playerDf["form"].values[0]
+        combinedScore = playerDf["combined"].values[0]
 
         positionStr = playerDf["position"].values[0]
         position = Position.fromString(positionStr)
         teamName = playerDf["team"].values[0]
-        return cls(id, name, cost, ictIndex, totalPoints, pointsPerGame, form, position, teamName)
+        isAvailable = playerDf["status"].values[0] == "a"
+        startsPer90 = playerDf["starts_per_90"].values[0]
+        return cls(id, name, cost, ictIndex, totalPoints, pointsPerGame, form, position, teamName, combinedScore, isAvailable, startsPer90)
 
     def getId(self): return self.id
     def getName(self): return self.name
@@ -78,6 +87,7 @@ class Player():
     def isCaptain(self): return self.captain
     def isViceCaptain(self): return self.viceCaptain
     def isBenched(self): return self.benchPlayer
+    def isAvailable(self): return self.available
     
     def __str__(self):
         isCaptainStr = " (Captain) " if (self.isCaptain() and not self.isBenched()) else ""
@@ -88,22 +98,51 @@ class Player():
         return string
     
     def __gt__(self, pOther):
-        return self.score > pOther.score
+        return self.score > pOther.getScore()
     def __lt__(self, pOther):
-        return self.score < pOther.score
+        return self.score < pOther.getScore()
+    
+    def toHtmlRow(self) -> str:
+        return ("<tr>"
+                f"<td>{self.id}</td>"
+                f"<td>{self.name}</td>"
+                f"<td>{self.cost:.2f}</td>"
+                f"<td>{self.ictIndex}</td>"
+                f"<td>{self.totalPoints}</td>"
+                f"<td>{self.form}</td>"
+                f"<td>{self.fixtureDifficulty:.2f}</td>"
+                f"<td>{self.normalisedFixtureDifficulty:.2f}</td>"
+                f"<td>{self.position}</td>"
+                f"<td>{self.teamName}</td>"
+                f"<td>{self.captain}</td>"
+                f"<td>{self.viceCaptain}"
+                f"<td>{self.score:.2f}</td>"
+                "<tr>")
     
     def setCaptain(self, pIsCaptain: bool): self.captain = pIsCaptain
     def setViceCaptain(self, pIsViceCaptain: bool): self.viceCaptain = pIsViceCaptain
     def setBenched(self, pIsBenchedPlayer: bool): self.benchPlayer = pIsBenchedPlayer
-    
+    def setCombinedScore(self, pNewScore: float): self.combinedScore = pNewScore
+
+    def recalculateFixtureDifficulty(self, pMatrix: FixtureDifficultyMatrix):
+        self.fixtureDifficulty = pMatrix.getSimpleDifficulty(self.teamName)
+        self.normalisedFixtureDifficulty = pMatrix.getNormalisedDifficulty(self.teamName)
+
     def calculateScorePPG(self):
         """
         Calculate score using points per game as a heuristic
         """
-        self.score = self.form * self.pointsPerGame + self.normalisedFixtureDifficulty
+        self.score = (self.form * self.pointsPerGame - self.normalisedFixtureDifficulty) * self.available * self.startsPer90
 
     def calculateScoreTotalPoints(self):
         """
         Calculate score using total points as a heuristic
         """
-        self.score = self.form * self.totalPoints + self.normalisedFixtureDifficulty
+        self.score = (self.form * self.totalPoints - self.normalisedFixtureDifficulty) * self.available * self.startsPer90
+
+    def calculateCombinedScore(self):
+        """
+        Calculate score using a combination of points per game, total points, and ICT Index
+        """
+        self.score = (self.form * self.combinedScore - self.normalisedFixtureDifficulty) * self.available * self.startsPer90
+        pass

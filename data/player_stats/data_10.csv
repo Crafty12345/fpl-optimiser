@@ -1,0 +1,675 @@
+id,name,cost,ict_index,total_points,points_per_game,form,status,starts_per_90,position,team
+0,Fábio Ferreira Vieira,54,0.0,0,0.0,0.0,u,0.0,MID,ARS
+1,Gabriel Fernando de Jesus,68,11.5,5,0.6,0.7,a,0.8,FWD,ARS
+2,Gabriel dos Santos Magalhães,62,46.3,43,4.3,1.3,a,1.04,DEF,ARS
+3,Kai Havertz,81,70.4,45,4.5,1.7,d,1.0,FWD,ARS
+4,Karl Hein,40,0.0,0,0.0,0.0,u,0.0,GKP,ARS
+5,Jurriën Timber,55,27.0,22,2.8,1.0,a,1.06,DEF,ARS
+6,Jorge Luiz Frello Filho,48,2.7,4,1.3,0.0,a,1.17,MID,ARS
+7,Jakub Kiwior,48,1.7,3,0.8,0.3,a,0.0,DEF,ARS
+8,Gabriel Martinelli Silva,69,54.9,39,3.9,1.7,a,1.04,MID,ARS
+9,Ethan Nwaneri,45,5.0,5,1.0,1.0,a,0.0,MID,ARS
+10,Martin Ødegaard,82,17.0,7,2.3,0.0,a,1.07,MID,ARS
+11,David Raya Martin,56,26.8,40,4.0,1.3,a,1.0,GKP,ARS
+12,Declan Rice,63,45.2,17,1.9,3.0,d,1.06,MID,ARS
+13,Bukayo Saka,101,112.0,65,7.2,3.7,a,1.09,MID,ARS
+14,William Saliba,60,15.8,21,2.3,-0.3,a,1.08,DEF,ARS
+15,Thomas Partey,50,35.0,29,2.9,2.0,a,1.02,MID,ARS
+16,Kieran Tierney,43,0.0,0,0.0,0.0,i,0.0,DEF,ARS
+17,Tomiyasu Takehiro,48,1.0,1,1.0,0.0,i,0.0,DEF,ARS
+18,Leandro Trossard,69,39.0,30,3.0,2.3,a,1.11,MID,ARS
+19,Benjamin White,62,17.4,26,3.2,1.7,a,0.89,DEF,ARS
+20,Oleksandr Zinchenko,48,2.7,8,2.7,0.3,a,0.84,DEF,ARS
+21,Norberto Murara Neto,43,7.8,7,3.5,0.0,a,1.0,GKP,ARS
+22,Raheem Sterling,67,6.7,4,1.0,0.3,n,1.49,MID,ARS
+23,Riccardo Calafiori,58,26.2,14,2.3,0.3,i,0.94,DEF,ARS
+24,Myles Lewis-Skelly,45,0.6,1,0.5,0.3,a,0.0,MID,ARS
+25,Mikel Merino,60,17.9,12,3.0,3.7,a,1.04,MID,ARS
+26,Salah-Eddine Oulad M'hand,45,0.0,0,0.0,0.0,a,0.0,MID,ARS
+27,Tommy Setford,45,0.0,0,0.0,0.0,a,0.0,GKP,ARS
+28,Maldini Kacurri,40,0.0,0,0.0,0.0,a,0.0,DEF,ARS
+29,Ayden Heaven,40,0.0,0,0.0,0.0,a,0.0,DEF,ARS
+30,Ismeal Kabia,45,0.0,0,0.0,0.0,a,0.0,MID,ARS
+31,Josh Nichols,40,0.0,0,0.0,0.0,a,0.0,DEF,ARS
+32,Nathan Butler-Oyedeji,45,0.0,0,0.0,0.0,a,0.0,FWD,ARS
+33,Leon Bailey,63,25.6,19,2.1,2.0,a,1.24,MID,AVL
+34,Ross Barkley,52,24.8,15,1.9,2.0,i,0.33,MID,AVL
+35,Enzo Barrenechea,49,0.0,0,0.0,0.0,u,0.0,MID,AVL
+36,Emiliano Buendía Stati,53,1.3,4,1.0,0.3,a,0.0,MID,AVL
+37,Matty Cash,44,9.9,13,2.2,1.3,d,1.27,DEF,AVL
+38,Leander Dendoncker,45,0.0,0,0.0,0.0,u,0.0,MID,AVL
+39,Moussa Diaby,65,0.0,0,0.0,0.0,u,0.0,MID,AVL
+40,Diego Carlos Santos Silva,45,6.9,11,2.2,0.7,a,0.71,DEF,AVL
+41,Lucas Digne,47,42.3,35,3.5,3.7,a,1.17,DEF,AVL
+42,Lewis Dobbin,50,0.0,0,0.0,0.0,u,0.0,MID,AVL
+43,Jhon Durán,60,31.3,30,3.0,1.0,a,0.0,FWD,AVL
+44,Joe Gauci,40,0.0,0,0.0,0.0,a,0.0,GKP,AVL
+45,Kortney Hause,40,0.0,0,0.0,0.0,a,0.0,DEF,AVL
+46,Samuel Iling-Junior,54,0.0,0,0.0,0.0,u,0.0,MID,AVL
+47,Boubacar Kamara,50,0.6,2,1.0,0.7,a,0.0,MID,AVL
+48,Kaine Kesler-Hayden,40,0.0,0,0.0,0.0,u,0.0,DEF,AVL
+49,Ezri Konsa Ngoyo,45,26.7,19,2.1,0.7,a,1.11,DEF,AVL
+50,Ian Maatsen,47,13.1,8,1.0,0.3,a,0.0,DEF,AVL
+51,Filip Marschall,40,0.0,0,0.0,0.0,u,0.0,GKP,AVL
+52,Emiliano Martínez Romero,50,22.5,30,3.0,3.3,a,1.0,GKP,AVL
+53,John McGinn,52,14.9,14,1.8,1.7,a,1.25,MID,AVL
+54,Tyrone Mings,44,0.0,0,0.0,0.0,a,0.0,DEF,AVL
+55,Kosta Nedeljković,40,2.9,3,1.0,0.0,a,0.0,DEF,AVL
+56,Robin Olsen,45,0.0,0,0.0,0.0,a,0.0,GKP,AVL
+57,Pau Torres,45,19.8,18,1.8,1.3,a,1.0,DEF,AVL
+58,Jacob Ramsey,54,32.7,21,2.3,2.7,a,0.92,MID,AVL
+59,Morgan Rogers,54,59.2,44,4.4,5.3,a,1.11,MID,AVL
+60,Viljami Sinisalo,40,0.0,0,0.0,0.0,u,0.0,GKP,AVL
+61,Lino da Cruz Sousa,40,0.0,0,0.0,0.0,u,0.0,DEF,AVL
+62,Youri Tielemans,55,62.3,33,3.3,3.7,a,1.02,MID,AVL
+63,Ollie Watkins,90,65.1,53,5.3,4.0,a,1.16,FWD,AVL
+64,Amadou Onana,50,36.3,29,3.2,1.3,a,1.28,MID,AVL
+65,Jaden Philogene,53,2.3,4,0.7,-0.3,a,0.53,MID,AVL
+66,Lamare Bogarde,40,4.4,2,1.0,0.0,a,1.07,DEF,AVL
+67,Sil Swinkels,40,0.0,0,0.0,0.0,a,0.0,DEF,AVL
+68,Oliwier Zych,40,0.0,0,0.0,0.0,a,0.0,GKP,AVL
+69,Kadan Young,45,0.0,0,0.0,0.0,a,0.0,MID,AVL
+70,Max Aarons,43,0.0,0,0.0,0.0,a,0.0,DEF,BOU
+71,Tyler Adams,49,2.2,1,0.5,0.3,a,0.0,MID,BOU
+72,Jaidon Anthony,45,0.0,0,0.0,0.0,u,0.0,MID,BOU
+73,David Brooks,49,3.0,3,1.0,0.7,a,0.0,MID,BOU
+74,Ryan Christie,49,30.4,22,2.2,3.3,a,1.15,MID,BOU
+75,Lewis Cook,50,51.6,31,3.1,2.3,a,1.01,MID,BOU
+76,Enes Ünal,54,8.5,7,1.0,1.0,a,0.67,FWD,BOU
+77,Romain Faivre,50,0.0,0,0.0,0.0,u,0.0,MID,BOU
+78,Hamed Traorè,45,0.0,0,0.0,0.0,u,0.0,MID,BOU
+79,James Hill,40,0.0,0,0.0,0.0,a,0.0,DEF,BOU
+80,Daniel Jebbison,45,1.6,2,1.0,0.0,u,0.0,FWD,BOU
+81,Milos Kerkez,44,34.2,29,2.9,6.3,a,1.08,DEF,BOU
+82,Justin Kluivert,53,44.2,28,2.8,5.3,a,1.15,MID,BOU
+83,Chris Mepham,44,0.0,0,0.0,0.0,u,0.0,DEF,BOU
+84,Dango Ouattara,50,30.2,22,2.8,1.7,d,0.87,MID,BOU
+85,Alex Paulsen,40,0.0,0,0.0,0.0,u,0.0,GKP,BOU
+86,Philip Billing,48,1.4,2,1.0,0.0,a,0.0,MID,BOU
+87,Alex Scott,48,15.8,11,1.4,1.0,i,0.7,MID,BOU
+88,Antoine Semenyo,56,77.5,44,4.4,4.3,a,1.03,MID,BOU
+89,Marcos Senesi,48,27.2,19,2.4,4.3,a,1.02,DEF,BOU
+90,Luis Sinisterra,50,37.2,19,2.4,0.3,i,0.44,MID,BOU
+91,Adam Smith,45,12.1,18,1.8,1.3,a,0.86,DEF,BOU
+92,Marcus Tavernier,55,70.4,32,3.2,2.7,a,1.04,MID,BOU
+93,Mark Travers,44,9.4,10,3.3,2.7,a,1.0,GKP,BOU
+94,Illia Zabarnyi,44,19.2,22,2.2,3.3,a,1.0,DEF,BOU
+95,Kepa Arrizabalaga,45,13.8,17,3.4,2.0,i,1.0,GKP,BOU
+96,Dean Huijsen,43,7.7,4,1.0,0.3,a,0.93,DEF,BOU
+97,Julián Araujo Zúñiga,44,4.9,7,1.0,0.3,a,1.3,DEF,BOU
+98,Will Dennis,40,0.0,0,0.0,0.0,a,0.0,GKP,BOU
+99,Francisco Evanilson de Lima Barbosa,59,39.7,37,4.1,6.7,a,1.17,FWD,BOU
+100,Kristoffer Ajer,44,15.9,7,0.9,0.0,d,1.13,DEF,BRE
+101,Ethan Brierley,45,0.0,0,0.0,0.0,a,0.0,MID,BRE
+102,Nathan Collins,45,50.3,28,2.8,1.0,a,1.0,DEF,BRE
+103,Mikkel Damsgaard,50,54.5,32,3.2,3.3,a,1.03,MID,BRE
+104,Josh Dasilva,48,0.0,0,0.0,0.0,i,0.0,MID,BRE
+105,Mark Flekken,45,42.8,28,2.8,3.0,a,1.0,GKP,BRE
+106,Rico Henry,43,0.0,0,0.0,0.0,d,0.0,DEF,BRE
+107,Aaron Hickey,43,0.0,0,0.0,0.0,i,0.0,DEF,BRE
+108,Vitaly Janelt,49,32.7,33,3.3,5.3,a,1.11,MID,BRE
+109,Mathias Jensen,53,15.0,11,2.2,0.7,a,1.01,MID,BRE
+110,Kim Ji-soo,39,0.0,0,0.0,0.0,a,0.0,DEF,BRE
+111,Yunus Emre Konak,45,0.4,3,1.0,0.0,a,0.0,MID,BRE
+112,Keane Lewis-Potter,50,35.9,27,2.7,3.3,a,1.07,MID,BRE
+113,Bryan Mbeumo,79,90.6,71,7.1,6.7,a,1.01,MID,BRE
+114,Ben Mee,42,0.8,1,0.5,0.0,a,0.0,DEF,BRE
+115,Christian Nørgaard,48,33.3,22,2.8,2.7,a,1.04,MID,BRE
+116,Frank Onyeka,49,0.0,2,1.0,0.0,u,0.0,MID,BRE
+117,Myles Peart-Harris,45,0.0,0,0.0,0.0,u,0.0,MID,BRE
+118,Ethan Pinnock,45,52.4,22,2.2,3.0,a,1.0,DEF,BRE
+119,Mads Roerslev Rasmussen,44,18.8,12,1.3,1.7,a,0.81,DEF,BRE
+120,Kevin Schade,52,20.8,18,1.8,1.3,a,0.95,MID,BRE
+121,Igor Thiago Nascimento Rodrigues,59,0.0,0,0.0,0.0,i,0.0,FWD,BRE
+122,Ivan Toney,73,0.0,0,0.0,0.0,u,0.0,FWD,BRE
+123,Hákon Valdimarsson,40,0.0,0,0.0,0.0,a,0.0,GKP,BRE
+124,Yoane Wissa,60,44.3,41,5.9,4.3,a,1.14,FWD,BRE
+125,Yehor Yarmoliuk,44,6.8,6,1.0,0.7,a,0.71,MID,BRE
+126,Mathias Jorgensen,45,0.0,0,0.0,0.0,u,0.0,DEF,BRE
+127,Fábio Freitas Gouveia Carvalho,48,21.9,21,2.1,1.0,a,0.64,MID,BRE
+128,Sepp van den Berg,40,24.7,9,1.1,1.0,a,0.98,DEF,BRE
+129,Ryan Trevitt,45,0.3,1,1.0,0.0,a,0.0,MID,BRE
+130,Gustavo Nunes Fernandes Gomes,49,0.0,0,0.0,0.0,i,0.0,MID,BRE
+131,Jayden Meghoma,40,0.0,0,0.0,0.0,a,0.0,DEF,BRE
+132,Tony Yogane,45,0.0,0,0.0,0.0,a,0.0,MID,BRE
+133,Paris Maghoma,45,0.0,0,0.0,0.0,a,0.0,MID,BRE
+134,Simon Adingra,53,14.4,15,2.5,0.3,a,0.66,MID,BHA
+135,Benicio Baker-Boaitey,45,0.0,0,0.0,0.0,u,0.0,MID,BHA
+136,Carlos Baleba,50,31.8,27,3.4,2.0,a,1.11,MID,BHA
+137,Valentín Barco,40,0.0,0,0.0,0.0,u,0.0,DEF,BHA
+138,Amario Cozier-Duberry,45,0.0,0,0.0,0.0,u,0.0,MID,BHA
+139,Mahmoud Dahoud,49,0.0,0,0.0,0.0,u,0.0,MID,BHA
+140,Lewis Dunk,44,21.2,22,2.8,2.0,d,1.02,DEF,BHA
+141,Julio Enciso,54,11.2,7,1.0,0.7,a,0.0,MID,BHA
+142,Pervis Estupiñán,50,25.7,4,0.6,0.7,a,0.83,DEF,BHA
+143,Evan Ferguson,55,6.5,12,2.0,3.0,a,0.9,FWD,BHA
+144,Billy Gilmour,50,2.5,3,1.5,0.0,u,0.93,MID,BHA
+145,Pascal Groß,65,0.0,0,0.0,0.0,u,0.0,MID,BHA
+146,Jack Hinshelwood,50,27.9,27,3.0,1.3,a,1.03,MID,BHA
+147,Ibrahim Osman,50,0.0,0,0.0,0.0,u,0.0,MID,BHA
+148,Igor Julio dos Santos de Paulo,44,8.3,8,1.6,2.3,a,0.7,DEF,BHA
+149,João Pedro Junqueira de Jesus,54,24.6,19,4.8,0.0,d,0.96,FWD,BHA
+150,Kacper Kozłowski,45,0.0,0,0.0,0.0,u,0.0,MID,BHA
+151,Tariq Lamptey,44,3.3,3,3.0,1.0,a,0.0,DEF,BHA
+152,Solly March,65,0.0,0,0.0,0.0,i,0.0,MID,BHA
+153,Adrian Mazilu,45,0.0,0,0.0,0.0,u,0.0,MID,BHA
+154,James Milner,50,10.7,5,1.7,0.0,i,1.6,MID,BHA
+155,Yankuba Minteh,53,32.6,21,3.0,0.0,d,1.11,MID,BHA
+156,Mitoma Kaoru,65,67.7,36,3.6,1.7,a,0.98,MID,BHA
+157,Jakub Moder,44,1.4,1,1.0,0.3,a,0.0,MID,BHA
+158,Mark O’Mahony,45,0.0,0,0.0,0.0,u,0.0,FWD,BHA
+159,Odeluga Offiah,40,0.0,0,0.0,0.0,u,0.0,DEF,BHA
+160,Cameron Peupion,45,0.0,0,0.0,0.0,a,0.0,MID,BHA
+161,Jeremy Sarmiento Morante,49,0.1,1,1.0,0.0,u,0.0,MID,BHA
+162,Jason Steele,43,4.1,9,4.5,0.0,a,1.0,GKP,BHA
+163,Deniz Undav,55,0.0,0,0.0,0.0,u,0.0,FWD,BHA
+164,Jan Paul van Hecke,45,23.0,22,2.8,1.0,a,0.99,DEF,BHA
+165,Joël Veltman,45,19.9,30,3.3,3.0,a,1.04,DEF,BHA
+166,Bart Verbruggen,45,25.7,25,3.1,5.0,a,1.0,GKP,BHA
+167,Adam Webster,43,2.4,1,0.3,0.0,i,2.31,DEF,BHA
+168,Danny Welbeck,59,75.3,62,6.2,7.0,a,1.07,FWD,BHA
+169,Mats Wieffer,48,14.2,12,1.7,1.0,a,0.77,MID,BHA
+170,Brajan Gruda,54,3.1,3,1.0,0.7,a,0.0,MID,BHA
+171,Yasin Ayari,50,31.3,14,1.8,2.0,d,0.81,MID,BHA
+172,Andrew Moran,50,0.0,0,0.0,0.0,u,0.0,MID,BHA
+173,Carl Rushworth,40,0.0,0,0.0,0.0,u,0.0,GKP,BHA
+174,Georginio Rutter,56,43.0,38,4.2,4.3,a,1.17,MID,BHA
+175,Ferdi Kadioglu,45,24.0,19,3.2,6.0,a,1.17,DEF,BHA
+176,Matt O'Riley,55,0.0,0,0.0,0.0,d,0.0,MID,BHA
+177,Imari Samuels,40,0.0,0,0.0,0.0,a,0.0,DEF,BHA
+178,Killian Cahill,40,0.0,0,0.0,0.0,a,0.0,GKP,BHA
+179,Andrey Nascimento dos Santos,45,0.0,0,0.0,0.0,u,0.0,MID,CHE
+180,Ângelo Gabriel Borges Damaceno,45,0.0,0,0.0,0.0,u,0.0,MID,CHE
+181,Benoît Badiashile,43,0.9,1,1.0,0.3,a,0.0,DEF,CHE
+182,Lucas Bergström,40,0.0,0,0.0,0.0,a,0.0,GKP,CHE
+183,Marcus Bettinelli,40,0.0,0,0.0,0.0,a,0.0,GKP,CHE
+184,Moisés Caicedo Corozo,49,42.9,33,3.3,5.3,a,1.02,MID,CHE
+185,Cesare Casadei,44,0.0,0,0.0,0.0,a,0.0,MID,CHE
+186,Ben Chilwell,47,0.0,0,0.0,0.0,a,0.0,DEF,CHE
+187,Carney Chukwuemeka,48,0.0,0,0.0,0.0,a,0.0,MID,CHE
+188,Levi Colwill,46,26.2,23,2.3,1.7,a,1.0,DEF,CHE
+189,Marc Cucurella Saseta,50,16.9,17,1.9,0.7,a,0.97,DEF,CHE
+190,David Datro Fofana,54,0.0,0,0.0,0.0,u,0.0,FWD,CHE
+191,Deivid Washington de Souza Eugênio,50,0.0,0,0.0,0.0,a,0.0,FWD,CHE
+192,Kiernan Dewsbury-Hall,56,2.0,3,1.0,0.0,a,0.0,MID,CHE
+193,Axel Disasi,43,1.5,7,3.5,0.0,a,0.96,DEF,CHE
+194,Enzo Fernández,48,30.6,15,1.7,1.0,a,0.92,MID,CHE
+195,Conor Gallagher,59,0.0,0,0.0,0.0,u,0.0,MID,CHE
+196,Alfie Gilchrist,40,0.0,0,0.0,0.0,u,0.0,DEF,CHE
+197,Malo Gusto,49,22.9,9,1.1,1.0,a,1.12,DEF,CHE
+198,Reece James,49,6.1,4,1.3,1.3,a,1.16,DEF,CHE
+199,Omari Kellyman,44,0.0,0,0.0,0.0,i,0.0,MID,CHE
+200,Roméo Lavia,45,11.5,10,2.0,2.3,a,1.34,MID,CHE
+201,Romelu Lukaku Bolingoli,63,0.0,0,0.0,0.0,u,0.0,FWD,CHE
+202,Malang Sarr,45,0.0,0,0.0,0.0,u,0.0,DEF,CHE
+203,Noni Madueke,64,67.3,48,5.3,1.7,a,1.18,MID,CHE
+204,Marc Guiu Paz,48,0.0,1,1.0,0.0,a,0.0,FWD,CHE
+205,Mykhailo Mudryk,62,7.7,6,1.0,0.7,a,0.73,MID,CHE
+206,Nicolas Jackson,79,79.4,58,5.8,5.3,a,1.16,FWD,CHE
+207,Christopher Nkunku,59,22.4,14,1.6,0.3,a,0.6,MID,CHE
+208,Cole Palmer,110,105.5,82,8.2,5.0,d,1.04,MID,CHE
+209,Đorđe Petrović,44,0.0,0,0.0,0.0,u,0.0,GKP,CHE
+210,Renato Palma Veiga,45,5.8,5,1.0,0.0,a,0.55,MID,CHE
+211,Robert Sánchez,47,30.4,42,4.2,2.0,a,1.0,GKP,CHE
+212,Tosin Adarabioyo,43,5.1,7,1.8,-0.3,a,1.05,DEF,CHE
+213,Wesley Fofana,45,22.7,14,1.6,1.0,a,1.04,DEF,CHE
+214,Jadon Sancho,63,23.3,19,3.8,0.3,d,1.18,MID,CHE
+215,Pedro Lomba Neto,62,35.9,16,1.6,2.7,a,0.77,MID,CHE
+216,Caleb Wiley,40,0.0,0,0.0,0.0,u,0.0,DEF,CHE
+217,Filip Jørgensen,42,0.0,0,0.0,0.0,a,0.0,GKP,CHE
+218,João Félix Sequeira,61,12.1,9,1.8,0.0,a,0.0,MID,CHE
+219,Eddie Nketiah,59,29.0,12,1.7,1.7,a,1.11,FWD,CRY
+220,Trevoh Chalobah,44,20.3,19,4.8,5.7,a,1.01,DEF,CRY
+221,Naouirou Ahamada,45,0.0,0,0.0,0.0,u,0.0,MID,CRY
+222,Cheick Doucouré,49,2.9,7,1.8,0.3,a,0.89,MID,CRY
+223,Chris Richards,44,6.7,9,2.2,0.0,d,1.05,DEF,CRY
+224,Chadi Riad Dnanou,43,2.0,1,1.0,0.0,i,1.0,DEF,CRY
+225,Nathaniel Clyne,44,3.9,10,2.5,0.3,a,0.78,DEF,CRY
+226,Malcolm Ebiowei,45,0.0,0,0.0,0.0,u,0.0,MID,CRY
+227,Eberechi Eze,66,67.6,31,3.4,2.7,i,1.0,MID,CRY
+228,Marc Guéhi,45,45.7,36,3.6,5.0,a,1.0,DEF,CRY
+229,Dean Henderson,44,26.0,34,3.4,4.3,a,1.0,GKP,CRY
+230,Rob Holding,43,0.0,0,0.0,0.0,a,0.0,DEF,CRY
+231,Will Hughes,49,21.5,9,1.0,1.7,s,0.79,MID,CRY
+232,Daichi Kamada,51,31.8,15,1.5,1.3,a,1.0,MID,CRY
+233,Jefferson Lerma Solís,48,13.0,9,1.3,0.7,i,1.09,MID,CRY
+234,Jean-Philippe Mateta,73,37.9,33,3.3,3.7,a,1.09,FWD,CRY
+235,Matheus França de Oliveira,44,0.0,0,0.0,0.0,i,0.0,MID,CRY
+236,Remi Matthews,40,0.0,0,0.0,0.0,a,0.0,GKP,CRY
+237,Tyrick Mitchell,49,39.2,25,2.5,3.0,a,1.06,DEF,CRY
+238,Daniel Muñoz,48,41.1,24,2.4,3.0,a,1.1,DEF,CRY
+239,David Ozoh,45,0.0,0,0.0,0.0,u,0.0,MID,CRY
+240,Jesurun Rak-Sakyi,45,0.0,0,0.0,0.0,u,0.0,MID,CRY
+241,Jeffrey Schlupp,47,5.8,7,1.0,0.7,a,0.0,MID,CRY
+242,Joel Ward,43,0.0,0,0.0,0.0,d,0.0,DEF,CRY
+243,Adam Wharton,48,29.7,15,1.9,1.0,i,1.16,MID,CRY
+244,Matt Turner,40,0.0,0,0.0,0.0,a,0.0,GKP,CRY
+245,Ismaïla Sarr,57,36.0,16,1.6,2.0,a,0.69,MID,CRY
+246,Franco Umeh-Chibueze,45,0.0,0,0.0,0.0,a,0.0,MID,CRY
+247,Justin Devenny,45,0.0,0,0.0,0.0,a,0.0,MID,CRY
+248,Asher Agbinone,45,1.1,1,1.0,0.3,a,0.0,MID,CRY
+249,Kaden Rodney,45,0.0,0,0.0,0.0,a,0.0,MID,CRY
+250,Maxence Lacroix,45,19.1,20,2.9,2.7,a,1.0,DEF,CRY
+251,Caleb Kporha,40,0.0,0,0.0,0.0,a,0.0,DEF,CRY
+252,Armando Broja,54,0.0,0,0.0,0.0,i,0.0,FWD,EVE
+253,Abdoulaye Doucouré,52,19.5,16,2.0,1.7,d,1.12,MID,EVE
+254,Norberto Bercique Gomes Betuncal,50,10.0,12,2.0,2.7,a,0.0,FWD,EVE
+255,Jarrad Branthwaite,48,2.4,4,1.3,0.7,a,0.94,DEF,EVE
+256,Dominic Calvert-Lewin,59,46.5,33,3.3,2.0,a,1.09,FWD,EVE
+257,Séamus Coleman,43,3.9,1,1.0,0.0,i,1.0,DEF,EVE
+258,Idrissa Gueye,49,15.6,17,1.9,2.3,a,0.98,MID,EVE
+259,James Garner,50,7.9,7,1.8,0.0,i,0.72,MID,EVE
+260,Jack Harrison,53,28.5,21,2.1,2.0,a,1.02,MID,EVE
+261,Mason Holgate,40,0.0,1,1.0,0.0,u,0.0,DEF,EVE
+262,Tim Iroegbunam,45,10.4,8,1.3,0.0,i,0.94,MID,EVE
+263,João Neves Virgínia,40,0.0,0,0.0,0.0,a,0.0,GKP,EVE
+264,Michael Keane,43,33.0,32,3.6,5.7,a,1.0,DEF,EVE
+265,Neal Maupay,49,0.0,0,0.0,0.0,u,0.0,FWD,EVE
+266,Dwight McNeil,58,84.0,51,5.1,3.3,d,1.01,MID,EVE
+267,Vitalii Mykolenko,43,19.6,16,2.0,3.7,a,1.1,DEF,EVE
+268,Iliman Ndiaye,54,41.5,31,3.1,4.3,d,1.01,FWD,EVE
+269,Nathan Patterson,44,0.0,0,0.0,0.0,a,0.0,DEF,EVE
+270,Jordan Pickford,49,23.5,35,3.5,3.3,a,1.0,GKP,EVE
+271,James Tarkowski,48,36.0,22,2.2,2.7,a,1.0,DEF,EVE
+272,Youssef Ramalho Chermiti,49,0.0,0,0.0,0.0,i,0.0,FWD,EVE
+273,Ashley Young,45,32.1,29,3.6,4.7,a,1.04,DEF,EVE
+274,Jesper Lindstrøm,51,21.7,9,1.5,1.0,a,1.05,MID,EVE
+275,Jake O'Brien,47,0.4,0,0.0,0.0,a,0.0,DEF,EVE
+276,Harrison Armstrong,45,0.2,1,1.0,0.0,a,0.0,MID,EVE
+277,Jenson Metcalfe,45,0.0,0,0.0,0.0,u,0.0,MID,EVE
+278,Asmir Begovic,40,0.0,0,0.0,0.0,a,0.0,GKP,EVE
+279,Roman Dixon,40,1.6,0,0.0,0.0,a,1.0,DEF,EVE
+280,Orel Mangala,50,9.3,10,1.4,1.3,a,0.99,MID,EVE
+281,Reiss Nelson,50,33.6,17,2.1,1.3,a,0.45,MID,FUL
+282,Emile Smith Rowe,57,48.1,43,4.3,3.0,a,1.15,MID,FUL
+283,Joachim Andersen,43,22.0,13,1.9,0.0,a,1.04,DEF,FUL
+284,Adama Traoré,51,62.1,37,3.7,3.0,a,1.13,MID,FUL
+285,Andreas Hoelgebaum Pereira,52,63.1,28,2.8,1.7,a,1.2,MID,FUL
+286,Calvin Bassey,45,21.0,19,1.9,1.3,a,1.0,DEF,FUL
+287,Steven Benda,40,0.0,0,0.0,0.0,a,0.0,GKP,FUL
+288,Tom Cairney,48,10.0,5,0.7,0.7,a,0.0,MID,FUL
+289,Timothy Castagne,42,3.9,2,1.0,0.3,a,0.0,DEF,FUL
+290,Issa Diop,44,13.7,8,1.1,0.0,a,0.92,DEF,FUL
+291,Luke Harris,45,0.0,0,0.0,0.0,u,0.0,MID,FUL
+292,Alex Iwobi,55,67.4,42,4.2,5.0,a,1.05,MID,FUL
+293,Bernd Leno,50,27.4,30,3.0,3.3,a,1.0,GKP,FUL
+294,Saša Lukić,49,12.9,11,1.6,0.0,i,1.15,MID,FUL
+295,Kevin Mbabu,40,0.0,0,0.0,0.0,u,0.0,DEF,FUL
+296,Rodrigo Muniz Carvalho,56,28.3,19,2.1,0.3,a,0.89,FWD,FUL
+297,Raúl Jiménez,58,61.7,43,4.3,3.7,a,1.07,FWD,FUL
+298,Tim Ream,45,0.0,0,0.0,0.0,u,0.0,DEF,FUL
+299,Harrison Reed,48,3.5,5,0.7,0.3,a,0.0,MID,FUL
+300,Antonee Robinson,47,48.0,34,3.4,3.0,a,1.0,DEF,FUL
+301,Jay Stansfield,50,0.0,1,1.0,0.0,u,0.0,FWD,FUL
+302,Kenny Tete,45,32.3,20,2.0,1.7,a,1.04,DEF,FUL
+303,Carlos Vinícius Alves Morais,50,0.0,0,0.0,0.0,a,0.0,FWD,FUL
+304,Harry Wilson,52,12.6,17,2.8,5.0,a,0.0,MID,FUL
+305,Ryan Sessegnon,42,0.0,0,0.0,0.0,a,0.0,DEF,FUL
+306,Jorge Cuenca Barreno,44,0.4,1,1.0,0.3,a,0.0,DEF,FUL
+307,Josh King,45,0.0,0,0.0,0.0,a,0.0,MID,FUL
+308,Martial Godo,45,0.0,0,0.0,0.0,a,0.0,MID,FUL
+309,Sander Berge,50,19.7,12,1.5,2.0,a,0.84,MID,FUL
+310,Ali Al-Hamadi,48,2.0,1,0.3,0.0,a,0.0,FWD,IPS
+311,Elkan Baggott,40,0.0,0,0.0,0.0,u,0.0,DEF,IPS
+312,Nathan Broadhead,49,0.0,0,0.0,0.0,a,0.0,MID,IPS
+313,Cameron Burgess,39,12.5,3,1.0,1.0,a,1.0,DEF,IPS
+314,Wes Burns,49,10.7,10,1.2,1.3,a,1.11,MID,IPS
+315,Conor Chaplin,52,12.6,15,1.7,2.7,a,0.98,MID,IPS
+316,Harry Clarke,40,0.5,-4,-2.0,-1.3,a,0.95,DEF,IPS
+317,Leif Davis,45,62.3,31,3.1,4.3,a,1.0,DEF,IPS
+318,Liam Delap,56,44.8,40,4.0,3.0,a,1.15,FWD,IPS
+319,George Edmundson,40,0.0,1,1.0,0.0,u,0.0,DEF,IPS
+320,Jacob Greaves,40,21.5,11,1.6,0.0,i,1.0,DEF,IPS
+321,Marcus Myers-Harness,49,1.7,2,1.0,0.0,u,0.0,MID,IPS
+322,George Hirst,54,16.2,16,2.3,4.0,a,0.58,FWD,IPS
+323,Cameron Humphreys,45,0.0,0,0.0,0.0,u,0.0,MID,IPS
+324,Omari Giraud-Hutchinson,52,34.2,21,2.3,1.7,a,1.03,MID,IPS
+325,Ben Johnson,40,14.0,6,1.2,0.7,a,0.87,DEF,IPS
+326,Freddie Ladapo,45,0.0,0,0.0,0.0,u,0.0,FWD,IPS
+327,Massimo Luongo,45,3.0,6,1.5,0.0,a,1.27,MID,IPS
+328,Sam Morsy,49,30.4,28,3.1,3.3,a,1.01,MID,IPS
+329,Corrie Ndaba,40,0.0,0,0.0,0.0,u,0.0,DEF,IPS
+330,Cieran Slicker,40,0.0,0,0.0,0.0,a,0.0,GKP,IPS
+331,Jack Taylor,48,4.6,4,0.7,0.0,i,0.0,MID,IPS
+332,Axel Tuanzebe,40,16.4,11,1.8,0.0,i,1.05,DEF,IPS
+333,Christian Walton,44,2.8,2,2.0,0.0,a,1.0,GKP,IPS
+334,Luke Woolfenden,40,8.2,4,0.8,0.7,a,0.95,DEF,IPS
+335,Kalvin Phillips,49,14.7,11,1.6,1.0,s,1.18,MID,IPS
+336,Arijanet Muric,44,27.1,26,2.9,2.3,a,1.0,GKP,IPS
+337,Conor Townsend,40,1.4,1,1.0,0.3,a,0.0,DEF,IPS
+338,Sam Szmodics,58,23.6,25,2.5,3.7,a,1.16,MID,IPS
+339,Jens Cajuste,45,5.3,5,1.2,0.7,a,1.01,MID,IPS
+340,Dara O'Shea,40,23.9,12,1.7,1.0,a,1.05,DEF,IPS
+341,Jack Clarke,55,16.1,13,1.6,1.3,a,0.81,MID,IPS
+342,Chiedozie Ogbene,49,6.4,7,1.4,0.3,i,1.14,MID,IPS
+343,Facundo Buonanotte,51,64.0,37,4.1,3.0,a,0.99,MID,LEI
+344,Jordan Ayew,52,29.1,22,2.2,4.3,a,0.85,MID,LEI
+345,Odsonne Edouard,52,7.8,6,1.2,0.0,a,0.65,FWD,LEI
+346,Boubakary Soumaré,44,1.0,2,0.5,0.3,a,0.0,MID,LEI
+347,Tom Cannon,45,0.0,0,0.0,0.0,u,0.0,FWD,LEI
+348,Hamza Choudhury,44,0.3,1,1.0,0.0,d,0.0,MID,LEI
+349,Conor Coady,40,0.2,0,0.0,0.0,a,0.0,DEF,LEI
+350,Patson Daka,48,0.0,0,0.0,0.0,d,0.0,FWD,LEI
+351,Bobby De Cordova-Reid,52,4.3,8,1.3,0.3,a,1.13,MID,LEI
+352,Wout Faes,42,35.5,22,2.2,1.3,a,1.0,DEF,LEI
+353,Michael Golding,44,0.0,0,0.0,0.0,a,0.0,MID,LEI
+354,Mads Hermansen,45,34.7,27,2.7,2.0,a,1.0,GKP,LEI
+355,Daniel Iversen,40,0.0,0,0.0,0.0,a,0.0,GKP,LEI
+356,James Justin,46,37.6,31,3.4,0.7,a,1.0,DEF,LEI
+357,Victor Kristiansen,45,32.6,14,1.6,0.7,a,1.06,DEF,LEI
+358,Wanya Marçal-Madivádua,45,0.0,0,0.0,0.0,u,0.0,MID,LEI
+359,Stephy Mavididi,53,38.7,29,2.9,1.3,a,1.04,MID,LEI
+360,Kasey McAteer,48,2.2,4,1.0,0.3,a,0.0,MID,LEI
+361,Wilfred Ndidi,50,48.2,29,2.9,2.0,a,1.06,MID,LEI
+362,Caleb Okoli,40,23.7,13,1.9,0.7,a,1.0,DEF,LEI
+363,Ricardo Barbosa Pereira,42,2.2,2,1.0,0.7,a,1.23,DEF,LEI
+364,Harry Souttar,40,0.0,0,0.0,0.0,u,0.0,DEF,LEI
+365,Jakub Stolarczyk,40,0.0,0,0.0,0.0,i,0.0,GKP,LEI
+366,Luke Thomas,39,0.0,0,0.0,0.0,a,0.0,DEF,LEI
+367,Jamie Vardy,57,46.2,43,4.3,6.3,a,1.07,FWD,LEI
+368,Jannik Vestergaard,40,8.6,4,1.3,0.7,a,1.0,DEF,LEI
+369,Danny Ward,40,0.0,0,0.0,0.0,a,0.0,GKP,LEI
+370,Harry Winks,45,36.7,20,2.2,3.0,a,0.94,MID,LEI
+371,Oliver Skipp,49,10.6,9,1.5,0.3,a,1.12,MID,LEI
+372,Abdul Fatawu,54,36.8,24,2.4,2.7,a,0.93,MID,LEI
+373,Will Alves,45,0.0,0,0.0,0.0,a,0.0,MID,LEI
+374,Ben Nelson,40,0.0,0,0.0,0.0,u,0.0,DEF,LEI
+375,Bilal El Khannouss,49,10.2,7,1.2,1.3,a,1.02,MID,LEI
+376,Alisson Ramses Becker,54,12.6,35,5.8,0.0,i,1.02,GKP,LIV
+377,Trent Alexander-Arnold,70,53.1,46,4.6,1.7,a,1.07,DEF,LIV
+378,Stefan Bajčetić Maquieira,45,0.0,0,0.0,0.0,u,0.0,MID,LIV
+379,Conor Bradley,47,7.6,5,1.0,0.3,a,0.0,DEF,LIV
+380,Bobby Clark,45,0.0,0,0.0,0.0,u,0.0,MID,LIV
+381,Darwin Núñez Ribeiro,71,21.5,16,2.3,2.3,a,0.75,FWD,LIV
+382,Diogo Teixeira da Silva,73,31.6,35,5.0,0.3,i,1.28,MID,LIV
+383,Ben Doak,45,0.0,0,0.0,0.0,u,0.0,MID,LIV
+384,Harvey Elliott,52,0.4,1,1.0,0.0,i,0.0,MID,LIV
+385,Endo Wataru,47,2.1,4,1.0,0.7,a,0.0,MID,LIV
+386,Cody Gakpo,71,28.4,21,2.1,4.0,a,0.69,FWD,LIV
+387,Joe Gomez,48,8.4,3,1.0,0.7,a,0.0,DEF,LIV
+388,Ryan Gravenberch,50,25.0,24,2.4,2.0,a,1.0,MID,LIV
+389,Curtis Jones,53,28.5,25,3.6,6.3,a,0.79,MID,LIV
+390,Caoimhin Kelleher,44,9.3,15,3.8,2.0,a,1.0,GKP,LIV
+391,Ibrahima Konaté,53,29.6,40,4.0,1.0,a,1.02,DEF,LIV
+392,Luis Díaz,77,66.9,61,6.1,2.3,a,1.13,MID,LIV
+393,Mohamed Salah,128,118.8,93,9.3,10.3,a,1.03,MID,LIV
+394,Alexis Mac Allister,62,33.6,17,1.7,0.7,a,1.17,MID,LIV
+395,James McConnell,44,0.0,0,0.0,0.0,a,0.0,MID,LIV
+396,Tyler Morton,44,0.0,0,0.0,0.0,a,0.0,MID,LIV
+397,Nathaniel Phillips,40,0.0,0,0.0,0.0,u,0.0,DEF,LIV
+398,Jarell Quansah,40,1.6,1,1.0,0.0,a,2.0,DEF,LIV
+399,Rhys Williams,40,0.0,0,0.0,0.0,u,0.0,DEF,LIV
+400,Andrew Robertson,59,33.3,31,3.4,1.0,a,1.08,DEF,LIV
+401,Dominik Szoboszlai,63,40.3,26,2.6,1.3,a,1.0,MID,LIV
+402,Konstantinos Tsimikas,46,13.5,13,2.2,1.3,a,0.79,DEF,LIV
+403,Virgil van Dijk,62,38.4,50,5.0,4.7,a,1.0,DEF,LIV
+404,Federico Chiesa,68,1.6,1,1.0,0.0,i,0.0,MID,LIV
+405,Vítezslav Jaros,40,0.9,1,1.0,0.0,a,0.0,GKP,LIV
+406,Harvey Davies,40,0.0,0,0.0,0.0,a,0.0,GKP,LIV
+407,Manuel Akanji,55,33.9,23,2.6,2.3,a,1.04,DEF,MCI
+408,Nathan Aké,53,1.5,2,1.0,0.3,a,1.22,DEF,MCI
+409,Bernardo Veiga de Carvalho e Silva,65,73.3,32,3.2,2.3,a,0.99,MID,MCI
+410,Oscar Bobb,47,0.0,0,0.0,0.0,i,0.0,MID,MCI
+411,Scott Carson,40,0.0,0,0.0,0.0,a,0.0,GKP,MCI
+412,Kevin De Bruyne,94,42.7,18,4.5,0.0,a,1.01,MID,MCI
+413,Jérémy Doku,63,40.8,22,2.8,2.0,a,1.12,MID,MCI
+414,Ederson Santana de Moraes,55,22.4,31,3.1,3.3,a,1.0,GKP,MCI
+415,Phil Foden,93,35.8,14,2.0,3.0,a,0.73,MID,MCI
+416,Jack Grealish,64,39.8,15,2.1,0.3,i,1.05,MID,MCI
+417,Joško Gvardiol,63,67.7,49,4.9,8.7,a,0.95,DEF,MCI
+418,Erling Haaland,153,113.9,77,7.7,3.3,a,1.0,FWD,MCI
+419,Julián Álvarez,70,0.0,0,0.0,0.0,u,0.0,FWD,MCI
+420,João Cavaco Cancelo,53,0.0,0,0.0,0.0,u,0.0,DEF,MCI
+421,Mateo Kovačić,56,49.1,42,4.2,2.0,a,1.03,MID,MCI
+422,Rico Lewis,49,30.8,30,3.3,3.0,a,1.06,DEF,MCI
+423,Matheus Luiz Nunes,49,25.3,16,2.3,3.0,a,0.9,MID,MCI
+424,James McAtee,47,0.3,1,1.0,0.0,a,0.0,MID,MCI
+425,Stefan Ortega Moreno,53,0.0,0,0.0,0.0,a,0.0,GKP,MCI
+426,Rodrigo 'Rodri' Hernandez,63,2.8,2,1.0,0.0,i,1.38,MID,MCI
+427,Rúben Gato Alves Dias,55,31.1,19,2.1,3.0,i,0.99,DEF,MCI
+428,John Stones,53,17.6,20,3.3,3.3,d,0.76,DEF,MCI
+429,Kyle Walker,52,18.8,7,1.2,0.0,a,0.95,DEF,MCI
+430,Sávio 'Savinho' Moreira de Oliveira,65,54.7,26,3.7,2.3,a,1.19,MID,MCI
+431,Nico O'Reilly,50,0.0,0,0.0,0.0,a,0.0,MID,MCI
+432,Ilkay Gündogan,65,42.5,18,2.0,2.7,a,0.98,MID,MCI
+433,Issa Kaboré,45,0.0,0,0.0,0.0,u,0.0,DEF,MCI
+434,Jacob Wright,45,0.0,0,0.0,0.0,a,0.0,MID,MCI
+435,Jahmai Simpson-Pusey,40,0.0,0,0.0,0.0,a,0.0,DEF,MCI
+436,Amad Diallo,49,41.4,21,2.6,0.3,a,0.93,MID,MUN
+437,Antony Matheus dos Santos,57,2.8,2,1.0,0.0,a,0.0,MID,MUN
+438,Bruno Borges Fernandes,82,62.4,33,3.3,5.7,a,1.07,MID,MUN
+439,Altay Bayindir,43,0.0,0,0.0,0.0,a,0.0,GKP,MUN
+440,Carlos Henrique Casimiro,48,46.2,22,2.4,4.3,a,0.99,MID,MUN
+441,Diogo Dalot Teixeira,51,35.9,38,3.8,1.0,a,1.0,DEF,MUN
+442,Christian Eriksen,54,29.3,13,1.9,1.3,a,1.05,MID,MUN
+443,Jonny Evans,44,4.7,12,3.0,0.3,a,0.9,DEF,MUN
+444,Alejandro Garnacho,63,60.4,34,3.4,4.7,a,0.93,MID,MUN
+445,Hannibal Mejbri,45,0.0,0,0.0,0.0,u,0.0,MID,MUN
+446,Tom Heaton,40,0.0,0,0.0,0.0,a,0.0,GKP,MUN
+447,Rasmus Højlund,69,17.5,19,3.2,5.0,a,1.06,FWD,MUN
+448,Victor Lindelöf,43,3.6,3,0.8,1.0,a,0.0,DEF,MUN
+449,Harry Maguire,49,6.7,8,1.6,0.0,i,1.12,DEF,MUN
+450,Kobbie Mainoo,52,15.6,13,1.9,0.0,d,1.1,MID,MUN
+451,Tyrell Malacia,44,0.0,0,0.0,0.0,d,0.0,DEF,MUN
+452,Lisandro Martínez,44,27.7,23,2.6,1.3,a,1.02,DEF,MUN
+453,Scott McTominay,49,0.9,2,1.0,0.0,u,0.0,MID,MUN
+454,Mason Mount,63,10.8,3,1.0,0.0,a,1.25,MID,MUN
+455,André Onana,50,24.0,44,4.4,1.7,a,1.0,GKP,MUN
+456,Facundo Pellistri Rebollo,50,0.0,0,0.0,0.0,u,0.0,MID,MUN
+457,Marcus Rashford,69,43.7,29,2.9,3.0,a,1.16,MID,MUN
+458,Luke Shaw,49,0.0,0,0.0,0.0,i,0.0,DEF,MUN
+459,Joshua Zirkzee,66,33.3,22,2.2,2.0,a,0.87,FWD,MUN
+460,Leny Yoro,43,0.0,0,0.0,0.0,d,0.0,DEF,MUN
+461,Matthijs de Ligt,50,34.7,29,2.9,1.3,a,0.94,DEF,MUN
+462,Noussair Mazraoui,45,29.0,31,3.1,1.7,a,1.11,DEF,MUN
+463,Toby Collyer,45,2.9,1,1.0,0.0,a,0.0,MID,MUN
+464,Ethan Wheatley,45,0.0,0,0.0,0.0,a,0.0,FWD,MUN
+465,Manuel Ugarte,49,2.6,5,1.0,0.7,a,0.96,MID,MUN
+466,Jack Fletcher,45,0.0,0,0.0,0.0,a,0.0,MID,MUN
+467,Harry Amass,40,0.0,0,0.0,0.0,a,0.0,DEF,MUN
+468,Jayce Fitzgerald,45,0.0,0,0.0,0.0,a,0.0,MID,MUN
+469,Alex Murphy,40,0.0,0,0.0,0.0,a,0.0,DEF,NEW
+470,Miguel Almirón Rejala,56,5.3,6,1.2,1.0,a,0.88,MID,NEW
+471,Harvey Barnes,64,44.6,42,4.2,1.3,a,0.94,MID,NEW
+472,Sven Botman,44,0.0,0,0.0,0.0,i,0.0,DEF,NEW
+473,Bruno Guimarães Rodriguez Moura,62,33.9,26,2.6,2.3,a,1.01,MID,NEW
+474,Dan Burn,44,25.0,26,2.6,2.7,a,1.0,DEF,NEW
+475,Martin Dúbravka,43,0.0,0,0.0,0.0,a,0.0,GKP,NEW
+476,Anthony Gordon,72,68.2,37,4.1,2.7,a,1.06,MID,NEW
+477,Lewis Hall,43,42.2,30,3.0,4.3,a,0.91,DEF,NEW
+478,Isaac Hayden,45,0.0,0,0.0,0.0,a,0.0,MID,NEW
+479,Alexander Isak,83,53.2,36,4.5,5.7,a,1.07,FWD,NEW
+480,Jacob Murphy,50,26.4,19,2.1,1.0,d,1.09,MID,NEW
+481,Joelinton Cássio Apolinário de Lira,60,46.2,26,2.6,2.3,a,1.08,MID,NEW
+482,Lloyd Kelly,43,7.9,10,1.4,0.7,a,1.32,DEF,NEW
+483,Emil Krafth,44,6.6,10,3.3,0.0,a,0.75,DEF,NEW
+484,Garang Kuol,45,0.0,0,0.0,0.0,a,0.0,MID,NEW
+485,Jamaal Lascelles,45,0.0,0,0.0,0.0,i,0.0,DEF,NEW
+486,Jamal Lewis,40,0.0,0,0.0,0.0,u,0.0,DEF,NEW
+487,Tino Livramento,45,19.1,25,2.5,3.3,a,1.02,DEF,NEW
+488,Sean Longstaff,47,10.1,13,1.4,1.3,a,1.07,MID,NEW
+489,Lewis Miley,50,0.0,0,0.0,0.0,a,0.0,MID,NEW
+490,Odysseas Vlachodimos,43,0.0,0,0.0,0.0,a,0.0,GKP,NEW
+491,Nick Pope,50,28.8,41,4.1,3.3,a,1.0,GKP,NEW
+492,John Ruddy,40,0.0,0,0.0,0.0,a,0.0,GKP,NEW
+493,Fabian Schär,54,21.0,20,2.5,2.3,a,1.1,DEF,NEW
+494,Matt Targett,40,0.0,0,0.0,0.0,d,0.0,DEF,NEW
+495,Sandro Tonali,55,17.9,10,1.2,1.0,a,0.93,MID,NEW
+496,Kieran Trippier,56,12.1,13,2.6,0.0,i,0.97,DEF,NEW
+497,Joe White,45,0.0,0,0.0,0.0,u,0.0,MID,NEW
+498,Joe Willock,48,19.9,12,1.5,1.3,a,0.71,MID,NEW
+499,Callum Wilson,69,0.0,0,0.0,0.0,i,0.0,FWD,NEW
+500,Miodrag Pivaš,40,0.0,0,0.0,0.0,u,0.0,DEF,NEW
+501,William Osula,50,0.3,3,1.0,0.7,a,0.0,FWD,NEW
+502,Álex Moreno Lopera,44,18.9,26,3.7,5.3,a,1.2,DEF,NFO
+503,Ola Aina,47,31.0,47,4.7,7.7,a,1.05,DEF,NFO
+504,Elliot Anderson,50,49.2,27,2.7,3.3,a,1.21,MID,NFO
+505,Taiwo Awoniyi,56,5.0,7,1.0,1.0,a,0.86,FWD,NFO
+506,Willy Boly,43,4.9,3,1.5,0.0,a,0.99,DEF,NFO
+507,Josh Bowler,45,0.0,0,0.0,0.0,u,0.0,MID,NFO
+508,Carlos Miguel dos Santos Pereira,43,0.0,0,0.0,0.0,a,0.0,GKP,NFO
+509,Eric da Silva Moreira,45,0.0,1,1.0,0.3,a,0.0,MID,NFO
+510,Danilo dos Santos de Oliveira,47,0.0,1,1.0,0.0,i,6.43,MID,NFO
+511,Emmanuel Dennis,49,0.0,0,0.0,0.0,a,0.0,FWD,NFO
+512,Nicolás Domínguez,48,19.7,10,1.2,2.0,a,1.01,MID,NFO
+513,Anthony Elanga,52,32.5,20,2.0,2.7,a,1.13,MID,NFO
+514,Morgan Gibbs-White,63,45.9,20,2.9,1.0,a,1.11,MID,NFO
+515,Callum Hudson-Odoi,54,58.8,37,3.7,5.0,a,0.99,MID,NFO
+516,Alex Mighten,45,0.0,0,0.0,0.0,u,0.0,MID,NFO
+517,Murillo Santiago Costa dos Santos,45,34.8,37,3.7,5.3,a,1.0,DEF,NFO
+518,Neco Williams,44,21.7,13,1.4,0.7,a,0.73,DEF,NFO
+519,Omar Richards,45,0.0,0,0.0,0.0,u,0.0,DEF,NFO
+520,Lewis O'Brien,50,0.0,0,0.0,0.0,u,0.0,MID,NFO
+521,Andrew Omobamidele,43,0.0,0,0.0,0.0,a,0.0,DEF,NFO
+522,Jonathan Panzo,40,0.0,0,0.0,0.0,u,0.0,DEF,NFO
+523,Ibrahim Sangaré,44,7.4,4,1.3,0.0,i,1.27,MID,NFO
+524,Matz Sels,46,21.2,48,4.8,7.3,a,1.0,GKP,NFO
+525,Harry Toffolo,43,1.9,1,1.0,0.0,a,0.0,DEF,NFO
+526,Hwang Ui-jo,45,0.0,0,0.0,0.0,u,0.0,FWD,NFO
+527,Chris Wood,65,69.7,66,6.6,9.0,a,1.13,FWD,NFO
+528,Joe Worrall,45,0.0,0,0.0,0.0,u,0.0,DEF,NFO
+529,Ryan Yates,49,38.5,29,2.9,4.7,a,0.75,MID,NFO
+530,James Ward-Prowse,62,7.0,6,1.2,0.0,a,1.19,MID,NFO
+531,Nikola Milenković,45,26.0,35,3.9,4.3,a,1.0,DEF,NFO
+532,João Pedro Ferreira Silva,59,14.4,11,1.2,1.0,a,0.0,MID,NFO
+533,Ramón Sosa,55,14.2,11,1.8,1.0,a,0.0,MID,NFO
+534,Felipe Rodrigues da Silva,45,3.3,5,1.0,0.7,a,0.0,DEF,NFO
+535,Aaron Ramsdale,44,24.8,26,3.2,4.7,a,1.0,GKP,SOU
+536,Cameron Archer,50,32.5,25,2.5,4.3,a,0.86,FWD,SOU
+537,Lesley Ugochukwu,45,5.0,5,1.2,0.3,a,1.29,MID,SOU
+538,Ryan Fraser,48,3.0,1,0.2,-0.7,d,1.29,MID,SOU
+539,Carlos Alcaraz Durán,49,4.3,1,1.0,0.0,u,0.0,MID,SOU
+540,Samuel Amo-Ameyaw,45,2.5,1,1.0,0.0,a,0.0,MID,SOU
+541,Joe Aribo,49,28.7,21,2.3,3.7,a,0.86,MID,SOU
+542,Adam Armstrong,51,20.5,13,1.9,2.3,a,0.99,FWD,SOU
+543,Gavin Bazunu,43,0.0,0,0.0,0.0,i,0.0,GKP,SOU
+544,Jan Bednarek,40,30.8,16,1.6,2.7,a,1.01,DEF,SOU
+545,Armel Bella-Kotchap,39,0.0,0,0.0,0.0,a,0.0,DEF,SOU
+546,James Bree,39,1.4,1,1.0,0.3,a,0.0,DEF,SOU
+547,Shea Charles,45,0.0,0,0.0,0.0,u,0.0,MID,SOU
+548,Samuel Edozie,49,5.1,1,0.5,0.0,u,0.0,MID,SOU
+549,Ronnie Edwards,39,0.0,0,0.0,0.0,a,0.0,DEF,SOU
+550,Taylor Harwood-Bellis,41,40.9,22,2.2,2.7,a,1.05,DEF,SOU
+551,Kamaldeen Sulemana,50,1.2,2,1.0,0.7,a,0.0,MID,SOU
+552,Adam Lallana,50,11.5,10,1.7,0.3,a,1.24,MID,SOU
+553,Juan Larios López,40,0.0,0,0.0,0.0,a,0.0,DEF,SOU
+554,Mateusz Lis,40,0.0,0,0.0,0.0,u,0.0,GKP,SOU
+555,Joe Lumley,40,0.0,0,0.0,0.0,a,0.0,GKP,SOU
+556,Ryan Manning,43,13.2,7,1.8,2.0,a,1.27,DEF,SOU
+557,Sékou Mara,50,0.0,0,0.0,0.0,u,0.0,FWD,SOU
+558,Alex McCarthy,44,5.2,6,3.0,0.0,a,1.0,GKP,SOU
+559,Paul Onuachu,49,4.6,3,0.8,0.7,a,0.0,FWD,SOU
+560,Will Smallbone,50,11.1,6,1.5,0.3,i,1.12,MID,SOU
+561,Jack Stephens,40,12.0,10,1.7,2.7,a,1.05,DEF,SOU
+562,Ross Stewart,45,2.1,3,0.8,0.0,i,0.69,FWD,SOU
+563,Sugawara Yukinari,45,35.7,23,2.6,3.0,a,1.13,DEF,SOU
+564,Charlie Taylor,39,9.5,5,1.0,0.3,a,0.87,DEF,SOU
+565,Kyle Walker-Peters,44,33.4,21,2.6,5.0,a,1.01,DEF,SOU
+566,Nathan Wood-Gordon,40,0.0,0,0.0,0.0,a,0.0,DEF,SOU
+567,Maxwel Cornet,48,2.2,1,0.5,0.0,a,1.27,MID,SOU
+568,Flynn Downes,48,39.1,17,1.7,2.0,a,1.0,MID,SOU
+569,Ben Brereton Díaz,51,15.7,9,1.5,0.0,a,0.93,MID,SOU
+570,Tyler Dibling,46,30.8,20,2.0,0.7,a,1.04,MID,SOU
+571,Mateus Gonçalo Espanha Fernandes,50,28.8,18,2.0,1.7,a,1.02,MID,SOU
+572,Dominic Solanke-Mitchell,77,56.9,41,5.1,6.7,a,1.02,FWD,TOT
+573,Ashley Phillips,40,0.0,0,0.0,0.0,u,0.0,DEF,TOT
+574,Brandon Austin,40,0.0,0,0.0,0.0,a,0.0,GKP,TOT
+575,Rodrigo Bentancur,50,14.5,12,1.3,1.0,a,1.2,MID,TOT
+576,Lucas Bergvall,44,5.3,5,1.0,0.0,a,0.0,MID,TOT
+577,Yves Bissouma,49,22.4,24,3.4,4.3,a,0.92,MID,TOT
+578,Bryan Gil Salvatierra,50,0.0,0,0.0,0.0,u,0.0,MID,TOT
+579,Ben Davies,43,0.8,1,1.0,0.3,a,0.0,DEF,TOT
+580,Alfie Devine,45,0.0,0,0.0,0.0,u,0.0,MID,TOT
+581,Radu Drăgușin,43,4.3,4,1.3,0.7,a,0.95,DEF,TOT
+582,Emerson Leite de Souza Junior,45,0.0,0,0.0,0.0,u,0.0,DEF,TOT
+583,Fraser Forster,44,0.0,0,0.0,0.0,a,0.0,GKP,TOT
+584,Archie Gray,47,1.2,5,1.0,0.7,a,0.0,MID,TOT
+585,Pierre-Emile Højbjerg,50,0.0,0,0.0,0.0,u,0.0,MID,TOT
+586,Brennan Johnson,67,71.7,47,4.7,3.7,a,1.03,MID,TOT
+587,Dejan Kulusevski,63,82.1,39,3.9,5.0,a,1.05,MID,TOT
+588,Giovani Lo Celso,49,0.0,0,0.0,0.0,u,0.0,MID,TOT
+589,James Maddison,76,88.1,51,5.1,4.0,a,1.2,MID,TOT
+590,Pedro Porro,55,60.6,31,3.1,1.7,a,1.0,DEF,TOT
+591,Sergio Reguilón,42,0.0,0,0.0,0.0,a,0.0,DEF,TOT
+592,Richarlison de Andrade,68,6.2,7,1.4,1.7,i,0.0,FWD,TOT
+593,Cristian Romero,51,45.4,33,3.3,1.7,d,1.03,DEF,TOT
+594,Pape Matar Sarr,48,22.7,17,1.7,2.3,a,0.72,MID,TOT
+595,Dane Scarlett,45,0.0,0,0.0,0.0,u,0.0,FWD,TOT
+596,Manor Solomon,54,0.0,0,0.0,0.0,u,0.0,MID,TOT
+597,Son Heung-min,99,63.9,45,6.4,4.0,a,1.1,MID,TOT
+598,Djed Spence,44,1.9,2,0.7,0.0,d,0.0,DEF,TOT
+599,Destiny Udogie,49,39.5,22,2.2,3.0,a,1.09,DEF,TOT
+600,Micky van de Ven,46,22.1,27,3.4,0.7,i,1.01,DEF,TOT
+601,Alejo Véliz,50,0.0,0,0.0,0.0,u,0.0,FWD,TOT
+602,Guglielmo Vicario,50,20.7,28,2.8,2.3,a,1.0,GKP,TOT
+603,Timo Werner,62,17.1,13,1.9,0.7,d,0.75,MID,TOT
+604,Alfie Whiteman,40,0.0,0,0.0,0.0,a,0.0,GKP,TOT
+605,Will Lankshear,45,0.0,0,0.0,0.0,a,0.0,FWD,TOT
+606,Mikey Moore,45,1.0,5,1.2,0.7,d,1.1,MID,TOT
+607,Wilson Odobert,53,9.2,6,2.0,0.0,i,1.12,MID,TOT
+608,Aaron Wan-Bissaka,44,31.9,12,1.3,1.0,a,0.96,DEF,WHU
+609,Edson Álvarez Velázquez,50,12.4,6,0.8,0.3,s,1.11,MID,WHU
+610,Michail Antonio,54,31.0,35,3.5,1.7,a,1.2,FWD,WHU
+611,Alphonse Areola,44,16.0,15,1.9,-0.3,a,1.07,GKP,WHU
+612,Jarrod Bowen,75,83.8,47,4.7,3.7,a,1.03,MID,WHU
+613,Vladimír Coufal,43,3.5,9,2.2,0.0,a,0.91,DEF,WHU
+614,Aaron Cresswell,40,1.8,3,0.8,0.0,a,0.0,DEF,WHU
+615,George Earthy,45,0.0,0,0.0,0.0,u,0.0,MID,WHU
+616,Emerson Palmieri dos Santos,44,31.7,13,1.3,0.7,a,1.18,DEF,WHU
+617,Łukasz Fabiański,40,6.9,6,2.0,1.7,a,0.8,GKP,WHU
+618,Wes Foderingham,44,0.0,0,0.0,0.0,a,0.0,GKP,WHU
+619,Danny Ings,50,10.9,18,4.5,2.7,a,0.0,FWD,WHU
+620,Max Kilman,45,32.7,21,2.1,1.0,a,1.0,DEF,WHU
+621,Mohammed Kudus,62,52.8,23,2.9,1.3,s,1.09,MID,WHU
+622,Luis Guilherme Lira dos Santos,47,0.0,1,1.0,0.0,a,0.0,MID,WHU
+623,Lucas Tolentino Coelho de Lima,58,39.8,26,2.6,0.7,a,1.12,MID,WHU
+624,Konstantinos Mavropanos,45,22.1,16,1.8,0.7,a,0.97,DEF,WHU
+625,Nayef Aguerd,44,0.0,0,0.0,0.0,u,0.0,DEF,WHU
+626,Tomáš Souček,50,42.2,29,3.2,0.7,a,0.96,MID,WHU
+627,Kurt Zouma,44,0.0,0,0.0,0.0,u,0.0,DEF,WHU
+628,Andy Irving,48,2.3,2,0.7,0.3,a,0.0,MID,WHU
+629,Crysencio Summerville,57,22.7,15,1.7,3.0,a,0.69,MID,WHU
+630,Guido Rodríguez,49,15.0,16,1.6,1.3,a,1.23,MID,WHU
+631,Niclas Füllkrug,67,3.5,3,1.0,0.0,i,0.0,FWD,WHU
+632,Jean-Clair Todibo,43,12.3,8,1.1,0.7,a,0.87,DEF,WHU
+633,Kaelan Casey,40,0.0,0,0.0,0.0,a,0.0,DEF,WHU
+634,Carlos Soler,50,9.7,4,0.6,0.7,a,0.38,MID,WHU
+635,Sam Johnstone,44,16.6,10,2.0,0.0,a,1.0,GKP,WOL
+636,Rayan Aït-Nouri,47,52.9,30,3.0,2.7,a,1.08,DEF,WOL
+637,Boubacar Traoré,48,0.0,0,0.0,0.0,i,0.0,MID,WOL
+638,Jean-Ricner Bellegarde,50,21.4,22,2.4,0.7,a,1.26,MID,WOL
+639,Daniel Bentley,40,0.0,0,0.0,0.0,a,0.0,GKP,WOL
+640,Francisco Jorge Tomás Oliveira,45,1.9,1,1.0,0.0,u,0.0,MID,WOL
+641,Tawanda Chirewa,45,0.0,0,0.0,0.0,u,0.0,MID,WOL
+642,Leon Chiwome,45,0.0,0,0.0,0.0,a,0.0,FWD,WOL
+643,Luke Cundle,45,0.0,0,0.0,0.0,a,0.0,MID,WOL
+644,Matheus Santos Carneiro Da Cunha,67,80.3,47,4.7,5.7,a,1.02,FWD,WOL
+645,Craig Dawson,44,24.3,11,1.2,2.0,a,0.96,DEF,WOL
+646,Matt Doherty,43,7.2,2,0.5,0.0,a,0.87,DEF,WOL
+647,Tommy Doyle,48,10.7,13,1.6,2.7,a,0.69,MID,WOL
+648,Fábio Silva,50,0.0,0,0.0,0.0,u,0.0,FWD,WOL
+649,Nathan Fraser,45,0.0,0,0.0,0.0,u,0.0,FWD,WOL
+650,Enso González,45,0.0,0,0.0,0.0,i,0.0,MID,WOL
+651,Gonçalo Manuel Ganchinho Guedes,53,9.4,9,1.3,1.7,a,0.0,MID,WOL
+652,Hugo Bueno López,45,0.0,0,0.0,0.0,u,0.0,DEF,WOL
+653,Hwang Hee-chan,61,6.2,7,1.2,0.0,i,0.71,MID,WOL
+654,Joe Hodge,45,0.0,0,0.0,0.0,u,0.0,MID,WOL
+655,Ki-Jana Hoever,40,0.0,0,0.0,0.0,u,0.0,DEF,WOL
+656,João Victor Gomes da Silva,49,27.0,23,2.3,4.3,a,1.07,MID,WOL
+657,José Malheiro de Sá,43,14.8,7,1.4,2.0,a,1.0,GKP,WOL
+658,Saša Kalajdžić,48,0.0,0,0.0,0.0,i,0.0,FWD,WOL
+659,Tom King,40,0.0,0,0.0,0.0,a,0.0,GKP,WOL
+660,Mario Lemina,50,37.1,28,2.8,1.3,a,1.02,MID,WOL
+661,Yerson Mosquera,40,16.0,3,0.6,0.0,i,1.02,DEF,WOL
+662,Nélson Cabral Semedo,45,29.4,11,1.4,1.7,a,1.04,DEF,WOL
+663,Pedro Cardoso de Lima,40,0.0,0,0.0,0.0,a,0.0,DEF,WOL
+664,Daniel Castelo Podence,55,0.4,2,1.0,0.0,u,0.0,MID,WOL
+665,Rodrigo Martins Gomes,52,2.8,5,1.2,0.3,a,0.78,MID,WOL
+666,Santiago Bueno,43,10.8,4,0.8,1.0,a,1.02,DEF,WOL
+667,Pablo Sarabia,51,13.7,4,1.2,0.7,a,0.67,MID,WOL
+668,Jørgen Strand Larsen,56,52.7,43,4.3,6.0,a,1.09,FWD,WOL
+669,Toti António Gomes,43,15.3,6,0.8,0.7,a,1.11,DEF,WOL
+670,Bastien Meupiyou,40,0.0,0,0.0,0.0,d,0.0,DEF,WOL
+671,André Trindade da Costa Neto,50,10.9,8,1.1,0.7,a,1.24,MID,WOL
+672,Carlos Roberto Forbs Borges,55,6.4,4,0.8,0.7,a,0.5,MID,WOL
+673,Alfie Pond,40,0.0,0,0.0,0.0,a,0.0,DEF,WOL

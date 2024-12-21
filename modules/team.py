@@ -15,7 +15,6 @@ class Team():
         self.defenders = defenders
         self.forwarders = forwarders
         self.midfielders = midfielders
-        self.updatePlayers()
         pass
     
     @classmethod
@@ -34,7 +33,9 @@ class Team():
                     forwarders.append(player)
                 case Position.MID:
                     midfielders.append(player)
-        return cls(goalkeepers, defenders, forwarders, midfielders)
+        newTeam = cls(goalkeepers, defenders, forwarders, midfielders)
+        newTeam.updatePlayers()
+        return newTeam
 
     @classmethod
     def fromNameSet(cls, pSet: set, allPlayerData: pd.DataFrame):
@@ -56,7 +57,7 @@ class Team():
                                player["points_per_game"],
                                player["form"],
                                Position.fromString(player["position"]),
-                               player["team"])
+                               player["team"], player["combined"])
             players.append(newPlayer)
         return cls.fromPlayerList(players)
 
@@ -120,6 +121,34 @@ class Team():
         playersOfPosition = self.getPlayersByPosition(pPosition)
         return playersOfPosition.getBestIndex()
     
+    def _repr_html_(self):
+        return self.toHtml()
+
+    def getHtmlHeader(self):
+        htmlTxt = "<table>"
+        htmlTxt += ("<tr>"
+                    "<th>ID</th>"
+                    "<th>Name</th>"
+                    "<th>Cost</th>"
+                    "<th>ICT Index</th>"
+                    "<th>Total Points</th>"
+                    "<th>Form</th>"
+                    "<th>Fixture Difficulty</th>"
+                    "<th>Normalised Fixture Difficulty</th>"
+                    "<th>Position</th>"
+                    "<th>Team</th>"
+                    "<th>Captain</th>"
+                    "<th>Vice Captain</th>"
+                    "<th>Score</th>\n")
+        return htmlTxt
+
+    def toHtml(self):
+        htmlTxt = self.getHtmlHeader()
+        for plr in self.getPlayers():
+            htmlTxt += plr.toHtmlRow() + "\n"
+        htmlTxt += "</table>"
+        return htmlTxt
+
     def toBenchTeam(self):
         return BenchTeam.fromExistingTeam(self)
 
@@ -155,6 +184,10 @@ class Team():
     def __len__(self):
         return len(self.players)
     
+    def recalculateFixtureDifficulty(self, pMatrix):
+        for player in self.players:
+            player.recalculateFixtureDifficulty(pMatrix)
+    
     def calculateScore(self, pHeuristicMethod: str):
         """
         Calculate score using the heuristic method specified.
@@ -166,6 +199,8 @@ class Team():
                     player.calculateScorePPG()
                 case "total_points":
                     player.calculateScoreTotalPoints()
+                case "combined":
+                    player.calculateCombinedScore()
                 case _:
                     raise NotImplementedError(f"Heuristic method {pHeuristicMethod} is not yet implemented.")
                 
@@ -216,6 +251,7 @@ class Team():
             self.makeCaptains(player, bestPlayer, viceCaptain)
 
 class BenchTeam(Team):
+
     def __init__(self,
                  pGoalkeepers: list[Player],
                  pDefenders: list[Player],
@@ -237,6 +273,9 @@ class BenchTeam(Team):
             benchPlayers.append(worstPlayer)
             nonBenchPlayers += playersSorted
 
+        self.nonBenchPlayersList: list[Player] = nonBenchPlayers
+        self.benchPlayersList: list[Player] = benchPlayers
+
         self.nonBenchPlayers = Team.fromPlayerList(nonBenchPlayers)
         self.benchPlayers = Team.fromPlayerList(benchPlayers)
         
@@ -248,6 +287,8 @@ class BenchTeam(Team):
             fwd.setBenched(True)
         for mid in self.benchPlayers.getMidfielders():
             mid.setBenched(True)
+
+        self.updatePlayers()
 
     @classmethod
     def fromExistingTeam(cls, pExistingTeam: Team):
@@ -264,3 +305,35 @@ class BenchTeam(Team):
         string += "\n# Bench:\n"
         string += str(self.benchPlayers)
         return string
+    
+    def _repr_html_(self):
+        return self.toHtml()
+    
+    def toHtml(self):
+        htmlTxt = "<h1>Starting 11</h1>\n"
+        htmlTxt += self.getHtmlHeader()
+        for player in self.nonBenchPlayersList:
+            htmlTxt += player.toHtmlRow() + "\n"
+        htmlTxt += "</table>\n"
+        htmlTxt += "<h1>Bench</h1>\n"
+        htmlTxt += self.getHtmlHeader()
+        for player in self.benchPlayersList:
+            htmlTxt += player.toHtmlRow() + "\n"
+        htmlTxt += "</table>"
+        return htmlTxt
+    
+    def updateCaptains(self):
+        bestIndex = self.getBestIndex()
+        bestPlayer = self.nonBenchPlayersList[bestIndex]
+        viceCaptain = self.getViceCaptain()
+
+        for player in self.players:
+            self.makeCaptains(player, bestPlayer, viceCaptain)
+
+    def getViceCaptain(self) -> Player:
+        playersSorted = sorted(self.nonBenchPlayersList, reverse=True)
+        return playersSorted[1]
+
+    def getBestIndex(self) -> int:
+        scores = [player.getScore() for player in self.nonBenchPlayersList]
+        return np.argmax(scores)

@@ -1,6 +1,9 @@
 import pandas as pd
 from enum import Enum
+import numpy as np
 import json
+
+import config
 
 pd.options.mode.copy_on_write = True
 
@@ -9,8 +12,8 @@ NUM_DEFENDERS = 4
 NUM_FORWARD = 2
 NUM_MID = 4
 
-MAX_BUDGET = 995
-MAX_AMT_REMAINING = 20
+MAX_BUDGET = 1000
+MAX_AMT_REMAINING = 5
 
 instance_count = 0
 
@@ -24,26 +27,40 @@ class SolverMode(Enum):
             return "most expensive first"
 
 class TeamSolver():
-    def __init__(self,heuristic: str, max_iters: int, mode: SolverMode,log: bool=True, use_form: bool=True):
-        data = pd.read_csv("./data/data.csv")
-        
-        self.score_heuristic = heuristic
+    def __init__(self, pHeuristic: str, pMode: SolverMode, pDataFileName: str, verbose: bool=False):
+        self.data = pd.read_csv(pDataFileName)
 
-        if(use_form):
-            data["score"] = data[self.score_heuristic] * data["form"]
-        else:
-            data["score"] = data[self.score_heuristic]
+        if(pHeuristic == "combined"):
+            self.data["combined"] = self.calculateCombinedScore(self.data)
+        self.score_heuristic = pHeuristic
 
-        goalkeepers = data.loc[data["position"]=="GKP"]
-        defenders = data.loc[data["position"]=="DEF"]
-        forward = data.loc[data["position"]=="FWD"]
-        mid = data.loc[data["position"]=="MID"]
+        self.data["score"] = self.data[self.score_heuristic] * self.data["form"] * self.data["starts_per_90"]
 
-        self.max_iters = max_iters
-        self.mode = mode
-        self.log = log
+        self.max_iters = config.MAX_ITERS
+        self.mode = pMode
+        self.log = verbose
 
+        self.registerInstance()
+        self.start()
+
+    def registerInstance(self):
+        global instance_count
+        instance_count += 1
+        self.id = instance_count
+        pass
+
+    def calcPScores(self, pSeries: pd.Series) -> pd.Series:
+        stdDev = np.std(pSeries)
+        avg = pSeries.mean()
+        return (pSeries - avg) / stdDev
+    
+    def start(self):
         self.default_players = dict()
+
+        goalkeepers = self.data.loc[self.data["position"]=="GKP"]
+        defenders = self.data.loc[self.data["position"]=="DEF"]
+        forward = self.data.loc[self.data["position"]=="FWD"]
+        mid = self.data.loc[self.data["position"]=="MID"]
 
         self.default_players["GKP"] = goalkeepers.sort_values(by="score",ascending=False)
         self.default_players["DEF"] = defenders.sort_values(by="score",ascending=False)
@@ -69,9 +86,8 @@ class TeamSolver():
         self.total_score = self.sum_stat("score")
         self.profit = self.budget-self.total_cost
         self.iter = 0
-        global instance_count
-        instance_count += 1
-        self.id = instance_count
+
+        self.update_stats()
 
     def get_bench_player(self, position: str) -> pd.Series:
         '''
@@ -88,10 +104,13 @@ class TeamSolver():
         while len(temp_players) == 0:
             threshold -= 0.05
             temp_players = players_value.loc[players_value["value"] >= threshold]
-
-        player_index = temp_players["cost"].argmin()
-        player = temp_players.iloc[[player_index]]
-        return player
+        #print(temp_players)
+        #print(temp_players["cost"].sort_values(ascending=True))
+        minCost = temp_players["cost"].min()
+        minCostPlayers = temp_players.loc[temp_players["cost"]==minCost]
+        maxScorePlayerIndex = minCostPlayers["score"].argmax()
+        maxScorePlayer = minCostPlayers.iloc[[maxScorePlayerIndex]]
+        return maxScorePlayer
 
     def get_bench(self):
         '''
@@ -116,6 +135,15 @@ class TeamSolver():
         for position in self.players.values():
             _sum += position[column].sum()
         return _sum
+    
+    def calculateCombinedScore(self, pData: pd.DataFrame) -> pd.Series:
+        """
+        Calculates combined score using the provided data
+        """
+        ictIndexPScores = self.calcPScores(pData["ict_index"])
+        totalPointsPScores = self.calcPScores(pData["total_points"])
+        pointsPerGamePScores = self.calcPScores(pData["points_per_game"])
+        return ictIndexPScores + totalPointsPScores + pointsPerGamePScores
     
     def sum_bench_column(self,column: str) -> float:
         return self.bench[column].sum()
@@ -152,7 +180,7 @@ class TeamSolver():
         Total score: {total_total_score}
         """
         return txt
-        pass
+
     def team_to_str(self) -> str:
         txt = "\n"
         txt += f"Cost: {self.total_cost}\n"
@@ -285,7 +313,6 @@ f"""
         old_players = self.players[position]
         self.players[position] = self.players[position][self.players[position]["id"]!=id]
         new_players = self.default_players[position][(self.default_players[position]["cost"] < cost)]
-        #print(new_players)
         #new_players = new_players.loc[new_players["score"] >= score_threshold]
         new_players = new_players[~(new_players["id"].isin(self.players[position]["id"])) & ~(new_players["id"].isin(self.bench["id"]))]
         new_players = new_players.sort_values(by="score",ascending=False)
@@ -353,7 +380,6 @@ f"""
         actual_options = options.loc[options["score"] > worst_player["score"]]
         amount_remaining = MAX_BUDGET - (self.bench_cost + self.total_cost)
         if len(actual_options) > 0:
-            #print("amt remaining",amount_remaining)
             max_price = worst_player["cost"] + amount_remaining
             actual_options = actual_options.loc[actual_options["cost"] <= max_price]
             if(len(actual_options) > 0):
@@ -424,6 +450,16 @@ f"""
             _id = player["id"].values[0]
             for id2 in self.bench["id"]:
                 assert _id != id2, f"Detected duplicate player with id: {_id}"
+        pass
+
+    def removeOutliers(self):
+        positions = {"DEF", "FWD", "MID", "GKP"}
+        pScoreCutoff = 0
+        for position in positions:
+            scoresOfPosition = self.data.loc[self.data["position"]==position]["score"]
+            scorePScores = self.calcPScores(scoresOfPosition)
+            mask = scorePScores > pScoreCutoff
+            self.data.loc[self.data["position"] == position] = self.data.loc[self.data["position"] == position].loc[mask]
         pass
 
     def find_team(self):

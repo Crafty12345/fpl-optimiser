@@ -1,8 +1,14 @@
 import json
+import pandas as pd
 from modules.utils import lerp
+import config
 
 class FixtureDifficultyMatrix():
-    def __init__(self):
+    def __init__(self,
+                  pScale: float, 
+                  pStartGameweek: int, 
+                  pEndGameweek: int):
+        
         with open("./data/current_table.txt") as f:
             self.table = f.readlines()
         self.table = [team.strip() for team in self.table]
@@ -12,19 +18,22 @@ class FixtureDifficultyMatrix():
         for i, team in enumerate(self.table):
             self.indexes[team] = (i+1) / self.numTeams
         
-        self.currentFixtureDifficulties = dict()
-        self.precomputeFixtureDifficulty()
-    def precomputeFixtureDifficulty(self):
+        self.startGameweek = pStartGameweek
+        self.endGameweek = pEndGameweek + 1
 
-        MIN_SCORE_OFFSET = -10.0
-        MAX_SCORE_OFFSET = 10.0
+        self.simpleDifficulties = dict()
+        self.normalisedDifficulties = dict()
+        self.precomputeFixtureDifficulty(pScale)
+
+    def precomputeFixtureDifficulty(self, pScale: float):
+        MIN_SCORE_OFFSET = -pScale
+        MAX_SCORE_OFFSET = pScale
 
         # The range of gameweeks to get fixture data from
-        fixtureRange = range(13, 15+1)
+        fixtureRange = range(self.startGameweek, self.endGameweek+1)
         allFixtureDataRaw = []
         for gameweek in fixtureRange:
             with open(f"./data/fixture_data/fixture_data_{gameweek}.json") as f:
-                print(gameweek)
                 allFixtureDataRaw.append(json.load(f))
         with open("./data/team_translation_table.json") as f:
             teamNames = json.load(f)
@@ -35,8 +44,8 @@ class FixtureDifficultyMatrix():
             for val in gameweek:
                 homeTeam = teamNames[str(val["team_h"])]
                 awayTeam = teamNames[str(val["team_a"])]
-                homeTeamDifficulty = self.getDifficulty(homeTeam, awayTeam, MIN_SCORE_OFFSET, MAX_SCORE_OFFSET)
-                awayTeamDifficulty = self.getDifficulty(awayTeam, homeTeam, MIN_SCORE_OFFSET, MAX_SCORE_OFFSET)
+                homeTeamDifficulty = self.calcSimpleDifficulty(homeTeam, awayTeam)
+                awayTeamDifficulty = self.calcSimpleDifficulty(awayTeam, homeTeam)
                 if(homeTeam in sums.keys()):
                     sums[homeTeam] += homeTeamDifficulty
                 else:
@@ -48,14 +57,21 @@ class FixtureDifficultyMatrix():
                     sums[awayTeam] = awayTeamDifficulty
 
         for team, sum in sums.items():
-            self.currentFixtureDifficulties[team] = sum / numFixtures
+            self.simpleDifficulties[team] = sum / numFixtures
+            self.normalisedDifficulties[team] = lerp(MIN_SCORE_OFFSET, MAX_SCORE_OFFSET, self.simpleDifficulties[team])
 
-    def getDifficulty(self, pTeamA: str, pTeamB: str, pMin: float, pMax: float) -> float:
+    def calcNormalisedDifficulty(self, pTeamA: str, pTeamB: str, pMin: float, pMax: float):
+        simpleDifficulty = self.calcSimpleDifficulty(pTeamA, pTeamB)
+        return lerp(pMin, pMax,simpleDifficulty)
+
+    def calcSimpleDifficulty(self, pTeamA: str, pTeamB: str) -> float:
         teamAPosition = self.indexes[pTeamA]
         teamBPosition = self.indexes[pTeamB]
-        normalisedDifficulty = (teamAPosition - teamBPosition + 1) / 2
-
-        return lerp(pMin, pMax,normalisedDifficulty)
+        simpleDifficulty = (teamAPosition - teamBPosition + 1) / 2
+        return simpleDifficulty
+        
     
-    def getFixtureDifficulty(self, pTeam: str) -> float:
-        return self.currentFixtureDifficulties[pTeam]
+    def getSimpleDifficulty(self, pTeam: str) -> float:
+        return self.simpleDifficulties[pTeam]
+    def getNormalisedDifficulty(self, pTeam: str) -> float:
+        return self.normalisedDifficulties[pTeam]
