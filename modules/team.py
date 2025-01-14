@@ -120,6 +120,8 @@ class Team():
     def getBestByPosition(self, pPosition: Position) -> int:
         playersOfPosition = self.getPlayersByPosition(pPosition)
         return playersOfPosition.getBestIndex()
+    def getWorstScore(self) -> float:
+        return min([score for score in self.getPlayerScores()])
     
     def _repr_html_(self):
         return self.toHtml()
@@ -203,6 +205,12 @@ class Team():
                     player.calculateCombinedScore()
                 case _:
                     raise NotImplementedError(f"Heuristic method {pHeuristicMethod} is not yet implemented.")
+        minPlayerScore = self.getWorstScore()
+        for player in self.getPlayers():
+            if(player.getName() == "Bukayo Saka"):
+                print(f"[DEBUG]: {player}, availability: {player.isAvailable()}")
+            if(not player.isAvailable()):
+                player.setToMinScore(minPlayerScore)
                 
     def removePlayerByIndex(self, pIndex: int, pPosition: Position):
         match pPosition:
@@ -337,3 +345,8 @@ class BenchTeam(Team):
     def getBestIndex(self) -> int:
         scores = [player.getScore() for player in self.nonBenchPlayersList]
         return np.argmax(scores)
+    def getWorstScore(self) -> float:
+        minNonBench = min([player.getScore() for player in self.nonBenchPlayersList])
+        minBench = min([player.getScore() for player in self.benchPlayers])
+        minMin = min(minNonBench, minBench)
+        return minMin

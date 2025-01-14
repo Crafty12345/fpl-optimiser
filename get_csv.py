@@ -75,6 +75,7 @@ def processFile(pDate: str) -> pd.DataFrame:
 
 allFiles = glob("./data/raw/player_stats/*.json")
 
+
 # Source: https://fantasy.premierleague.com/api/bootstrap-static/
 
 filesSorted = sortFiles(allFiles)

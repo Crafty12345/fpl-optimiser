@@ -1,4 +1,10 @@
-NUM_AHEAD=21
+NUM_AHEAD=5
+
+if [ "$#" -eq 0 ]
+then
+    echo "ERROR: No starting gameweek supplied."
+    exit 1
+fi
 
 STARTING_GAMEWEEK=$1
 MAX_GAMEWEEK=$((STARTING_GAMEWEEK+NUM_AHEAD-1))

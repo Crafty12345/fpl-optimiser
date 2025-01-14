@@ -123,6 +123,8 @@ class Player():
     def setViceCaptain(self, pIsViceCaptain: bool): self.viceCaptain = pIsViceCaptain
     def setBenched(self, pIsBenchedPlayer: bool): self.benchPlayer = pIsBenchedPlayer
     def setCombinedScore(self, pNewScore: float): self.combinedScore = pNewScore
+    def setToMinScore(self, pMinScore: float):
+        self.score = min(pMinScore, 0)
 
     def recalculateFixtureDifficulty(self, pMatrix: FixtureDifficultyMatrix):
         self.fixtureDifficulty = pMatrix.getSimpleDifficulty(self.teamName)

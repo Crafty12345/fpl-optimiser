@@ -12,7 +12,7 @@ NUM_DEFENDERS = 4
 NUM_FORWARD = 2
 NUM_MID = 4
 
-MAX_BUDGET = 1000
+MAX_BUDGET = 995
 MAX_AMT_REMAINING = 5
 
 instance_count = 0
@@ -472,6 +472,7 @@ f"""
                 if(self.log):
                     print(f"Iter: {iter}")
                 self.backward_adjust()
+                self.update_stats()
                 amount_remaining = MAX_BUDGET - (self.total_cost + self.bench_cost)
                 iter += 1
             self.manage_bench("GKP")
