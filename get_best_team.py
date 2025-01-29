@@ -9,12 +9,13 @@ import config
 
 CURRENT_DATE = config.CURRENT_DATE
 startTime = time.perf_counter()
-summary_filename = f"./results/{CURRENT_DATE}/summary_{CURRENT_DATE}.html"
+resultsDirectory = f"./data/results/{CURRENT_DATE}"
+summary_filename = f"{resultsDirectory}/summary_{CURRENT_DATE}.html"
 
-if(not os.path.exists(f"./results/{CURRENT_DATE}")):
-    os.makedirs(f"./results/{CURRENT_DATE}")
+if(not os.path.exists(resultsDirectory)):
+    os.makedirs(resultsDirectory)
 
-json_filename = f"./results/{CURRENT_DATE}/results_{CURRENT_DATE}.json"
+json_filename = f"{resultsDirectory}/results_{CURRENT_DATE}.json"
 with open(json_filename,"w+",encoding="utf-8") as f:
     f.write("{\"data\": []}")
 

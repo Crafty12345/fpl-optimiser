@@ -1,3 +1,5 @@
+#!/bin/bash
+
 NUM_AHEAD=5
 
 if [ "$#" -eq 0 ]

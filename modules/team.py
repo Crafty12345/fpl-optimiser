@@ -138,6 +138,7 @@ class Team():
                     "<th>Fixture Difficulty</th>"
                     "<th>Normalised Fixture Difficulty</th>"
                     "<th>Position</th>"
+                    "<th>Availability</th>"
                     "<th>Team</th>"
                     "<th>Captain</th>"
                     "<th>Vice Captain</th>"

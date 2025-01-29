@@ -113,6 +113,7 @@ class Player():
                 f"<td>{self.fixtureDifficulty:.2f}</td>"
                 f"<td>{self.normalisedFixtureDifficulty:.2f}</td>"
                 f"<td>{self.position}</td>"
+                f"<td>{self.available}</td>"
                 f"<td>{self.teamName}</td>"
                 f"<td>{self.captain}</td>"
                 f"<td>{self.viceCaptain}"
