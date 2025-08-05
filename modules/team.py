@@ -3,6 +3,7 @@ import numpy as np
 from copy import deepcopy
 
 from modules.player import Player, Position
+from modules.fixture_difficulty_matrix import FixtureDifficultyMatrix
 
 class Team():
     def __init__(self,
@@ -135,8 +136,9 @@ class Team():
                     "<th>ICT Index</th>"
                     "<th>Total Points</th>"
                     "<th>Form</th>"
-                    "<th>Fixture Difficulty</th>"
-                    "<th>Normalised Fixture Difficulty</th>"
+                    "<th>Average Fixture Difficulty</th>"
+                    "<th>Normalised Average Fixture Difficulty</th>"
+                    "<th>Current Fixture Difficulty</th>"
                     "<th>Position</th>"
                     "<th>Availability</th>"
                     "<th>Team</th>"
@@ -187,7 +189,7 @@ class Team():
     def __len__(self):
         return len(self.players)
     
-    def recalculateFixtureDifficulty(self, pMatrix):
+    def recalculateFixtureDifficulty(self, pMatrix: FixtureDifficultyMatrix):
         for player in self.players:
             player.recalculateFixtureDifficulty(pMatrix)
     
@@ -208,8 +210,8 @@ class Team():
                     raise NotImplementedError(f"Heuristic method {pHeuristicMethod} is not yet implemented.")
         minPlayerScore = self.getWorstScore()
         for player in self.getPlayers():
-            if(player.getName() == "Bukayo Saka"):
-                print(f"[DEBUG]: {player}, availability: {player.isAvailable()}")
+            #if(player.getName() == "Bukayo Saka"):
+            #    print(f"[DEBUG]: {player}, availability: {player.isAvailable()}")
             if(not player.isAvailable()):
                 player.setToMinScore(minPlayerScore)
                 
@@ -239,7 +241,7 @@ class Team():
         self.updatePlayers()
 
     def updatePlayers(self):
-        self.players = self.goalkeepers + self.defenders + self.forwarders + self.midfielders
+        self.players: list[Player] = self.goalkeepers + self.defenders + self.forwarders + self.midfielders
         self.sortedPlayers = sorted(self.players, reverse=True)
         self.updateCaptains()
 

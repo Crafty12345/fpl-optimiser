@@ -289,6 +289,7 @@ f"""
 		bench_temp["is_benched"] = True
 		team["is_benched"] = False
 		team = pd.concat([team,bench_temp])
+		#print(team["status"])
 		team = team.sort_values(by=["position","is_benched","score"])
 		team = team.drop(columns=["value"])
  
@@ -297,6 +298,9 @@ f"""
 		json_str = json.dumps(json_data,indent=4)
 		with open(filename,"w+") as f:
 			f.write(json_str)
+
+	def saveCalculations(self, filename: str) -> None:
+		self.data.to_json(filename, orient="records")
 
 	def check_players(self,position):
 		match position:
@@ -463,7 +467,10 @@ f"""
 			scoresOfPosition = self.data.loc[self.data["position"]==position]["score"]
 			scorePScores = self.calcPScores(scoresOfPosition)
 			mask = scorePScores > pScoreCutoff
-			self.data.loc[self.data["position"] == position] = self.data.loc[self.data["position"] == position].loc[mask]
+			# If outlier, set score to something exceedingly low, so that the player will not be chosen
+			# Due to the score being required by other files (such as 05-get_best_transfer.ipynb), entirely removing outliers does not work.
+			self.data.loc[self.data["position"] == position].loc[mask] = -99
+		self.data = self.data.dropna()
 		pass
 
 	def queryPlayerScore(self, pPlayerName: str):

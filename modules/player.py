@@ -55,6 +55,7 @@ class Player():
         self.benchPlayer = False
         self.fixtureDifficulty = 0.0
         self.normalisedFixtureDifficulty = 0.0
+        self.currentFixtureDifficulty = 0.0
         self.available = pIsAvailable
         self.startsPer90 = pStartsPer90
         pass
@@ -76,6 +77,7 @@ class Player():
         position = Position.fromString(positionStr)
         teamName = playerDf["team"].values[0]
         isAvailable = playerDf["status"].values[0] == "a"
+        print(name, playerDf["status"].values[0])
         startsPer90 = playerDf["starts_per_90"].values[0]
         return cls(id, name, cost, ictIndex, totalPoints, pointsPerGame, form, position, teamName, combinedScore, isAvailable, startsPer90)
 
@@ -88,6 +90,7 @@ class Player():
     def isViceCaptain(self): return self.viceCaptain
     def isBenched(self): return self.benchPlayer
     def isAvailable(self): return self.available
+    def getCurrentDifficulty(self): return self.currentFixtureDifficulty
     
     def __str__(self):
         isCaptainStr = " (Captain) " if (self.isCaptain() and not self.isBenched()) else ""
@@ -110,8 +113,9 @@ class Player():
                 f"<td>{self.ictIndex}</td>"
                 f"<td>{self.totalPoints}</td>"
                 f"<td>{self.form}</td>"
-                f"<td>{self.fixtureDifficulty:.2f}</td>"
-                f"<td>{self.normalisedFixtureDifficulty:.2f}</td>"
+                f"<td>{self.fixtureDifficulty:.3f}</td>"
+                f"<td>{self.normalisedFixtureDifficulty:.3f}</td>"
+                f"<td>{self.currentFixtureDifficulty:.4f}</td>"
                 f"<td>{self.position}</td>"
                 f"<td>{self.available}</td>"
                 f"<td>{self.teamName}</td>"
@@ -130,6 +134,7 @@ class Player():
     def recalculateFixtureDifficulty(self, pMatrix: FixtureDifficultyMatrix):
         self.fixtureDifficulty = pMatrix.getSimpleDifficulty(self.teamName)
         self.normalisedFixtureDifficulty = pMatrix.getNormalisedDifficulty(self.teamName)
+        self.currentFixtureDifficulty = pMatrix.getCurrentDifficulty(self.teamName)
 
     def calculateScorePPG(self):
         """

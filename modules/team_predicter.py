@@ -5,6 +5,7 @@ from sklearn.linear_model import LinearRegression
 
 from modules.team_solver import TeamSolver, SolverMode
 from modules.fixture_difficulty_matrix import FixtureDifficultyMatrix
+from modules.utils import getDataFilesSorted
 import config
 
 class TeamPredicter(TeamSolver):
@@ -16,7 +17,7 @@ class TeamPredicter(TeamSolver):
         self.mode = pSolverMode
         self.verbose = verbose
 
-        self.allDataFiles = glob("./data/player_stats/*.csv")
+        self.allDataFiles = getDataFilesSorted()
         self.sampleSize = len(self.allDataFiles)
         ALL_COLUMNS = [
             "id",
@@ -38,11 +39,13 @@ class TeamPredicter(TeamSolver):
         for i in range(len(self.allDataFiles)):
             currentGameweek = i+1
             currentFileName = self.allDataFiles[i]
-            currentData = pd.read_csv(currentFileName)
+            currentData = pd.read_csv(currentFileName["name"])
             if(pHeuristic == "combined"):
                 currentData["combined"] = self.calculateCombinedScore(currentData)
             matrix = FixtureDifficultyMatrix(1.0, currentGameweek, currentGameweek)
             currentData["weight"] = currentData["team"].apply(matrix.getSimpleDifficulty)
+            # Decrease weight as season gets older
+            currentData["weight"] = currentData["weight"] / (config.CURRENT_SEASON - currentData["season"] + 1)
 
             currentData["score"] = currentData[self.score_heuristic] * currentData["weight"]
             self.allData.append(currentData)
@@ -71,6 +74,7 @@ class TeamPredicter(TeamSolver):
             predictedWeightedScore = predictedScore * playerForm * playerStartsPer90
             self.data.loc[self.data["name"] == player, "score"] = predictedWeightedScore
         
+
         if(self.verbose):
             print("Done calculating linear regression!")
         

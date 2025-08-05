@@ -1,0 +1,673 @@
+
+<html>
+	<head>
+		<meta charset='UTF-8'>
+		<title>13-02-2025 Team Solver</title>
+	</head>
+	<body>
+
+		<h1> Team Solver 1 - Combined with mode cheapest first </h1>
+		
+		<p>Cost:762</p>
+		<p>Score:286.06002751736105</p>
+		<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>name</th>
+      <th>cost</th>
+      <th>ict_index</th>
+      <th>total_points</th>
+      <th>points_per_game</th>
+      <th>form</th>
+      <th>status</th>
+      <th>starts_per_90</th>
+      <th>position</th>
+      <th>team</th>
+      <th>combined</th>
+      <th>weight</th>
+      <th>score</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>304</th>
+      <td>304</td>
+      <td>Jordan Pickford</td>
+      <td>51</td>
+      <td>66.9</td>
+      <td>105</td>
+      <td>4.4</td>
+      <td>3.6</td>
+      <td>a</td>
+      <td>1.00</td>
+      <td>GKP</td>
+      <td>EVE</td>
+      <td>5.069718</td>
+      <td>0.6875</td>
+      <td>14.746375</td>
+      <td>0.289145</td>
+    </tr>
+    <tr>
+      <th>269</th>
+      <td>269</td>
+      <td>Daniel Muñoz</td>
+      <td>48</td>
+      <td>122.6</td>
+      <td>88</td>
+      <td>3.8</td>
+      <td>6.8</td>
+      <td>a</td>
+      <td>1.04</td>
+      <td>DEF</td>
+      <td>CRY</td>
+      <td>5.383614</td>
+      <td>0.5250</td>
+      <td>21.127827</td>
+      <td>0.440163</td>
+    </tr>
+    <tr>
+      <th>305</th>
+      <td>305</td>
+      <td>James Tarkowski</td>
+      <td>48</td>
+      <td>98.6</td>
+      <td>86</td>
+      <td>3.6</td>
+      <td>5.4</td>
+      <td>a</td>
+      <td>1.00</td>
+      <td>DEF</td>
+      <td>EVE</td>
+      <td>4.659471</td>
+      <td>0.6875</td>
+      <td>18.092509</td>
+      <td>0.376927</td>
+    </tr>
+    <tr>
+      <th>339</th>
+      <td>339</td>
+      <td>Antonee Robinson</td>
+      <td>51</td>
+      <td>139.2</td>
+      <td>88</td>
+      <td>3.7</td>
+      <td>5.2</td>
+      <td>a</td>
+      <td>1.00</td>
+      <td>DEF</td>
+      <td>FUL</td>
+      <td>5.684206</td>
+      <td>0.2875</td>
+      <td>13.413952</td>
+      <td>0.263019</td>
+    </tr>
+    <tr>
+      <th>259</th>
+      <td>259</td>
+      <td>Marc Guéhi</td>
+      <td>46</td>
+      <td>87.2</td>
+      <td>85</td>
+      <td>3.7</td>
+      <td>7.5</td>
+      <td>a</td>
+      <td>1.00</td>
+      <td>DEF</td>
+      <td>CRY</td>
+      <td>4.443257</td>
+      <td>0.5250</td>
+      <td>22.172146</td>
+      <td>0.482003</td>
+    </tr>
+    <tr>
+      <th>547</th>
+      <td>547</td>
+      <td>Alexander Isak</td>
+      <td>95</td>
+      <td>216.0</td>
+      <td>152</td>
+      <td>6.9</td>
+      <td>8.2</td>
+      <td>a</td>
+      <td>1.10</td>
+      <td>FWD</td>
+      <td>NEW</td>
+      <td>11.458494</td>
+      <td>0.2625</td>
+      <td>34.699252</td>
+      <td>0.365255</td>
+    </tr>
+    <tr>
+      <th>265</th>
+      <td>265</td>
+      <td>Jean-Philippe Mateta</td>
+      <td>73</td>
+      <td>128.4</td>
+      <td>103</td>
+      <td>4.3</td>
+      <td>9.0</td>
+      <td>a</td>
+      <td>1.07</td>
+      <td>FWD</td>
+      <td>CRY</td>
+      <td>6.301576</td>
+      <td>0.5250</td>
+      <td>32.213715</td>
+      <td>0.441284</td>
+    </tr>
+    <tr>
+      <th>90</th>
+      <td>90</td>
+      <td>Justin Kluivert</td>
+      <td>59</td>
+      <td>154.4</td>
+      <td>123</td>
+      <td>5.3</td>
+      <td>11.2</td>
+      <td>a</td>
+      <td>1.12</td>
+      <td>MID</td>
+      <td>BOU</td>
+      <td>8.150245</td>
+      <td>0.4375</td>
+      <td>39.599723</td>
+      <td>0.671182</td>
+    </tr>
+    <tr>
+      <th>444</th>
+      <td>444</td>
+      <td>Mohamed Salah</td>
+      <td>137</td>
+      <td>335.0</td>
+      <td>251</td>
+      <td>10.5</td>
+      <td>8.4</td>
+      <td>a</td>
+      <td>1.02</td>
+      <td>MID</td>
+      <td>LIV</td>
+      <td>19.499992</td>
+      <td>0.3250</td>
+      <td>31.996544</td>
+      <td>0.233551</td>
+    </tr>
+    <tr>
+      <th>672</th>
+      <td>672</td>
+      <td>Son Heung-min</td>
+      <td>98</td>
+      <td>158.2</td>
+      <td>104</td>
+      <td>5.0</td>
+      <td>5.5</td>
+      <td>a</td>
+      <td>1.08</td>
+      <td>MID</td>
+      <td>TOT</td>
+      <td>7.454848</td>
+      <td>0.7500</td>
+      <td>28.924401</td>
+      <td>0.295147</td>
+    </tr>
+    <tr>
+      <th>500</th>
+      <td>500</td>
+      <td>Amad Diallo</td>
+      <td>56</td>
+      <td>154.7</td>
+      <td>107</td>
+      <td>4.9</td>
+      <td>6.8</td>
+      <td>a</td>
+      <td>0.96</td>
+      <td>MID</td>
+      <td>MUN</td>
+      <td>7.402850</td>
+      <td>0.5625</td>
+      <td>29.073584</td>
+      <td>0.519171</td>
+    </tr>
+  </tbody>
+</table>
+		<p>Suggested captain: Justin Kluivert</p>
+		<p>Suggested vice captain: Alexander Isak</p>
+		<h2>Bench</h2>
+		<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>name</th>
+      <th>cost</th>
+      <th>ict_index</th>
+      <th>total_points</th>
+      <th>points_per_game</th>
+      <th>form</th>
+      <th>status</th>
+      <th>starts_per_90</th>
+      <th>position</th>
+      <th>team</th>
+      <th>combined</th>
+      <th>weight</th>
+      <th>score</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>260</th>
+      <td>260</td>
+      <td>Dean Henderson</td>
+      <td>45</td>
+      <td>55.7</td>
+      <td>86</td>
+      <td>3.6</td>
+      <td>5.0</td>
+      <td>a</td>
+      <td>1.00</td>
+      <td>GKP</td>
+      <td>CRY</td>
+      <td>3.711305</td>
+      <td>0.5250</td>
+      <td>12.317590</td>
+      <td>0.273724</td>
+    </tr>
+    <tr>
+      <th>596</th>
+      <td>596</td>
+      <td>Chris Wood</td>
+      <td>71</td>
+      <td>149.7</td>
+      <td>154</td>
+      <td>6.4</td>
+      <td>10.0</td>
+      <td>a</td>
+      <td>1.08</td>
+      <td>FWD</td>
+      <td>NFO</td>
+      <td>9.722759</td>
+      <td>0.3500</td>
+      <td>27.514152</td>
+      <td>0.387523</td>
+    </tr>
+    <tr>
+      <th>502</th>
+      <td>502</td>
+      <td>Bruno Borges Fernandes</td>
+      <td>83</td>
+      <td>174.4</td>
+      <td>104</td>
+      <td>4.5</td>
+      <td>4.0</td>
+      <td>a</td>
+      <td>1.08</td>
+      <td>MID</td>
+      <td>MUN</td>
+      <td>7.481407</td>
+      <td>0.5625</td>
+      <td>24.707984</td>
+      <td>0.297687</td>
+    </tr>
+    <tr>
+      <th>363</th>
+      <td>363</td>
+      <td>Jacob Greaves</td>
+      <td>39</td>
+      <td>48.0</td>
+      <td>29</td>
+      <td>2.1</td>
+      <td>2.0</td>
+      <td>a</td>
+      <td>1.00</td>
+      <td>DEF</td>
+      <td>IPS</td>
+      <td>0.805182</td>
+      <td>0.7375</td>
+      <td>-0.148644</td>
+      <td>-0.003811</td>
+    </tr>
+  </tbody>
+</table>
+		<p>Bench cost: 238</p>
+		<p>Bench score: 64.39108139391766</p>
+		<h2>Summary</h2>
+		Total cost: 1000
+		Total score: 350.4511089112787
+		
+		<hr>
+
+		<h1> Team Solver 2 - Combined with mode most expensive first </h1>
+		
+		<p>Cost:708</p>
+		<p>Score:278.7714675222399</p>
+		<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>name</th>
+      <th>cost</th>
+      <th>ict_index</th>
+      <th>total_points</th>
+      <th>points_per_game</th>
+      <th>form</th>
+      <th>status</th>
+      <th>starts_per_90</th>
+      <th>position</th>
+      <th>team</th>
+      <th>combined</th>
+      <th>weight</th>
+      <th>score</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>304</th>
+      <td>304</td>
+      <td>Jordan Pickford</td>
+      <td>51</td>
+      <td>66.9</td>
+      <td>105</td>
+      <td>4.4</td>
+      <td>3.6</td>
+      <td>a</td>
+      <td>1.00</td>
+      <td>GKP</td>
+      <td>EVE</td>
+      <td>5.069718</td>
+      <td>0.6875</td>
+      <td>14.746375</td>
+      <td>0.289145</td>
+    </tr>
+    <tr>
+      <th>269</th>
+      <td>269</td>
+      <td>Daniel Muñoz</td>
+      <td>48</td>
+      <td>122.6</td>
+      <td>88</td>
+      <td>3.8</td>
+      <td>6.8</td>
+      <td>a</td>
+      <td>1.04</td>
+      <td>DEF</td>
+      <td>CRY</td>
+      <td>5.383614</td>
+      <td>0.5250</td>
+      <td>21.127827</td>
+      <td>0.440163</td>
+    </tr>
+    <tr>
+      <th>305</th>
+      <td>305</td>
+      <td>James Tarkowski</td>
+      <td>48</td>
+      <td>98.6</td>
+      <td>86</td>
+      <td>3.6</td>
+      <td>5.4</td>
+      <td>a</td>
+      <td>1.00</td>
+      <td>DEF</td>
+      <td>EVE</td>
+      <td>4.659471</td>
+      <td>0.6875</td>
+      <td>18.092509</td>
+      <td>0.376927</td>
+    </tr>
+    <tr>
+      <th>339</th>
+      <td>339</td>
+      <td>Antonee Robinson</td>
+      <td>51</td>
+      <td>139.2</td>
+      <td>88</td>
+      <td>3.7</td>
+      <td>5.2</td>
+      <td>a</td>
+      <td>1.00</td>
+      <td>DEF</td>
+      <td>FUL</td>
+      <td>5.684206</td>
+      <td>0.2875</td>
+      <td>13.413952</td>
+      <td>0.263019</td>
+    </tr>
+    <tr>
+      <th>259</th>
+      <td>259</td>
+      <td>Marc Guéhi</td>
+      <td>46</td>
+      <td>87.2</td>
+      <td>85</td>
+      <td>3.7</td>
+      <td>7.5</td>
+      <td>a</td>
+      <td>1.00</td>
+      <td>DEF</td>
+      <td>CRY</td>
+      <td>4.443257</td>
+      <td>0.5250</td>
+      <td>22.172146</td>
+      <td>0.482003</td>
+    </tr>
+    <tr>
+      <th>547</th>
+      <td>547</td>
+      <td>Alexander Isak</td>
+      <td>95</td>
+      <td>216.0</td>
+      <td>152</td>
+      <td>6.9</td>
+      <td>8.2</td>
+      <td>a</td>
+      <td>1.10</td>
+      <td>FWD</td>
+      <td>NEW</td>
+      <td>11.458494</td>
+      <td>0.2625</td>
+      <td>34.699252</td>
+      <td>0.365255</td>
+    </tr>
+    <tr>
+      <th>265</th>
+      <td>265</td>
+      <td>Jean-Philippe Mateta</td>
+      <td>73</td>
+      <td>128.4</td>
+      <td>103</td>
+      <td>4.3</td>
+      <td>9.0</td>
+      <td>a</td>
+      <td>1.07</td>
+      <td>FWD</td>
+      <td>CRY</td>
+      <td>6.301576</td>
+      <td>0.5250</td>
+      <td>32.213715</td>
+      <td>0.441284</td>
+    </tr>
+    <tr>
+      <th>90</th>
+      <td>90</td>
+      <td>Justin Kluivert</td>
+      <td>59</td>
+      <td>154.4</td>
+      <td>123</td>
+      <td>5.3</td>
+      <td>11.2</td>
+      <td>a</td>
+      <td>1.12</td>
+      <td>MID</td>
+      <td>BOU</td>
+      <td>8.150245</td>
+      <td>0.4375</td>
+      <td>39.599723</td>
+      <td>0.671182</td>
+    </tr>
+    <tr>
+      <th>672</th>
+      <td>672</td>
+      <td>Son Heung-min</td>
+      <td>98</td>
+      <td>158.2</td>
+      <td>104</td>
+      <td>5.0</td>
+      <td>5.5</td>
+      <td>a</td>
+      <td>1.08</td>
+      <td>MID</td>
+      <td>TOT</td>
+      <td>7.454848</td>
+      <td>0.7500</td>
+      <td>28.924401</td>
+      <td>0.295147</td>
+    </tr>
+    <tr>
+      <th>502</th>
+      <td>502</td>
+      <td>Bruno Borges Fernandes</td>
+      <td>83</td>
+      <td>174.4</td>
+      <td>104</td>
+      <td>4.5</td>
+      <td>4.0</td>
+      <td>a</td>
+      <td>1.08</td>
+      <td>MID</td>
+      <td>MUN</td>
+      <td>7.481407</td>
+      <td>0.5625</td>
+      <td>24.707984</td>
+      <td>0.297687</td>
+    </tr>
+    <tr>
+      <th>500</th>
+      <td>500</td>
+      <td>Amad Diallo</td>
+      <td>56</td>
+      <td>154.7</td>
+      <td>107</td>
+      <td>4.9</td>
+      <td>6.8</td>
+      <td>a</td>
+      <td>0.96</td>
+      <td>MID</td>
+      <td>MUN</td>
+      <td>7.402850</td>
+      <td>0.5625</td>
+      <td>29.073584</td>
+      <td>0.519171</td>
+    </tr>
+  </tbody>
+</table>
+		<p>Suggested captain: Justin Kluivert</p>
+		<p>Suggested vice captain: Alexander Isak</p>
+		<h2>Bench</h2>
+		<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>name</th>
+      <th>cost</th>
+      <th>ict_index</th>
+      <th>total_points</th>
+      <th>points_per_game</th>
+      <th>form</th>
+      <th>status</th>
+      <th>starts_per_90</th>
+      <th>position</th>
+      <th>team</th>
+      <th>combined</th>
+      <th>weight</th>
+      <th>score</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>260</th>
+      <td>260</td>
+      <td>Dean Henderson</td>
+      <td>45</td>
+      <td>55.7</td>
+      <td>86</td>
+      <td>3.6</td>
+      <td>5.0</td>
+      <td>a</td>
+      <td>1.00</td>
+      <td>GKP</td>
+      <td>CRY</td>
+      <td>3.711305</td>
+      <td>0.5250</td>
+      <td>12.317590</td>
+      <td>0.273724</td>
+    </tr>
+    <tr>
+      <th>596</th>
+      <td>596</td>
+      <td>Chris Wood</td>
+      <td>71</td>
+      <td>149.7</td>
+      <td>154</td>
+      <td>6.4</td>
+      <td>10.0</td>
+      <td>a</td>
+      <td>1.08</td>
+      <td>FWD</td>
+      <td>NFO</td>
+      <td>9.722759</td>
+      <td>0.3500</td>
+      <td>27.514152</td>
+      <td>0.387523</td>
+    </tr>
+    <tr>
+      <th>331</th>
+      <td>331</td>
+      <td>Alex Iwobi</td>
+      <td>58</td>
+      <td>173.6</td>
+      <td>107</td>
+      <td>4.5</td>
+      <td>5.0</td>
+      <td>a</td>
+      <td>1.07</td>
+      <td>MID</td>
+      <td>FUL</td>
+      <td>7.555381</td>
+      <td>0.2875</td>
+      <td>22.931390</td>
+      <td>0.395369</td>
+    </tr>
+    <tr>
+      <th>281</th>
+      <td>281</td>
+      <td>Maxence Lacroix</td>
+      <td>45</td>
+      <td>64.1</td>
+      <td>75</td>
+      <td>3.6</td>
+      <td>6.2</td>
+      <td>a</td>
+      <td>1.00</td>
+      <td>DEF</td>
+      <td>CRY</td>
+      <td>3.560887</td>
+      <td>0.5250</td>
+      <td>12.468694</td>
+      <td>0.277082</td>
+    </tr>
+  </tbody>
+</table>
+		<p>Bench cost: 219</p>
+		<p>Bench score: 75.23182548702889</p>
+		<h2>Summary</h2>
+		Total cost: 927
+		Total score: 354.00329300926876
+		
+		<hr>
