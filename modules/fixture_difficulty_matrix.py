@@ -4,6 +4,7 @@ from copy import copy
 from modules.utils import lerp
 import math
 from warnings import warn
+import os
 
 import config
 
@@ -11,7 +12,8 @@ class FixtureDifficultyMatrix():
     def __init__(self,
                   pScale: float, 
                   pStartGameweek: int, 
-                  pEndGameweek: int):
+                  pEndGameweek: int,
+                  pSeason: int):
         
         with open("./data/current_table.txt") as f:
             self.table = f.readlines()
@@ -25,8 +27,11 @@ class FixtureDifficultyMatrix():
         self.startGameweek = pStartGameweek
         self.endGameweek = pEndGameweek + 1
 
+        self.season = pSeason
+
         self.thisGameweek = config.CURRENT_GAMEWEEK
         self.thisGameweekDiffs = dict()
+        self.fixtureDataExists = True
 
         self.simpleDifficulties = dict()
         self.normalisedDifficulties = dict()
@@ -40,10 +45,16 @@ class FixtureDifficultyMatrix():
         fixtureRange = range(self.startGameweek, self.endGameweek+1)
         allFixtureDataRaw = []
         for gameweek in fixtureRange:
-            with open(f"./data/fixture_data/fixture_data_{gameweek}.json") as f:
-                allFixtureDataRaw.append(json.load(f))
+            fixtureDataPath = f"./data/fixture_data/{self.season}/fixture_data_{gameweek}.json"
+            if(os.path.isfile(fixtureDataPath)):
+                with open(fixtureDataPath) as f:
+                    allFixtureDataRaw.append(json.load(f))
+                    self.fixtureDataExists = True
+            else:
+                warn(f"Season {self.season} has no entry for gameweek {gameweek}.")
+                self.fixtureDataExists = False
         with open("./data/team_translation_table.json") as f:
-            teamNames = json.load(f)
+            teamNames = json.load(f)[str(self.season)]
 
         numFixtures = len(allFixtureDataRaw)
         sums = dict()
@@ -98,15 +109,23 @@ class FixtureDifficultyMatrix():
             if (currentGameweek == self.thisGameweek):
                 self.thisGameweekDiffs = copy(currentGameweekDict)
                 avg = self.averageDifficulty(self.thisGameweekDiffs)
-                
-                # Account for teams not having any games in a given gameweek
+
+                # Account for teams not having any games in a given gameweek (i.e. double-gameweeks)
+
+                actualGameweek = gameweek[0]["event"]
+
                 for team in self.allTeams:
                     if team not in self.thisGameweekDiffs.keys():
-                        print(f"Warning: {team} does not have any games in gameweek {gameweek}")
+                        print(f"Warning: {team} does not have any games in gameweek {actualGameweek} of season {self.season}")
                         self.thisGameweekDiffs[team] = avg
 
         for team, sum in sums.items():
-            self.simpleDifficulties[team] = sum / numFixtures
+            # simpleDifficulties = average of how badly a team will do in relation to another team
+            if (numFixtures == 0):
+                # Set an arbitrary "average" value of 0.5
+                self.simpleDifficulties[team] = 0.5
+            else:
+                self.simpleDifficulties[team] = sum / numFixtures
             self.normalisedDifficulties[team] = lerp(MIN_SCORE_OFFSET, MAX_SCORE_OFFSET, self.simpleDifficulties[team])
         jsonStr = json.dumps(self.simpleDifficulties,indent=4)
         #print(jsonStr)
@@ -132,9 +151,11 @@ class FixtureDifficultyMatrix():
     
     def getSimpleDifficulty(self, pTeam: str) -> float:
         if(pTeam not in self.simpleDifficulties.keys()):
-            warn(f"Team '{pTeam}' not found")
+            # Avoid warning twice for the same issue
+            if (self.fixtureDataExists):
+                warn(f"Team '{pTeam}' not found in season {self.season}")
             return 0.5
-            ...
+
         return self.simpleDifficulties[pTeam]
     def getNormalisedDifficulty(self, pTeam: str) -> float:
         return self.normalisedDifficulties[pTeam]

@@ -1,3 +1,5 @@
+#! /usr/bin/env python3
+
 import pandas as pd
 import json
 from glob import glob
@@ -103,11 +105,14 @@ for i, fileName in enumerate(filesSorted):
 
 filteredFiles = []
 seenGameweeks: dict[str, set] = dict()
+seenSeasons: set[int] = set()
+
 # Make sure each gameweek only has 1 file
 for file in filesProcessed:
     season = file["season"]
-    if(season not in seenGameweeks.keys()):
+    if(season not in seenSeasons):
         seenGameweeks[season] = set()
+        seenSeasons.add(season)
 
     if(file["gameweek"] not in seenGameweeks[season]):
         tempFiles = []

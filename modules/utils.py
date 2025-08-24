@@ -5,7 +5,7 @@ import re
 def lerp(pMin: float, pMax: float, pPercent: float) -> float:
     return pMin + (pMax - pMin) * pPercent
 
-def getDataFilesSorted():
+def getDataFilesSorted() -> list[dict]:
     allDataFiles = sorted(glob(r"./data/player_stats/**/data_*.csv"))
     filesSorted = []
     userPlatform = platform.system()

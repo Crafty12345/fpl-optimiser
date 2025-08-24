@@ -8,4 +8,4 @@ fi
 
 currentDate=$1
 
-curl https://fantasy.premierleague.com/api/bootstrap-static/ -o "./data/raw/player_stats/fpl_stats_$currentDate.json"
+curl https://fantasy.premierleague.com/api/bootstrap-static/ -o "./data/raw/player_stats/25-26/fpl_stats_$currentDate.json"

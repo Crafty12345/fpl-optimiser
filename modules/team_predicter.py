@@ -2,6 +2,7 @@ from glob import glob
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
+import re
 
 from modules.team_solver import TeamSolver, SolverMode
 from modules.fixture_difficulty_matrix import FixtureDifficultyMatrix
@@ -37,15 +38,20 @@ class TeamPredicter(TeamSolver):
         if(self.verbose):
             print("[DEBUG]: Reading from data files...")
         for i in range(len(self.allDataFiles)):
-            currentGameweek = i+1
             currentFileName = self.allDataFiles[i]
+            currentGameweek = currentFileName["gameweek"]
+            maxGameweek = min(currentGameweek+2, 39)
+
             currentData = pd.read_csv(currentFileName["name"])
             if(pHeuristic == "combined"):
                 currentData["combined"] = self.calculateCombinedScore(currentData)
-            matrix = FixtureDifficultyMatrix(1.0, currentGameweek, currentGameweek)
+            
+            # season of current file
+            currentSeason = currentData["season"].values[0]
+            matrix = FixtureDifficultyMatrix(1.0, currentGameweek, currentGameweek, currentSeason)
             currentData["weight"] = currentData["team"].apply(matrix.getSimpleDifficulty)
             # Decrease weight as season gets older
-            currentData["weight"] = currentData["weight"] / (config.CURRENT_SEASON - currentData["season"] + 1)
+            currentData["weight"] = currentData["weight"] / (config.CURRENT_SEASON - currentSeason + 1)
 
             currentData["score"] = currentData[self.score_heuristic] * currentData["weight"]
             self.allData.append(currentData)

@@ -9,7 +9,7 @@ import config
 
 CURRENT_DATE = config.CURRENT_DATE
 startTime = time.perf_counter()
-resultsDirectory = f"./data/results/{CURRENT_DATE}"
+resultsDirectory = f"./results/{CURRENT_DATE}"
 calculationsFilename = f"{resultsDirectory}/scores_{CURRENT_DATE}.json"
 summary_filename = f"{resultsDirectory}/summary_{CURRENT_DATE}.html"
 
