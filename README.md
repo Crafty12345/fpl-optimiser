@@ -6,6 +6,7 @@ So, here we are! The quest to achieve the mathematically perfect FPL team!
 
 # TODO
 
-- Restructure project
-- - Move all data to be stored in 1 JSON file, significantly simplifying project structure
-- Implement XGBoost
+ - [X] Restructure project
+ - - [X] Move all data to be stored in 1 JSON file, significantly simplifying project structure
+ - Implement Random Forest with XGBoost
+ - Create validation dataset

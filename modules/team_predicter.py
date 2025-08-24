@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
 import re
+import json
 
 from modules.team_solver import TeamSolver, SolverMode
 from modules.fixture_difficulty_matrix import FixtureDifficultyMatrix
@@ -18,8 +19,6 @@ class TeamPredicter(TeamSolver):
         self.mode = pSolverMode
         self.verbose = verbose
 
-        self.allDataFiles = getDataFilesSorted()
-        self.sampleSize = len(self.allDataFiles)
         ALL_COLUMNS = [
             "id",
             "name",
@@ -37,28 +36,37 @@ class TeamPredicter(TeamSolver):
         self.allData = []
         if(self.verbose):
             print("[DEBUG]: Reading from data files...")
-        for i in range(len(self.allDataFiles)):
-            currentFileName = self.allDataFiles[i]
-            currentGameweek = currentFileName["gameweek"]
-            maxGameweek = min(currentGameweek+2, 39)
+        
+        with open("./data/player_stats.json", "r") as f:
+            self.dataJson: dict = json.load(f)
 
-            currentData = pd.read_csv(currentFileName["name"])
-            if(pHeuristic == "combined"):
-                currentData["combined"] = self.calculateCombinedScore(currentData)
-            
-            # season of current file
-            currentSeason = currentData["season"].values[0]
-            matrix = FixtureDifficultyMatrix(1.0, currentGameweek, currentGameweek, currentSeason)
-            currentData["weight"] = currentData["team"].apply(matrix.getSimpleDifficulty)
-            # Decrease weight as season gets older
-            currentData["weight"] = currentData["weight"] / (config.CURRENT_SEASON - currentSeason + 1)
+        # Number of gameweeks which have been sampled
+        self.sampleSize = 0
 
-            currentData["score"] = currentData[self.score_heuristic] * currentData["weight"]
-            self.allData.append(currentData)
+        for (season, tempDict) in self.dataJson.items():
+            season = int(season)
+            for (currentGameweek, playerData) in tempDict.items():
+                currentGameweek = int(currentGameweek)
+
+                # Convert playerIDs back to ints
+
+                maxGameweek = min(currentGameweek+2, 39)
+                currentData = pd.DataFrame.from_records(playerData)
+
+                if(pHeuristic == "combined"):
+                    currentData["combined"] = self.calculateCombinedScore(currentData)
+                
+                matrix = FixtureDifficultyMatrix(1.0, currentGameweek, currentGameweek, season)
+                currentData["weight"] = currentData["team"].apply(matrix.getSimpleDifficulty)
+                # Decrease weight as season gets older
+                currentData["weight"] = currentData["weight"] / (config.CURRENT_SEASON - season + 0.9)
+
+                currentData["score"] = currentData[self.score_heuristic] * currentData["weight"]
+                self.allData.append(currentData)
+                self.sampleSize += 1
 
         self.data = self.allData[-1].copy()
         uniquePlayers = self.allData[-1]["name"]
-        scoreDict = dict()
         if(self.verbose):
             print("[DEBUG]: Done reading data files! Calculating linear regression...")
 
