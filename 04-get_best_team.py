@@ -29,6 +29,8 @@ team_solver = TeamPredicter("combined",SolverMode.HIGHEST_COST_FIRST,verbose=Tru
 all_teams.append(team_solver)
 
 for team in all_teams:
+     # TODO: Somehow combine team.train() and team.find_team() into one method
+     team.train()
      team.find_team()
      team.save_summary(summary_filename,date=CURRENT_DATE)
      team.to_json(json_filename)

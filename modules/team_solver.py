@@ -2,6 +2,7 @@ import pandas as pd
 from enum import Enum
 import numpy as np
 import json
+from abc import ABC, abstractmethod
 
 import config
 
@@ -26,35 +27,52 @@ class SolverMode(Enum):
 		elif (self.value == 2):
 			return "most expensive first"
 
-class TeamSolver():
-	def __init__(self, pHeuristic: str, pMode: SolverMode, pDataFileName: str, verbose: bool=False):
-		self.data = pd.read_csv(pDataFileName)
+# TODO : Continue refactoring; maybe change self.id to self.label: str?
+class TeamSolver(ABC):
 
-		if(pHeuristic == "combined"):
-			self.data["combined"] = self.calculateCombinedScore(self.data)
-		self.score_heuristic = pHeuristic
+	@abstractmethod
+	def precalcScores(self, pData: pd.DataFrame, pGameweek: int, pSeason: int): raise NotImplementedError()
+	
+	def __init__(self, pHeuristic: str, pMode: SolverMode, verbose: bool=False, pLabel: str = None):
 
-		self.data["score"] = self.data[self.score_heuristic] * self.data["form"] * self.data["starts_per_90"]
+		if (pLabel is None):
+			self.label = type(self).__name__
+		else:
+			self.label = pLabel
 
 		self.max_iters = config.MAX_ITERS
 		self.mode = pMode
-		self.log = verbose
+		self.verbose = verbose
 
-		self.registerInstance()
-		self.start()
+		if(self.verbose):
+			print("[DEBUG]: Reading from data file...")
 
-	def registerInstance(self):
-		global instance_count
-		instance_count += 1
-		self.id = instance_count
-		pass
+		with open("./data/player_stats.json", "r") as f:
+			self.dataJson: dict = json.load(f)
+
+		self.score_heuristic = pHeuristic
+
+		self.allData = []
+		# Number of gameweeks which have been sampled
+		self.sampleSize = 0
+		for (season, tempDict) in self.dataJson.items():
+			season = int(season)
+			for (currentGameweek, playerData) in tempDict.items():
+				currentGameweek = int(currentGameweek)
+				currentData = pd.DataFrame.from_records(playerData)
+				self.precalcScores(currentData, currentGameweek, season)
+				
+				self.allData.append(currentData)
+				self.sampleSize += 1
+		
+		self.data = self.allData[-1].copy()
 
 	def calcPScores(self, pSeries: pd.Series) -> pd.Series:
 		stdDev = np.std(pSeries)
 		avg = pSeries.mean()
 		return (pSeries - avg) / stdDev
 	
-	def start(self):
+	def train(self):
 		self.default_players = dict()
 
 		goalkeepers = self.data.loc[self.data["position"]=="GKP"]
@@ -211,7 +229,7 @@ class TeamSolver():
 		return new_str
 
 	def __str__(self) -> str:
-		txt = f"Team Solver {self.id} - {self.prettyify_str(self.score_heuristic)} with mode {self.mode}"
+		txt = f"Team Solver '{self.label}' - {self.prettyify_str(self.score_heuristic)} with mode {self.mode}"
 		return txt
 	
 	def validate_current_html(self,contents):
@@ -479,6 +497,9 @@ f"""
 	def queryPlayerScores(self, pPlayers: pd.DataFrame):
 		players = self.data.loc[self.data["id"] == pPlayers["id"]]
 		return players["score"]
+	
+	def evaluateModel(self):
+		...
 
 	def find_team(self):
 		self.update_stats()
@@ -487,7 +508,7 @@ f"""
 		if (self.total_cost <= self.budget):
 			iter = 0
 			while (amount_remaining > MAX_AMT_REMAINING) and (amount_remaining >= 0) and (iter < MAX_ITERS):
-				if(self.log):
+				if(self.verbose):
 					print(f"Iter: {iter}")
 				self.backward_adjust()
 				self.update_stats()
@@ -501,11 +522,11 @@ f"""
 			self.update_stats()
 			self.bench_cost = self.sum_bench_column("cost")
 
-			if(self.log):
+			if(self.verbose):
 				print("Successfully found team!")
 			return
 		
-		if(self.log):
+		if(self.verbose):
 			self.print_summary()
 		self.adjust_team(0)
 		self.iter += 1

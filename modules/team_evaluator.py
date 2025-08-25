@@ -1,0 +1,3 @@
+from team_solver import TeamSolver
+class TeamEvaluator(TeamSolver):
+    ...
