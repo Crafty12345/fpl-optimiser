@@ -34,7 +34,7 @@ class TeamSolver(ABC):
 	def precalcScores(self, pData: pd.DataFrame, pGameweek: int, pSeason: int): raise NotImplementedError()
 	
 	def __init__(self, pHeuristic: str, pMode: SolverMode, verbose: bool=False, pLabel: str = None):
-
+		self.accuracy = None
 		if (pLabel is None):
 			self.label = type(self).__name__
 		else:
@@ -52,7 +52,7 @@ class TeamSolver(ABC):
 
 		self.score_heuristic = pHeuristic
 
-		self.allData = []
+		self.allData: list[pd.DataFrame] = []
 		# Number of gameweeks which have been sampled
 		self.sampleSize = 0
 		for (season, tempDict) in self.dataJson.items():
@@ -65,7 +65,7 @@ class TeamSolver(ABC):
 				self.allData.append(currentData)
 				self.sampleSize += 1
 		
-		self.data = self.allData[-1].copy()
+		self.latestData: pd.DataFrame = self.allData[-1].copy()
 
 	def calcPScores(self, pSeries: pd.Series) -> pd.Series:
 		stdDev = np.std(pSeries)
@@ -75,10 +75,10 @@ class TeamSolver(ABC):
 	def train(self):
 		self.default_players = dict()
 
-		goalkeepers = self.data.loc[self.data["position"]=="GKP"]
-		defenders = self.data.loc[self.data["position"]=="DEF"]
-		forward = self.data.loc[self.data["position"]=="FWD"]
-		mid = self.data.loc[self.data["position"]=="MID"]
+		goalkeepers = self.latestData.loc[self.latestData["position"]=="GKP"]
+		defenders = self.latestData.loc[self.latestData["position"]=="DEF"]
+		forward = self.latestData.loc[self.latestData["position"]=="FWD"]
+		mid = self.latestData.loc[self.latestData["position"]=="MID"]
 
 		self.default_players["GKP"] = goalkeepers.sort_values(by="score",ascending=False)
 		self.default_players["DEF"] = defenders.sort_values(by="score",ascending=False)
@@ -168,6 +168,12 @@ class TeamSolver(ABC):
 	
 	def concat_team(self):
 		return pd.concat(position for position in self.players.values())
+	def getTeam(self) -> dict[str, dict]:
+		final_team = self.concat_team()
+		return {
+			"team": final_team,
+			"bench": self.bench
+		}
 
 	def get_captain_name(self,team: pd.DataFrame):
 		team = team.sort_values(by="score",ascending=False)
@@ -176,16 +182,19 @@ class TeamSolver(ABC):
 		team = team.sort_values(by="score",ascending=False)
 		return team.iloc[1]["name"]
 
-	def team_to_html(self) -> str:
+	def team_to_html(self, pIndex: int | None) -> str:
 		final_team = self.concat_team()
 		final_team_html = final_team.to_html()
 		bench_score = self.sum_bench_column("score")
 		total_total_cost = self.total_cost + self.bench_cost
 		total_total_score = self.total_score + bench_score
 
-		txt = f"""
-		<p>Cost:{self.total_cost}</p>
-		<p>Score:{self.total_score}</p>
+		txt = ""
+		if (pIndex is not None):
+			txt += f"<p>Index: {pIndex}</p>\n"
+		txt += f"""
+		<p>Cost: {self.total_cost}</p>
+		<p>Score: {self.total_score}</p>
 		{final_team_html}
 		<p>Suggested captain: {self.get_captain_name(final_team)}</p>
 		<p>Suggested vice captain: {self.get_vice_captain_name(final_team)}</p>
@@ -195,8 +204,11 @@ class TeamSolver(ABC):
 		<p>Bench score: {bench_score}</p>
 		<h2>Summary</h2>
 		Total cost: {total_total_cost}
+		<br>
 		Total score: {total_total_score}
 		"""
+		if self.accuracy is not None:
+			txt += f"\n<br>Accuracy: {(self.accuracy*100):.2f}%"
 		return txt
 
 	def team_to_str(self) -> str:
@@ -231,6 +243,10 @@ class TeamSolver(ABC):
 	def __str__(self) -> str:
 		txt = f"Team Solver '{self.label}' - {self.prettyify_str(self.score_heuristic)} with mode {self.mode}"
 		return txt
+	def setAccuracy(self, pAccuracy: float):
+		self.accuracy = pAccuracy
+	def getAccuracy(self):
+		return self.accuracy
 	
 	def validate_current_html(self,contents):
 		'''
@@ -242,7 +258,7 @@ class TeamSolver(ABC):
 				return False
 		return True
 	
-	def save_html(self, filename: str, date: str, mode: str = "a+"):
+	def save_html(self, filename: str, date: str, mode: str = "a+", pIndex: int | None = None):
 		if date == "":
 			raise ValueError("Date is not provided")
 		try:
@@ -257,7 +273,7 @@ class TeamSolver(ABC):
 		added_content = \
 f"""
 		<h1> {str(self)} </h1>
-		{self.team_to_html()}
+		{self.team_to_html(pIndex)}
 		<hr>
 """
 
@@ -285,14 +301,14 @@ f"""
 			f.writelines([str(self),self.team_to_str(),"\n\n"])
 		pass
 
-	def save_summary(self,filename, mode: str = "a+", date: str = ""):
+	def save_summary(self,filename, mode: str = "a+", date: str = "", pIndex: int | None = None):
 		if("." not in filename):
 			raise f"Error: file extension not found in '{filename}'"
 		filename_split = filename.split(".")
 		file_extension = filename_split[-1]
 		match file_extension:
 			case "html":
-				self.save_html(filename,date,mode)
+				self.save_html(filename,date,mode, pIndex=pIndex)
 			case "txt":
 				self.save_txt(filename,mode)
 			case _:
@@ -316,9 +332,26 @@ f"""
 		json_str = json.dumps(json_data,indent=4)
 		with open(filename,"w+") as f:
 			f.write(json_str)
+	def toDict(self) -> dict:
+		team = self.concat_team()
+		bench_temp = self.bench
+		bench_temp["is_benched"] = True
+		team["is_benched"] = False
+		team = pd.concat([team,bench_temp])
+		#print(team["status"])
+		team = team.sort_values(by=["position","is_benched","score"])
+		team = team.drop(columns=["value"])
+ 
+		teamDict: dict = team.to_dict(orient="records")
+		otherData: dict = self.latestData.to_dict(orient="records")
+		return {
+			"team": teamDict,
+			"players": otherData
+		}
 
-	def saveCalculations(self, filename: str) -> None:
-		self.data.to_json(filename, orient="records")
+
+	#def saveCalculations(self, filename: str) -> None:
+	#	self.data.to_json(filename, orient="records")
 
 	def check_players(self,position):
 		match position:
@@ -482,24 +515,21 @@ f"""
 		positions = {"DEF", "FWD", "MID", "GKP"}
 		pScoreCutoff = 0
 		for position in positions:
-			scoresOfPosition = self.data.loc[self.data["position"]==position]["score"]
+			scoresOfPosition = self.latestData.loc[self.latestData["position"]==position]["score"]
 			scorePScores = self.calcPScores(scoresOfPosition)
 			mask = scorePScores > pScoreCutoff
 			# If outlier, set score to something exceedingly low, so that the player will not be chosen
 			# Due to the score being required by other files (such as 05-get_best_transfer.ipynb), entirely removing outliers does not work.
-			self.data.loc[self.data["position"] == position].loc[mask] = -99
-		self.data = self.data.dropna()
+			self.latestData.loc[self.latestData["position"] == position].loc[mask] = -99
+		self.latestData = self.latestData.dropna()
 		pass
 
 	def queryPlayerScore(self, pPlayerName: str):
-		foundPlayer = self.data.loc[self.data["name"] == pPlayerName]
+		foundPlayer = self.latestData.loc[self.latestData["name"] == pPlayerName]
 		return foundPlayer["score"].values[0]
 	def queryPlayerScores(self, pPlayers: pd.DataFrame):
-		players = self.data.loc[self.data["id"] == pPlayers["id"]]
+		players = self.latestData.loc[self.latestData["id"] == pPlayers["id"]]
 		return players["score"]
-	
-	def evaluateModel(self):
-		...
 
 	def find_team(self):
 		self.update_stats()

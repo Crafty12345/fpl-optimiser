@@ -1,6 +1,7 @@
 import platform
 from glob import glob
 import re
+import pandas as pd
 
 def lerp(pMin: float, pMax: float, pPercent: float) -> float:
     return pMin + (pMax - pMin) * pPercent
@@ -36,3 +37,9 @@ def getDataFilesSorted() -> list[dict]:
             raise ValueError(f"Invalid filename {file}")
     filesSorted.sort(key=lambda x: (x["season"], x["gameweek"]))
     return filesSorted
+
+def team_from_code(team_code: int, pTeamData: pd.DataFrame):
+    return pTeamData.loc[pTeamData["code"]==team_code]["short_name"].values[0]
+
+def teamFromId(teamId: int, pTeamData: pd.DataFrame):
+    return pTeamData.loc[pTeamData["id"]==teamId]["short_name"].values[0]

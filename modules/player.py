@@ -38,7 +38,8 @@ class Player():
                  teamName: str,
                  pCombinedScore: float,
                  pIsAvailable: bool,
-                 pStartsPer90: float):
+                 pStartsPer90: float,
+                 pScore: float = 0):
         self.id = id
         self.name = name
         self.cost = cost
@@ -49,7 +50,7 @@ class Player():
         self.position = position
         self.teamName = teamName
         self.combinedScore = pCombinedScore
-        self.score = 0
+        self.score = pScore
         self.captain = False
         self.viceCaptain = False
         self.benchPlayer = False

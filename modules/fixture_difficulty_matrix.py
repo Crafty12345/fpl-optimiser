@@ -44,8 +44,12 @@ class FixtureDifficultyMatrix():
         # The range of gameweeks to get fixture data from
         fixtureRange = range(self.startGameweek, self.endGameweek+1)
         allFixtureDataRaw = []
+        with open("./data/team_translation_table.json") as f:
+            teamNamesJson = json.load(f)[str(self.season)]
+        teamNameDf: pd.DataFrame = pd.DataFrame.from_records(teamNamesJson)
+
         for gameweek in fixtureRange:
-            fixtureDataPath = f"./data/fixture_data/{self.season}/fixture_data_{gameweek}.json"
+            fixtureDataPath = f"./data/raw/fixture_data/{self.season}/fixture_data_{gameweek}.json"
             if(os.path.isfile(fixtureDataPath)):
                 with open(fixtureDataPath) as f:
                     allFixtureDataRaw.append(json.load(f))
@@ -53,8 +57,6 @@ class FixtureDifficultyMatrix():
             else:
                 warn(f"Season {self.season} has no entry for gameweek {gameweek}.")
                 self.fixtureDataExists = False
-        with open("./data/team_translation_table.json") as f:
-            teamNames = json.load(f)[str(self.season)]
 
         numFixtures = len(allFixtureDataRaw)
         sums = dict()
@@ -67,8 +69,12 @@ class FixtureDifficultyMatrix():
             for val in gameweek:
                 currentGameweek = val["event"]
 
-                homeTeam = teamNames[str(val["team_h"])]
-                awayTeam = teamNames[str(val["team_a"])]
+                homeTeamId = val["team_h"]
+                homeTeamName = teamNameDf.loc[teamNameDf["id"]==homeTeamId]["name"].values[0]
+                awayTeamId = val["team_a"]
+                awayTeamName = teamNameDf.loc[teamNameDf["id"]==awayTeamId]["name"].values[0]
+                homeTeam = homeTeamName
+                awayTeam = awayTeamName
 
                 homeTeamDifficulty = self.calcSimpleDifficulty(homeTeam, awayTeam)
                 awayTeamDifficulty = self.calcSimpleDifficulty(awayTeam, homeTeam)
@@ -127,7 +133,6 @@ class FixtureDifficultyMatrix():
             else:
                 self.simpleDifficulties[team] = sum / numFixtures
             self.normalisedDifficulties[team] = lerp(MIN_SCORE_OFFSET, MAX_SCORE_OFFSET, self.simpleDifficulties[team])
-        jsonStr = json.dumps(self.simpleDifficulties,indent=4)
         #print(jsonStr)
 
     def averageDifficulty(self, pDict: dict) -> float:

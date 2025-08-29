@@ -39,7 +39,7 @@ class Team():
         return newTeam
 
     @classmethod
-    def fromNameSet(cls, pSet: set, allPlayerData: pd.DataFrame):
+    def fromNameSet(cls, pSet: set[str], allPlayerData: pd.DataFrame):
         players = []
         for player in pSet:
             _player = Player.fromName(player,allPlayerData)
@@ -50,6 +50,7 @@ class Team():
     def fromDataFrame(cls, pDataFrame: pd.DataFrame):
         players = []
         for index, player in pDataFrame.iterrows():
+            isAvailable = player["status"] == "a"
             newPlayer = Player(player["id"],
                                player["name"],
                                player["cost"],
@@ -58,7 +59,7 @@ class Team():
                                player["points_per_game"],
                                player["form"],
                                Position.fromString(player["position"]),
-                               player["team"], player["combined"])
+                               player["team"], player["score"], isAvailable, player["starts_per_90"], pScore=player["score"])
             players.append(newPlayer)
         return cls.fromPlayerList(players)
 

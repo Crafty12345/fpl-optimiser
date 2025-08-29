@@ -1,8 +1,12 @@
 import pandas as pd
 import os
 import time
+import json
+
 from modules.team_solver import TeamSolver,SolverMode
-from modules.team_predicter import TeamPredicter
+from modules.team_predicter import LinearTeamPredicter
+from modules.forest_team_predicter import RFTeamPredicter
+from modules.team_evaluator import TeamEvaluator
 import config
 # TODO: Output into markdown document
 
@@ -20,22 +24,33 @@ json_filename = f"{resultsDirectory}/results_{CURRENT_DATE}.json"
 with open(json_filename,"w+",encoding="utf-8") as f:
     f.write("{\"data\": []}")
 
-all_teams: list[TeamPredicter] = []
+all_teams: list[TeamSolver] = []
 
-team_solver = TeamPredicter("combined",SolverMode.CHEAPEST_FIRST,verbose=True)
+team_solver = LinearTeamPredicter("combined",SolverMode.CHEAPEST_FIRST,verbose=True)
 all_teams.append(team_solver)
 
-team_solver = TeamPredicter("combined",SolverMode.HIGHEST_COST_FIRST,verbose=True)
+team_solver = LinearTeamPredicter("combined",SolverMode.HIGHEST_COST_FIRST,verbose=True)
 all_teams.append(team_solver)
 
-for team in all_teams:
+rfTeam = RFTeamPredicter("combined",SolverMode.CHEAPEST_FIRST,verbose=True)
+all_teams.append(rfTeam)
+
+rfTeam = RFTeamPredicter("combined",SolverMode.HIGHEST_COST_FIRST,verbose=True)
+all_teams.append(rfTeam)
+
+resultList: list[dict] = []
+
+for (i, team) in enumerate(all_teams):
      # TODO: Somehow combine team.train() and team.find_team() into one method
-     team.train()
-     team.find_team()
-     team.save_summary(summary_filename,date=CURRENT_DATE)
-     team.to_json(json_filename)
+     # TODO: Make HTML outputting more expandable
+     evaluator = TeamEvaluator()
+     accuracy: float = evaluator.evaluateAndTrain(team)
+     team.setAccuracy(accuracy)
+     team.save_summary(summary_filename,date=CURRENT_DATE, pIndex=i)
+     resultList.append(team.toDict())
     
-all_teams[0].saveCalculations(calculationsFilename)
+with open(json_filename, "w+") as f:
+    json.dump(resultList, f, indent=4)
 
 endTime = time.perf_counter()
 elapsedTime = endTime - startTime

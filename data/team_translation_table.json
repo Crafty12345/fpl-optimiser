@@ -1,46 +1,206 @@
 {
-    "25": {
-        "1": "ARS",
-        "2": "AVL",
-        "3": "BOU",
-        "4": "BRE",
-        "5": "BHA",
-        "6": "CHE",
-        "7": "CRY",
-        "8": "EVE",
-        "9": "FUL",
-        "10": "IPS",
-        "11": "LEI",
-        "12": "LIV",
-        "13": "MCI",
-        "14": "MUN",
-        "15": "NEW",
-        "16": "NFO",
-        "17": "SOU",
-        "18": "TOT",
-        "19": "WHU",
-        "20": "WOL"
-    },
-    "26": {
-        "1": "ARS",
-        "2": "AVL",
-        "3": "BHA",
-        "4": "BOU",
-        "5": "BRE",
-        "6": "BUR",
-        "7": "CHE",
-        "8": "CRY",
-        "9": "EVE",
-        "10": "FUL",
-        "11": "LEE",
-        "12": "LIV",
-        "13": "MCI",
-        "14": "MUN",
-        "15": "NEW",
-        "16": "NFO",
-        "17": "TOT",
-        "18": "SUN",
-        "19": "WHU",
-        "20": "WOL"
-    }
+    "25": [
+        {
+            "code": 3,
+            "id": 1,
+            "name": "ARS"
+        },
+        {
+            "code": 7,
+            "id": 2,
+            "name": "AVL"
+        },
+        {
+            "code": 91,
+            "id": 3,
+            "name": "BOU"
+        },
+        {
+            "code": 94,
+            "id": 4,
+            "name": "BRE"
+        },
+        {
+            "code": 36,
+            "id": 5,
+            "name": "BHA"
+        },
+        {
+            "code": 8,
+            "id": 6,
+            "name": "CHE"
+        },
+        {
+            "code": 31,
+            "id": 7,
+            "name": "CRY"
+        },
+        {
+            "code": 11,
+            "id": 8,
+            "name": "EVE"
+        },
+        {
+            "code": 54,
+            "id": 9,
+            "name": "FUL"
+        },
+        {
+            "code": 40,
+            "id": 10,
+            "name": "IPS"
+        },
+        {
+            "code": 13,
+            "id": 11,
+            "name": "LEI"
+        },
+        {
+            "code": 14,
+            "id": 12,
+            "name": "LIV"
+        },
+        {
+            "code": 43,
+            "id": 13,
+            "name": "MCI"
+        },
+        {
+            "code": 1,
+            "id": 14,
+            "name": "MUN"
+        },
+        {
+            "code": 4,
+            "id": 15,
+            "name": "NEW"
+        },
+        {
+            "code": 17,
+            "id": 16,
+            "name": "NFO"
+        },
+        {
+            "code": 20,
+            "id": 17,
+            "name": "SOU"
+        },
+        {
+            "code": 6,
+            "id": 18,
+            "name": "TOT"
+        },
+        {
+            "code": 21,
+            "id": 19,
+            "name": "WHU"
+        },
+        {
+            "code": 39,
+            "id": 20,
+            "name": "WOL"
+        }
+    ],
+    "26": [
+        {
+            "code": 3,
+            "id": 1,
+            "name": "ARS"
+        },
+        {
+            "code": 7,
+            "id": 2,
+            "name": "AVL"
+        },
+        {
+            "code": 90,
+            "id": 3,
+            "name": "BUR"
+        },
+        {
+            "code": 91,
+            "id": 4,
+            "name": "BOU"
+        },
+        {
+            "code": 94,
+            "id": 5,
+            "name": "BRE"
+        },
+        {
+            "code": 36,
+            "id": 6,
+            "name": "BHA"
+        },
+        {
+            "code": 8,
+            "id": 7,
+            "name": "CHE"
+        },
+        {
+            "code": 31,
+            "id": 8,
+            "name": "CRY"
+        },
+        {
+            "code": 11,
+            "id": 9,
+            "name": "EVE"
+        },
+        {
+            "code": 54,
+            "id": 10,
+            "name": "FUL"
+        },
+        {
+            "code": 2,
+            "id": 11,
+            "name": "LEE"
+        },
+        {
+            "code": 14,
+            "id": 12,
+            "name": "LIV"
+        },
+        {
+            "code": 43,
+            "id": 13,
+            "name": "MCI"
+        },
+        {
+            "code": 1,
+            "id": 14,
+            "name": "MUN"
+        },
+        {
+            "code": 4,
+            "id": 15,
+            "name": "NEW"
+        },
+        {
+            "code": 17,
+            "id": 16,
+            "name": "NFO"
+        },
+        {
+            "code": 56,
+            "id": 17,
+            "name": "SUN"
+        },
+        {
+            "code": 6,
+            "id": 18,
+            "name": "TOT"
+        },
+        {
+            "code": 21,
+            "id": 19,
+            "name": "WHU"
+        },
+        {
+            "code": 39,
+            "id": 20,
+            "name": "WOL"
+        }
+    ]
 }
