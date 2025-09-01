@@ -30,7 +30,7 @@ class RFTeamPredicter(TeamSolver):
             pToPredict: list[int] | None = None):
         super().__init__(pHeuristic, pSolverMode, verbose, pLabel)
 
-        xCols = ["id", "ict_index", "gameweek", "season", "form", "starts_per_90", "position", "team", "opposing_team", "status"]
+        xCols = ["name", "id", "ict_index", "gameweek", "season", "form", "starts_per_90", "position", "team", "opposing_team", "status"]
         yCols = ["total_points"]
         allCols = xCols + yCols
         tempDf = pd.DataFrame(columns=allCols)
@@ -46,20 +46,21 @@ class RFTeamPredicter(TeamSolver):
         xTrain, xTest, yTrain, yTest = train_test_split(x, y, test_size=0.2, random_state=19)
         
         yTrain: pd.Series = yTrain
-        regressor = RandomForestRegressor(random_state=13)
+        self.regressor = RandomForestRegressor(random_state=13)
         
-        regressor = regressor.fit(xTrain, np.ravel(yTrain.values))
+        self.regressor = self.regressor.fit(xTrain, np.ravel(yTrain.values))
 
         treeLimit = 10
-        assert treeLimit < len(regressor.estimators_)
+        assert treeLimit < len(self.regressor.estimators_)
         for i in range(treeLimit):
-            tree = regressor.estimators_[i]
+            tree = self.regressor.estimators_[i]
             export_graphviz(tree, f"trees/tree{i}.dot", feature_names=x.columns, label="all", filled=True)
-            subprocess.run(["rm", f"trees/tree{i}.dot"])
             subprocess.run(["dot", "-Tpng", f"trees/tree{i}.dot", "-o", f"trees/tree{i}.png"])
-        yPredicted = regressor.predict(xTest)
+            subprocess.run(["rm", f"trees/tree{i}.dot"])
+        yPredicted = self.regressor.predict(xTest)
         mse = mean_squared_error(yTest, yPredicted)
         r2 = r2_score(yTest, yPredicted)
+        print(f"r2={r2}")
         self.setAccuracy(r2)
 
 
@@ -75,15 +76,15 @@ class RFTeamPredicter(TeamSolver):
         with open(f"./data/fixtures.json", "r") as f:
             fixtureJsonRaw = json.load(f)
         fixtureJsonRaw = fixtureJsonRaw[str(latestSeason)][str(nextWeek)]
-        fixtureDf: pd.DataFrame = pd.DataFrame.from_records(fixtureJsonRaw)
+        self.fixtureDf: pd.DataFrame = pd.DataFrame.from_records(fixtureJsonRaw)
         with open("./data/team_translation_table.json", "r") as f:
             teamDataJson: dict = json.load(f)
-        teamDataDf: pd.DataFrame = pd.DataFrame.from_records(teamDataJson[str(latestSeason)])
-        opposingTeams = xForPredict["team"].apply(lambda x: getOpposingTeam(x, fixtureDf))
+        #teamDataDf: pd.DataFrame = pd.DataFrame.from_records(teamDataJson[str(latestSeason)])
+        opposingTeams = xForPredict["team"].apply(lambda x: getOpposingTeam(x, self.fixtureDf))
         xForPredict["opposing_team"] = opposingTeams
         xForPredict = pd.get_dummies(xForPredict)
         
-        futureScores = regressor.predict(xForPredict)
+        futureScores = self.regressor.predict(xForPredict)
         dfCopy: pd.DataFrame = xForPredict
         dfCopy["temp"] = futureScores
         dfCopy.apply(self.updateScores, axis=1)
@@ -91,6 +92,7 @@ class RFTeamPredicter(TeamSolver):
 
     def updateScores(self, pScore: pd.DataFrame):
         _id = pScore["id"]
+        #name = pScore["name"]
         _score = pScore["temp"]
         self.latestData.loc[self.latestData["id"]==_id, "score"] = _score
 

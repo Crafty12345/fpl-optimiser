@@ -195,32 +195,39 @@ teamDict: dict[int, dict] = dict()
 
 for (i, file) in enumerate(filteredFiles):
 
+    ignoreFile = False
+
     # Cast to Python `int` to fix compatibility with 
     gameweek = int(file["gameweek"])
     season = int(file["season"])
     teamDf = pd.DataFrame.from_records(file["teams"])
 
-    if season not in allJsonData.keys():
-        allJsonData[season] = dict()
-    allJsonData[season][gameweek] = dict()
+    # Ignore files where opposing team is unknown
+    if((file["data"]["opposing_team"]=="UNK").all()):
+        ignoreFile = True
 
-    # If all players' form == 0.0, then use form of previous gameweek
-    if (file["data"]["form"] == 0.0).all():
-        assert previousForm is not None
-        averageForm = previousForm["form"].mean()
-        file["data"] = file["data"].merge(previousForm, on="name")
-        file["data"]["form_x"] = file["data"]["form_y"]
-        file["data"] = file["data"].drop(["form_y"], axis="columns")
-        file["data"] = file["data"].rename({"form_x": "form"}, axis="columns")
+    if not ignoreFile:
+        if season not in allJsonData.keys():
+            allJsonData[season] = dict()
+        allJsonData[season][gameweek] = dict()
 
-    else:
-        previousForm = file["data"][["name", "form"]]
+        # If all players' form == 0.0, then use form of previous gameweek
+        if (file["data"]["form"] == 0.0).all():
+            assert previousForm is not None
+            averageForm = previousForm["form"].mean()
+            file["data"] = file["data"].merge(previousForm, on="name")
+            file["data"]["form_x"] = file["data"]["form_y"]
+            file["data"] = file["data"].drop(["form_y"], axis="columns")
+            file["data"] = file["data"].rename({"form_x": "form"}, axis="columns")
 
-    file["data"] = file["data"].sort_values(by="id")
+        else:
+            previousForm = file["data"][["name", "form"]]
 
-    # Fixes an issue where Python's `json` library expects a Python int (not int64 which is used by Pandas)
-    tempDict: dict = file["data"].to_dict(orient="records")
-    allJsonData[season][gameweek] = tempDict
+        file["data"] = file["data"].sort_values(by="id")
+
+        # Fixes an issue where Python's `json` library expects a Python int (not int64 which is used by Pandas)
+        tempDict: dict = file["data"].to_dict(orient="records")
+        allJsonData[season][gameweek] = tempDict
     
 
     # TODO: Fix this bit
