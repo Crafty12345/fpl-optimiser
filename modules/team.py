@@ -101,6 +101,7 @@ class Team():
                 return Team.fromPlayerList(self.midfielders)
             
     def getPlayersListByPosition(self, pPosition: Position) -> list[Player]:
+        # TODO: Replace this with strategy pattern
         match pPosition:
             case Position.GKP:
                 return self.goalkeepers

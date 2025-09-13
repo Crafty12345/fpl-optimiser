@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.tree import export_graphviz
+from sklearn.model_selection import GridSearchCV
 import numpy as np
 import json
 import subprocess
@@ -46,17 +47,32 @@ class RFTeamPredicter(TeamSolver):
         xTrain, xTest, yTrain, yTest = train_test_split(x, y, test_size=0.2, random_state=19)
         
         yTrain: pd.Series = yTrain
-        self.regressor = RandomForestRegressor(random_state=13)
+        # TODO: Hyperparameter tuning
+        paramGrid = {
+            "n_estimators": [50, 100, 150],
+            "max_depth": [5,10,15],
+            "min_samples_split": [2,5,10],
+            "min_samples_leaf": [1,2,4]
+        }
+
+        regressor = RandomForestRegressor(random_state=13)
         
-        self.regressor = self.regressor.fit(xTrain, np.ravel(yTrain.values))
+        regressor = regressor.fit(xTrain, np.ravel(yTrain.values))
+
+        self.regressor = GridSearchCV(estimator=regressor, param_grid=paramGrid, cv=3, scoring="neg_mean_squared_error", n_jobs=-1)
+        self.regressor.fit(xTrain, np.ravel(yTrain.values))
+
 
         treeLimit = 10
-        assert treeLimit < len(self.regressor.estimators_)
+        estimator = self.regressor.best_estimator_
+        assert treeLimit < len(estimator.estimators_)
+
         for i in range(treeLimit):
-            tree = self.regressor.estimators_[i]
+            tree = estimator.estimators_[i]
             export_graphviz(tree, f"trees/tree{i}.dot", feature_names=x.columns, label="all", filled=True)
             subprocess.run(["dot", "-Tpng", f"trees/tree{i}.dot", "-o", f"trees/tree{i}.png"])
             subprocess.run(["rm", f"trees/tree{i}.dot"])
+
         yPredicted = self.regressor.predict(xTest)
         mse = mean_squared_error(yTest, yPredicted)
         r2 = r2_score(yTest, yPredicted)

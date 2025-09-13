@@ -1,4 +1,6 @@
 from modules.player import Player
+from modules.fixture_difficulty_matrix import FixtureDifficultyMatrix
+
 
 class Transfer():
     def __init__(self, pOldPlayer: Player, pNewPlayer: Player):
@@ -25,3 +27,8 @@ class Transfer():
         string += f"- Cost change: {self.costDif}\n"
         string += f"- Score change: {round(self.scoreDif,2)}"
         return string
+
+
+    def updateFixtureDifficulties(self, pMatrix: FixtureDifficultyMatrix):
+        self.oldPlayer.recalculateFixtureDifficulty(pMatrix)
+        self.newPlayer.recalculateFixtureDifficulty(pMatrix)
