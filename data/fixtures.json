@@ -1877,52 +1877,52 @@
         "4": [
             {
                 "away_team": "NFO",
-                "finished": false,
+                "finished": true,
                 "home_team": "ARS"
             },
             {
                 "away_team": "BHA",
-                "finished": false,
+                "finished": true,
                 "home_team": "BOU"
             },
             {
                 "away_team": "SUN",
-                "finished": false,
+                "finished": true,
                 "home_team": "CRY"
             },
             {
                 "away_team": "AVL",
-                "finished": false,
+                "finished": true,
                 "home_team": "EVE"
             },
             {
                 "away_team": "LEE",
-                "finished": false,
+                "finished": true,
                 "home_team": "FUL"
             },
             {
                 "away_team": "WOL",
-                "finished": false,
+                "finished": true,
                 "home_team": "NEW"
             },
             {
                 "away_team": "TOT",
-                "finished": false,
+                "finished": true,
                 "home_team": "WHU"
             },
             {
                 "away_team": "CHE",
-                "finished": false,
+                "finished": true,
                 "home_team": "BRE"
             },
             {
                 "away_team": "LIV",
-                "finished": false,
+                "finished": true,
                 "home_team": "BUR"
             },
             {
                 "away_team": "MUN",
-                "finished": false,
+                "finished": true,
                 "home_team": "MCI"
             }
         ],
@@ -2132,6 +2132,58 @@
                 "away_team": "BRE",
                 "finished": false,
                 "home_team": "WHU"
+            }
+        ],
+        "9": [
+            {
+                "away_team": "WHU",
+                "finished": false,
+                "home_team": "LEE"
+            },
+            {
+                "away_team": "SUN",
+                "finished": false,
+                "home_team": "CHE"
+            },
+            {
+                "away_team": "FUL",
+                "finished": false,
+                "home_team": "NEW"
+            },
+            {
+                "away_team": "BHA",
+                "finished": false,
+                "home_team": "MUN"
+            },
+            {
+                "away_team": "LIV",
+                "finished": false,
+                "home_team": "BRE"
+            },
+            {
+                "away_team": "CRY",
+                "finished": false,
+                "home_team": "ARS"
+            },
+            {
+                "away_team": "MCI",
+                "finished": false,
+                "home_team": "AVL"
+            },
+            {
+                "away_team": "NFO",
+                "finished": false,
+                "home_team": "BOU"
+            },
+            {
+                "away_team": "BUR",
+                "finished": false,
+                "home_team": "WOL"
+            },
+            {
+                "away_team": "TOT",
+                "finished": false,
+                "home_team": "EVE"
             }
         ]
     }

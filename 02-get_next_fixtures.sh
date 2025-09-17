@@ -17,7 +17,6 @@ do
     curl "https://fantasy.premierleague.com/api/fixtures/?event=$i" -o "data/raw/fixture_data/26/fixture_data_$i.json"
 done
 
-# Account for off-by-1 indexing errors
-curl "https://fantasy.premierleague.com/api/event/${STARTING_GAMEWEEK}/live/" -o "data/raw/weekly_points/26/$((${STARTING_GAMEWEEK}-1)).json"
+curl "https://fantasy.premierleague.com/api/event/${STARTING_GAMEWEEK}/live/" -o "data/raw/weekly_points/26/${STARTING_GAMEWEEK}.json"
 
 echo "All done!"

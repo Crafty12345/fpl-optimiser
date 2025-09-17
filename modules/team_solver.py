@@ -3,12 +3,14 @@ from enum import Enum
 import numpy as np
 import json
 from abc import ABC, abstractmethod
+from copy import deepcopy
 
 import config
 
 pd.options.mode.copy_on_write = True
 
 NUM_GOALKEEPERS = 1
+# TODO: Implement auto-tuning for number of defenders/forwards/mid
 NUM_DEFENDERS = 4
 NUM_FORWARD = 2
 NUM_MID = 4
@@ -32,7 +34,9 @@ class TeamSolver(ABC):
 
 	@abstractmethod
 	def precalcScores(self, pData: pd.DataFrame, pGameweek: int, pSeason: int): raise NotImplementedError()
-	
+	@abstractmethod
+	def updatePredictionData(self, pSeason: int = None, pGameweek: int = None): raise NotImplementedError()
+
 	def __init__(self, pHeuristic: str, pMode: SolverMode, verbose: bool=False, pLabel: str = None):
 		self.accuracy = None
 		if (pLabel is None):
@@ -64,13 +68,32 @@ class TeamSolver(ABC):
 				
 				self.allData.append(currentData)
 				self.sampleSize += 1
-		
+		self.allData = sorted(self.allData,key=lambda x: (x["season"].values[0], x["gameweek"].values[0]))
 		self.latestData: pd.DataFrame = self.allData[-1].copy()
 
 	def calcPScores(self, pSeries: pd.Series) -> pd.Series:
 		stdDev = np.std(pSeries)
 		avg = pSeries.mean()
 		return (pSeries - avg) / stdDev
+	
+	def getDfByWeekAndSeason(self, pSeason: int, pGameweek: int) -> pd.DataFrame:
+		result: pd.DataFrame = None
+		for datum in self.allData:
+			if result is None:
+				if (datum["season"].values[0] == pSeason and datum["gameweek"].values[0] == pGameweek):
+					result = datum
+		return result
+	
+	def updatePredictionData(self, pSeason: int = None, pGameweek: int = None) -> None:
+		selectedDf: pd.DataFrame = None
+		if (pSeason is None and pGameweek is None):
+			self.latestData: pd.DataFrame = self.allData[-1].copy()
+			return
+		selectedDf = self.getDfByWeekAndSeason(pSeason, pGameweek)
+		if (selectedDf is None):
+			print(f"Unable to predict for week {pGameweek} of season {pSeason}")
+		elif selectedDf is not None:
+			self.latestData = selectedDf.copy()
 	
 	def train(self):
 		self.default_players = dict()

@@ -70,7 +70,7 @@ def getOpposingTeam(pPlayingTeamCode: int, pTeamData: pd.DataFrame, pFixtureData
         # There may be weeks in which teams don't have a game
         return "UNK"
 
-def processFile(pDate: RawPlayerDataFile) -> pd.DataFrame:
+def processFile(pDate: RawPlayerDataFile, pOldData: list[dict]) -> pd.DataFrame:
     '''
     Function to clean data
     '''
@@ -127,11 +127,10 @@ def processFile(pDate: RawPlayerDataFile) -> pd.DataFrame:
     player_data = player_data.rename(columns={"first_name": "name"})
 
     player_data["form"] = pd.to_numeric(player_data["form"])
-    # Default to NaN in order to ensure data integrity (model accuracy may be incorrect if defaulted to 0)
-    player_data["points_last_week"] = np.nan
+    
+    player_data["points_this_week"] = 0
 
-    previousGameweek: int = currentGameweek - 1
-    actualPointsFilename: str = f"./data/raw/weekly_points/{pDate.season.endYear}/{previousGameweek}.json"
+    actualPointsFilename: str = f"./data/raw/weekly_points/{pDate.season.endYear}/{currentGameweek}.json"
     if(os.path.isfile(actualPointsFilename)):
         with open(actualPointsFilename, "r") as f:
             actualPointsAllTemp = json.load(f)
@@ -139,8 +138,15 @@ def processFile(pDate: RawPlayerDataFile) -> pd.DataFrame:
         for tempDict in actualPointsAll:
             _id = tempDict["id"]
             receivedPoints: float = tempDict["stats"]["total_points"]
-            player_data.loc[player_data["id"]==_id, "points_last_week"] = receivedPoints
-        player_data["points_last_week"] = player_data["points_last_week"].fillna(0.0)
+            player_data.loc[player_data["id"]==_id, "points_this_week"] = receivedPoints
+        player_data["points_this_week"] = player_data["points_this_week"].fillna(0.0)
+    else:
+        for temp in pOldData:
+            playerId = int(temp["id"])
+            pointsAtGameweek = temp["gw_points"].get(str(currentGameweek), 0)
+            # Fix an edge case where some players may not play anymore
+            if (playerId in player_data["id"]):
+                player_data.loc[player_data["id"]==playerId, "points_this_week"] = pointsAtGameweek
 
     # if (pDate.season.endYear == 26):
     #     print(player_data.loc[player_data["name"]=="Alexander Isak"])
@@ -172,12 +178,14 @@ def filterDuplicates(pToFilter: list[DataFile]):
 
 allFiles = glob("./data/raw/player_stats/**-**/*.json")\
 
-# Source: https://fantasy.premierleague.com/api/bootstrap-static/
+with open("./data/raw/old_data/24-25.json", "r") as f:
+    old2024Data = json.load(f)["matrix"]
 
+# Source: https://fantasy.premierleague.com/api/bootstrap-static/
 filesSorted: list[RawFixtureDataFile] = sortFiles(allFiles)
 filesProcessed = []
 for i, fileName in enumerate(filesSorted):
-    data, gameweek, teams = processFile(fileName)
+    data, gameweek, teams = processFile(fileName, old2024Data)
     filesProcessed.append({
         "gameweek": gameweek,
         "season": fileName.season.endYear,

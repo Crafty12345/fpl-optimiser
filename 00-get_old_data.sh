@@ -1,0 +1,1 @@
+curl https://www.fantasynutmeg.com/api/history/season/2024-25 -o ./data/raw/old_data/24-25.json
