@@ -109,19 +109,16 @@ class TeamSolver(ABC):
 		self.default_players["MID"] = mid.sort_values(by="score",ascending=False)
 
 		self.budget = MAX_BUDGET
-		self.get_bench()
+		# TODO: Combine bench players into regular team DF
 
 		self.players: dict[str,pd.DataFrame] = dict()
-		default_not_bench = self.default_players.copy()
-		for position in default_not_bench.keys():
-			temp_players = default_not_bench[position]
-			default_not_bench[position] = temp_players.loc[~temp_players["id"].isin(self.bench["id"])]
 		
-		self.players["GKP"] = default_not_bench["GKP"][0:NUM_GOALKEEPERS]
-		self.players["DEF"] = default_not_bench["DEF"][0:NUM_DEFENDERS]
-		self.players["FWD"] = default_not_bench["FWD"][0:NUM_FORWARD]
-		self.players["MID"] = default_not_bench["MID"][0:NUM_MID]
-		self.validate_team()
+		# Add 1 for bench
+		self.players["GKP"] = self.default_players["GKP"][0:NUM_GOALKEEPERS+1]
+		self.players["DEF"] = self.default_players["DEF"][0:NUM_DEFENDERS+1]
+		self.players["FWD"] = self.default_players["FWD"][0:NUM_FORWARD+1]
+		self.players["MID"] = self.default_players["MID"][0:NUM_MID+1]
+		#self.validate_team()
 
 		self.total_cost = self.sum_stat("cost")
 		self.total_score = self.sum_stat("score")
@@ -152,21 +149,6 @@ class TeamSolver(ABC):
 		maxScorePlayerIndex = minCostPlayers["score"].argmax()
 		maxScorePlayer = minCostPlayers.iloc[[maxScorePlayerIndex]]
 		return maxScorePlayer
-
-	def get_bench(self):
-		'''
-		Get average players to put on bench, in order to allow more budget to be spent on players who are actually playing
-		'''
-		forward = self.get_bench_player("FWD")
-		mid = self.get_bench_player("MID")
-		defender = self.get_bench_player("DEF")
-		goalkeeper = self.get_bench_player("GKP")
-
-		players = pd.concat([forward,mid,defender,goalkeeper])
-		self.bench_cost = players["cost"].sum()
-		self.budget = MAX_BUDGET - self.bench_cost
-		self.bench: pd.DataFrame = players
-		pass
 	
 	def sum_stat(self, column: str):
 		'''
@@ -186,17 +168,30 @@ class TeamSolver(ABC):
 		pointsPerGamePScores = self.calcPScores(pData["points_per_game"])
 		return ictIndexPScores + totalPointsPScores + pointsPerGamePScores
 	
-	def sum_bench_column(self,column: str) -> float:
-		return self.bench[column].sum()
-	
 	def concat_team(self):
 		return pd.concat(position for position in self.players.values())
-	def getTeam(self) -> dict[str, dict]:
+	
+	def getTeam(self) -> pd.DataFrame:
 		final_team = self.concat_team()
-		return {
-			"team": final_team,
-			"bench": self.bench
-		}
+		return final_team
+	def worstOfPosition(self, pPosition: str) -> pd.Series:
+		return self.players[pPosition][self.score_heuristic].idxmin()
+
+	def splitStartBench(self) -> tuple[pd.DataFrame, pd.DataFrame]:
+		dfColumns: list[str] = self.players["FWD"].columns
+		starting: pd.DataFrame = pd.DataFrame(columns=dfColumns)
+		bench: pd.DataFrame = pd.DataFrame(columns=dfColumns)
+
+		for position in self.players.keys():
+			temp = self.players[position]
+			worst = self.worstOfPosition(position)
+			for (idx, player) in temp.iterrows():
+				if (idx == worst):
+					bench.loc[len(bench)] = player
+				else:
+					starting.loc[len(starting)] = player
+
+		return (starting, bench)
 
 	def get_captain_name(self,team: pd.DataFrame):
 		team = team.sort_values(by="score",ascending=False)
@@ -206,11 +201,14 @@ class TeamSolver(ABC):
 		return team.iloc[1]["name"]
 
 	def team_to_html(self, pIndex: int | None) -> str:
-		final_team = self.concat_team()
-		final_team_html = final_team.to_html()
-		bench_score = self.sum_bench_column("score")
-		total_total_cost = self.total_cost + self.bench_cost
-		total_total_score = self.total_score + bench_score
+		team, bench = self.splitStartBench()
+		final_team_html = team.to_html()
+		bench_score = bench["score"].sum()
+		benchCost = bench["cost"].sum()
+		startingScore = team["score"].sum()
+		startingCost = team["cost"].sum()
+		total_total_cost = self.total_cost
+		total_total_score = self.total_score
 
 		txt = ""
 		if (pIndex is not None):
@@ -219,11 +217,11 @@ class TeamSolver(ABC):
 		<p>Cost: {self.total_cost}</p>
 		<p>Score: {self.total_score}</p>
 		{final_team_html}
-		<p>Suggested captain: {self.get_captain_name(final_team)}</p>
-		<p>Suggested vice captain: {self.get_vice_captain_name(final_team)}</p>
+		<p>Suggested captain: {self.get_captain_name(team)}</p>
+		<p>Suggested vice captain: {self.get_vice_captain_name(team)}</p>
 		<h2>Bench</h2>
-		{self.bench.to_html()}
-		<p>Bench cost: {self.bench_cost}</p>
+		{bench.to_html()}
+		<p>Bench cost: {benchCost}</p>
 		<p>Bench score: {bench_score}</p>
 		<h2>Summary</h2>
 		Total cost: {total_total_cost}
@@ -238,23 +236,21 @@ class TeamSolver(ABC):
 		txt = "\n"
 		txt += f"Cost: {self.total_cost}\n"
 		txt += f"Score: {self.total_score}\n"
-		final_team = self.concat_team()
-		txt += final_team.to_string() + "\n"
-		captain = self.get_captain_name(final_team)
+		team, bench = self.splitStartBench()
+		txt += team.to_string() + "\n"
+		captain = self.get_captain_name(team)
 		txt += f"Suggested captain: {captain}\n"
-		vice_captain = self.get_vice_captain_name(final_team)
+		vice_captain = self.get_vice_captain_name(team)
 		txt += f"Suggested vice captain: {vice_captain}\n\n"
 		txt += "Bench:\n"
-		txt += self.bench.to_string()
-		bench_cost = self.bench_cost
+		txt += bench.to_string()
+		bench_cost = bench["cost"].sum()
 		txt += f"\nBench Cost: {bench_cost}\n"
-		bench_score = self.sum_bench_column("score")
+		bench_score = bench["cost"].sum()
 		txt += f"Bench Score: {bench_score}\n"
 
-		total_total_cost = self.total_cost + bench_cost
-		total_total_score = self.total_score + bench_score
-		txt += f"\nTotal cost: {total_total_cost}"
-		txt += f"\nTotal score: {total_total_score}\n"
+		txt += f"\nTotal cost: {self.total_cost}"
+		txt += f"\nTotal score: {self.total_score}\n"
 		return txt
 	
 	def prettyify_str(self,txt: str):
@@ -266,10 +262,12 @@ class TeamSolver(ABC):
 	def __str__(self) -> str:
 		txt = f"Team Solver '{self.label}' - {self.prettyify_str(self.score_heuristic)} with mode {self.mode}"
 		return txt
-	def setAccuracy(self, pAccuracy: float):
-		self.accuracy = pAccuracy
 	def getAccuracy(self):
 		return self.accuracy
+	def setAccuracy(self, pAccuracy: float):
+		self.accuracy = pAccuracy
+	def setVerbose(self, pVerbose: bool):
+		self.verbose = pVerbose
 	
 	def validate_current_html(self,contents):
 		'''
@@ -337,33 +335,15 @@ f"""
 			case _:
 				raise NotImplementedError(f"File extension '{file_extension}' has not yet been implemented")
 
-	def to_json(self,filename: str) -> None:
-		with open(filename,"r") as f:
-			json_data = json.load(f)
-		
-		team = self.concat_team()
-		bench_temp = self.bench
-		bench_temp["is_benched"] = True
-		team["is_benched"] = False
-		team = pd.concat([team,bench_temp])
-		#print(team["status"])
-		team = team.sort_values(by=["position","is_benched","score"])
-		team = team.drop(columns=["value"])
- 
-		team_json = team.to_dict(orient="records")
-		json_data["data"].append(team_json)
-		json_str = json.dumps(json_data,indent=4)
-		with open(filename,"w+") as f:
-			f.write(json_str)
 	def toDict(self) -> dict:
-		team = self.concat_team()
-		bench_temp = self.bench
-		bench_temp["is_benched"] = True
-		team["is_benched"] = False
-		team = pd.concat([team,bench_temp])
+		start, bench = self.splitStartBench()
+		bench["is_benched"] = True
+		start["is_benched"] = False
+		team = pd.concat([start,bench])
 		#print(team["status"])
 		team = team.sort_values(by=["position","is_benched","score"])
-		team = team.drop(columns=["value"])
+		if "value" in team.columns:
+			team = team.drop(columns=["value"])
  
 		teamDict: dict = team.to_dict(orient="records")
 		otherData: dict = self.latestData.to_dict(orient="records")
@@ -371,10 +351,6 @@ f"""
 			"team": teamDict,
 			"players": otherData
 		}
-
-
-	#def saveCalculations(self, filename: str) -> None:
-	#	self.data.to_json(filename, orient="records")
 
 	def check_players(self,position):
 		match position:
@@ -388,18 +364,23 @@ f"""
 				assert len(self.players[position]) == NUM_MID
 
 	def adjust_players(self,cost,id, position: str, current_score: float, score_threshold: float = 1.0) -> bool:
-		PLAY_PERCENT_THRESHOLD = 0.99
+		MINS_THREHSHOLD = 0.5
 		old_players = self.players[position]
 		self.players[position] = self.players[position][self.players[position]["id"]!=id]
 		new_players = self.default_players[position][(self.default_players[position]["cost"] < cost)]
-		new_players = new_players.loc[(new_players["form"] >= 1.0) & (new_players["starts_per_90"] >= PLAY_PERCENT_THRESHOLD)]
-		new_players = new_players[~(new_players["id"].isin(self.players[position]["id"])) & ~(new_players["id"].isin(self.bench["id"]))]
+		# TODO: Fix bug where players with 0 play chance are being selected
+		new_players = new_players.loc[(new_players["form"] > 0.0) & (new_players["play_percent"] >= MINS_THREHSHOLD)]
+		new_players = new_players[~(new_players["id"].isin(self.players[position]["id"]))]
 		new_players = new_players.sort_values(by="score",ascending=False)
-		#print(new_players)
+		if (position == "DEF" and self.label =="Random Forest"):
+			print(new_players)
 		#print("test")
 		new_players = new_players.head(1)
 		#assert new_players["id"].values[0] != 315.0
 		if(len(new_players) == 0):
+			#if position == "DEF":
+			#	print("WARNING: Unable to find players who fit all criteria")
+			#	...
 			self.players[position] = old_players
 			return False
 		self.players[position] = pd.concat([self.players[position],new_players])
@@ -407,7 +388,8 @@ f"""
 		return True
 
 	def print_summary(self):
-		print("Iteration:",str(self.iter)+"\tCost:",str(self.total_cost) + "\tTotal Score:",str(self.total_score) + "\tProfit:",str(self.profit))
+		actualTotalCost = self.total_cost
+		print("Iteration:",str(self.iter)+"\tCost:",str(actualTotalCost) + "\tTotal Score:",str(self.total_score) + "\tProfit:",str(self.profit))
 
 	def get_nth_most_expensive(self,team: pd.DataFrame, n: int):
 		assert (n < len(team)) and (n >= 0)
@@ -425,6 +407,8 @@ f"""
 		return nth_cheapest
 
 	def adjust_team(self,n: int, num_recursions: int = 0):
+		# TODO: Refactor program so that starting team and bench team are stored in the same DF
+		# This would make it so that when doing `get_nth_cheapest()`/`get_nth_most_expensive()`, benches will be taken into account too
 		team = self.concat_team()
 		#print(team)
 		n = min(n,len(team)-1)
@@ -458,9 +442,9 @@ f"""
 		worst_player = self.get_worst_player(team)
 		worst_player_position = worst_player["position"]
 		options = self.default_players[worst_player_position]
-		options = options.loc[~(options["id"].isin(team["id"])) & ~(options["id"].isin(self.bench["id"]))]
+		options = options.loc[~(options["id"].isin(team["id"]))]
 		actual_options = options.loc[options["score"] > worst_player["score"]]
-		amount_remaining = MAX_BUDGET - (self.bench_cost + self.total_cost)
+		amount_remaining = MAX_BUDGET - self.total_cost
 		if len(actual_options) > 0:
 			max_price = worst_player["cost"] + amount_remaining
 			actual_options = actual_options.loc[actual_options["cost"] <= max_price]
@@ -479,60 +463,12 @@ f"""
 			if(new_team is not None):
 				self.players[position] = new_team
 				self.update_stats()
-		amount_remaining = MAX_BUDGET - (self.bench_cost + self.total_cost)
-		# if amount_remaining > 0:
-		#     new_bench = self.try_replace(self.bench)
-		#     if(new_bench is not None):
-		#         self.bench = new_bench
-		#         self.validate_team()
-		#         self.bench_cost = self.sum_bench_column("cost")
-		
-	def swap_bench(self, old_bench_player: pd.DataFrame, new_bench_player: pd.DataFrame, position: str):
-		'''
-		This method puts `old_bench_player` in the main team and `new_bench_player` in the bench team
-		'''
-		# Remove old bench player from bench
-		old_bench_player_id = old_bench_player["id"].values[0]
-		new_bench_player_id = new_bench_player["id"].values[0]
-
-		self.bench = self.bench.loc[self.bench["id"]!=old_bench_player_id]
-		# Add new bench player to bench
-		self.bench = pd.concat([self.bench,new_bench_player])
-		
-		players = self.players[position]
-		# Remove player who is currently unbenched from unbenched team
-		players = players.loc[players["id"]!=new_bench_player_id]
-		# Add player who used to be benched, to new team
-		players = pd.concat([players,old_bench_player])
-		self.players[position] = players
-		pass
-
-	def manage_bench(self,position: str):
-		'''
-		This method ensures that only worst players are placed on the bench
-		'''
-		current_bench_player = self.bench.loc[self.bench["position"]==position]
-		bench_score = current_bench_player["score"].values[0]
-		
-		players = self.players[position]
-		worst_score_index = players["score"].argmin()
-		if(self.players[position]["score"].iloc[worst_score_index] < bench_score):
-			new_bench_player = self.players[position].iloc[[worst_score_index]]
-			self.swap_bench(current_bench_player,new_bench_player,position)
-		self.bench_cost = self.sum_bench_column("cost")
+		amount_remaining = MAX_BUDGET - self.total_cost
 
 	def update_stats(self):
 		self.total_cost = self.sum_stat("cost")
 		self.total_score = self.sum_stat("score")
 		self.profit = self.budget - self.total_cost
-
-	def validate_team(self):
-		ids = list(self.players.values())
-		for player in ids:
-			_id = player["id"].values[0]
-			for id2 in self.bench["id"]:
-				assert _id != id2, f"Detected duplicate player with id: {_id}"
-		pass
 
 	def removeOutliers(self):
 		positions = {"DEF", "FWD", "MID", "GKP"}
@@ -556,7 +492,7 @@ f"""
 
 	def find_team(self):
 		self.update_stats()
-		amount_remaining = MAX_BUDGET - (self.total_cost + self.bench_cost)
+		amount_remaining = MAX_BUDGET - (self.total_cost)
 		if (self.total_cost <= self.budget):
 			iter = 0
 			while (amount_remaining > MAX_AMT_REMAINING) and (amount_remaining >= 0) and (iter < config.MAX_ITERS):
@@ -564,15 +500,10 @@ f"""
 					print(f"Iter: {iter}")
 				self.backward_adjust()
 				self.update_stats()
-				amount_remaining = MAX_BUDGET - (self.total_cost + self.bench_cost)
+				amount_remaining = MAX_BUDGET - (self.total_cost)
 				iter += 1
-			self.manage_bench("GKP")
-			self.manage_bench("FWD")
-			self.manage_bench("MID")
-			self.manage_bench("DEF")
 
 			self.update_stats()
-			self.bench_cost = self.sum_bench_column("cost")
 
 			if(self.verbose):
 				print("Successfully found team!")

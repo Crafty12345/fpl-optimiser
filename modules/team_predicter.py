@@ -72,8 +72,8 @@ class LinearTeamPredicter(TeamSolver):
 		xToPredict = np.asarray(pX).reshape((1, -1))
 		predictedScore = model.predict(xToPredict).reshape(-1)
 		playerForm = self.latestData.loc[self.latestData["name"] == pPlayer, "form"]
-		playerStartsPer90 = self.latestData.loc[self.latestData["name"] == pPlayer, "starts_per_90"]
-		predictedWeightedScore = predictedScore * playerForm * playerStartsPer90
+		chanceOfPlay = self.latestData.loc[self.latestData["name"] == pPlayer, "play_percent"]
+		predictedWeightedScore = predictedScore * playerForm * chanceOfPlay
 		return predictedWeightedScore
 
 	def updatePredictionData(self, pSeason: int = None, pGameweek: int = None):

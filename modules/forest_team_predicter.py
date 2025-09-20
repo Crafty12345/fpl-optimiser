@@ -23,7 +23,7 @@ class RFTeamPredicter(TeamSolver):
     '''
     Team Predicter using Random Forest Regression
     '''
-    def __init__(self, 
+    def __init__(self,
             pHeuristic: str, 
             pSolverMode: SolverMode, 
             verbose = False, 
@@ -35,7 +35,7 @@ class RFTeamPredicter(TeamSolver):
         self.allDummyColumns: set[str] = set()
         self.idNameDict: dict[int, str] = dict()
 
-        xCols = ["id","ict_index", "team", "gameweek", "season", "form", "starts_per_90", "position", "opposing_team", "status"]
+        xCols = ["id","ict_index", "team", "gameweek", "season", "form", "position", "opposing_team", "play_percent", "status", "clean_sheets", "expected_goals"]
         yCols = ["points_this_week"]
         allCols = xCols + yCols
         tempDf = pd.DataFrame(columns=allCols)
@@ -88,6 +88,7 @@ class RFTeamPredicter(TeamSolver):
         if(self.verbose):
             cvVerboseLevel = 3
 
+        # TODO: Retune hyperparameters with more options, maybe do overnight
         # WARNING: Hyperparameter tuning takes a long time
         if pTuneHypers:
             self.regressor = RandomizedSearchCV(regressor, paramGrid, scoring="r2", cv=3, n_jobs=-1, verbose=cvVerboseLevel, random_state=19)
@@ -112,6 +113,7 @@ class RFTeamPredicter(TeamSolver):
         treeLimit = 5
         assert treeLimit < len(estimator.estimators_)
 
+        print("Saving trees...")
         featureNames = []
         for column in x.columns:
             toAdd: str = column
@@ -125,6 +127,7 @@ class RFTeamPredicter(TeamSolver):
             export_graphviz(tree, f"trees/tree{i}.dot", feature_names=featureNames, label="all", filled=True)
             subprocess.run(["dot", "-Tpng", f"trees/tree{i}.dot", "-o", f"trees/tree{i}.png"])
             subprocess.run(["rm", f"trees/tree{i}.dot"])
+        print("Finished saving trees")
 
         yPredicted = self.regressor.predict(xTest)
         mse = mean_squared_error(yTest, yPredicted)
@@ -132,6 +135,7 @@ class RFTeamPredicter(TeamSolver):
         print(f"r2={r2}")
         self.setAccuracy(r2)
         self.updatePredictionData()
+        self.latestData["score"] *= self.latestData["play_percent"]
 
         # TODO: add calculations to get fixtures for next week
 
@@ -143,7 +147,9 @@ class RFTeamPredicter(TeamSolver):
         _id = pScore["id"]
         #name = pScore["name"]
         _score = pScore["temp"]
-        self.latestData.loc[self.latestData["id"]==_id, "score"] = _score
+        dataLoc = self.latestData["id"]==_id
+        # TODO: Add way to get actual opposing team from `pScore`
+        self.latestData.loc[dataLoc, "score"] = _score
 
     def setDummies(self, pToDummy: pd.DataFrame) -> pd.DataFrame:
         result = pd.get_dummies(pToDummy, columns=self.toDummyColumns)

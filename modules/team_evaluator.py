@@ -3,19 +3,17 @@ import pandas as pd
 from abc import ABC, abstractmethod
 from copy import deepcopy
 
-from modules.team_solver import TeamSolver
+from modules.team_solver import TeamSolver, SolverMode
 from modules.forest_team_predicter import RandomForestRegressor
 
 class TeamEvaluator(TeamSolver):
 	def __init__(self):
-
+		super().__init__(pHeuristic="combined",
+				   		 pMode=SolverMode.CHEAPEST_FIRST,
+						 verbose=False)
 		self.allData = []
-		self.sampleSize = 0
 
-	def evaluateAndTrain(self, pModel: TeamSolver) -> float:
-
-		pModel.train()
-		pModel.find_team()
+	def evaluate(self, pModel: TeamSolver) -> float:
 		_sum: float = 0.0
 		numSamples: int = 0
 
@@ -31,9 +29,12 @@ class TeamEvaluator(TeamSolver):
 					currentData["score"] = currentData["points_this_week"]
 					self.latestData = currentData
 					self.train()
+					self.find_team()
 					tempModel = deepcopy(pModel)
+					tempModel.setVerbose(False)
 					tempModel.updatePredictionData(season, gameweek)
 					tempModel.train()
+					tempModel.find_team()
 					_sum += self.getTeamDiffs(tempModel.getTeam())
 					numSamples += 1
 		if (numSamples > 0):

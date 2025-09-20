@@ -26,26 +26,29 @@ with open(json_filename,"w+",encoding="utf-8") as f:
 
 all_teams: list[TeamSolver] = []
 
-team_solver = LinearTeamPredicter("combined",SolverMode.CHEAPEST_FIRST,verbose=True)
-all_teams.append(team_solver)
+#team_solver = LinearTeamPredicter("combined",SolverMode.CHEAPEST_FIRST,verbose=True)
+#all_teams.append(team_solver)
 
-team_solver = LinearTeamPredicter("combined",SolverMode.HIGHEST_COST_FIRST,verbose=True)
-all_teams.append(team_solver)
+# team_solver = LinearTeamPredicter("combined",SolverMode.HIGHEST_COST_FIRST,verbose=True)
+# all_teams.append(team_solver)
 
-rfTeam = RFTeamPredicter("combined",SolverMode.CHEAPEST_FIRST,verbose=True)
+rfTeam = RFTeamPredicter("score",SolverMode.CHEAPEST_FIRST,verbose=True,pLabel="Random Forest")
 all_teams.append(rfTeam)
 
-rfTeam = RFTeamPredicter("combined",SolverMode.HIGHEST_COST_FIRST,verbose=True)
-all_teams.append(rfTeam)
+# rfTeam = RFTeamPredicter("combined",SolverMode.HIGHEST_COST_FIRST,verbose=True)
+# all_teams.append(rfTeam)
 
 resultList: list[dict] = []
 
 for (i, team) in enumerate(all_teams):
      # TODO: Somehow combine team.train() and team.find_team() into one method
      # TODO: Make HTML outputting more expandable
-     evaluator = TeamEvaluator()
-     accuracy: float = evaluator.evaluateAndTrain(team)
-     team.setAccuracy(accuracy)
+     #evaluator = TeamEvaluator()
+     #accuracy: float = evaluator.evaluate(team)
+     team.train()
+     team.find_team()
+
+     #team.setAccuracy(accuracy)
      team.save_summary(summary_filename,date=CURRENT_DATE, pIndex=i)
      resultList.append(team.toDict())
     
