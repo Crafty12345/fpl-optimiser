@@ -32,8 +32,8 @@ all_teams.append(team_solver)
 team_solver = LinearTeamPredicter("combined",SolverMode.HIGHEST_COST_FIRST,verbose=True)
 all_teams.append(team_solver)
 
-#rfTeam = RFTeamPredicter("combined",SolverMode.CHEAPEST_FIRST,verbose=True)
-#all_teams.append(rfTeam)
+rfTeam = RFTeamPredicter("combined",SolverMode.CHEAPEST_FIRST,verbose=True)
+all_teams.append(rfTeam)
 
 rfTeam = RFTeamPredicter("combined",SolverMode.HIGHEST_COST_FIRST,verbose=True)
 all_teams.append(rfTeam)

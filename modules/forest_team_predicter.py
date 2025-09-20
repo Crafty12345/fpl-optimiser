@@ -35,7 +35,7 @@ class RFTeamPredicter(TeamSolver):
         self.allDummyColumns: set[str] = set()
         self.idNameDict: dict[int, str] = dict()
 
-        xCols = ["id","ict_index", "gameweek", "season", "form", "starts_per_90", "position", "team", "opposing_team", "status"]
+        xCols = ["id","ict_index", "team", "gameweek", "season", "form", "starts_per_90", "position", "opposing_team", "status"]
         yCols = ["points_this_week"]
         allCols = xCols + yCols
         tempDf = pd.DataFrame(columns=allCols)
@@ -49,11 +49,11 @@ class RFTeamPredicter(TeamSolver):
 
             currentPlayers = set(datum["id"].apply(lambda x: "id_" + str(x)))
 
-            currentTeams = set(datum["team"].apply(lambda x: "team_" + x))
+            #currentTeams = set(datum["team"].apply(lambda x: "team_" + x))
             currentOpposingTeams = set(datum["opposing_team"].apply(lambda x: "opposing_team_" + x))
             currentStatuses = set(datum["status"].apply(lambda x: "status_" + x))
             self.allDummyColumns = self.allDummyColumns.union(currentPlayers)
-            self.allDummyColumns = self.allDummyColumns.union(currentTeams)
+            #self.allDummyColumns = self.allDummyColumns.union(currentTeams)
             self.allDummyColumns = self.allDummyColumns.union(currentOpposingTeams)
             self.allDummyColumns = self.allDummyColumns.union(currentStatuses)
 
@@ -61,8 +61,9 @@ class RFTeamPredicter(TeamSolver):
         
         y: pd.DataFrame = tempDf[yCols]
         self.x: pd.DataFrame = tempDf.drop(columns=yCols)
-        self.toDummyColumns = ["id", "position", "team", "opposing_team", "status"]
-        x = self.setDummies(self.x)
+        x = self.x.drop(columns=["team"])
+        self.toDummyColumns = ["id", "position", "opposing_team", "status"]
+        x = self.setDummies(x)
 
         # TODO: Make sure there is a column for ALL unique players (across all gameweeks, all seasons)
         # This would fix a bug caused by differences in the number of players
@@ -108,7 +109,7 @@ class RFTeamPredicter(TeamSolver):
             estimator = self.regressor
         print("Finished fitting model.")
 
-        treeLimit = 10
+        treeLimit = 5
         assert treeLimit < len(estimator.estimators_)
 
         featureNames = []
@@ -146,10 +147,12 @@ class RFTeamPredicter(TeamSolver):
 
     def setDummies(self, pToDummy: pd.DataFrame) -> pd.DataFrame:
         result = pd.get_dummies(pToDummy, columns=self.toDummyColumns)
+        colsToAdd = list()
         xCols: set[str] = set(result.columns)
         for col in self.allDummyColumns:
             if col not in xCols:
-                result[col] = 0
+                colsToAdd.append(col)
+        result = pd.concat([result, pd.DataFrame([{col:0 for col in colsToAdd}])], axis=1)
         result = result.reindex(sorted(result.columns), axis=1)
         return result
 
@@ -195,13 +198,14 @@ class RFTeamPredicter(TeamSolver):
         #teamDataDf: pd.DataFrame = pd.DataFrame.from_records(teamDataJson[str(latestSeason)])
         opposingTeams = xForPredict["team"].apply(lambda x: getOpposingTeam(x, self.fixtureDf))
         xForPredict["opposing_team"] = opposingTeams
+        xForPredict = xForPredict.drop(columns=["team"])
         xForPredict = self.setDummies(xForPredict)
         #if (len(xForPredict.columns) != len(self.tempColumns)):
         #    print(f"xForPredict.columns={xForPredict.columns}")
         #    print(f"Column mismatch: xForPredict has {len(xForPredict.columns)}, and pd.get_dummies(self.x) has {len(pd.get_dummies(self.x).columns)}")
         
         futureScores = self.regressor.predict(xForPredict)
-        dfCopy: pd.DataFrame = xForPredict
+        dfCopy: pd.DataFrame = xForPredict.copy()
         dfCopy["temp"] = futureScores
         # TODO: Fix `PerformanceWarning`
         dfCopy["id"] = IDs
