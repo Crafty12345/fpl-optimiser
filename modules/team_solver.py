@@ -11,8 +11,8 @@ pd.options.mode.copy_on_write = True
 
 NUM_GOALKEEPERS = 1
 # TODO: Implement auto-tuning for number of defenders/forwards/mid
-NUM_DEFENDERS = 4
-NUM_FORWARD = 2
+NUM_DEFENDERS = 3
+NUM_FORWARD = 3
 NUM_MID = 4
 
 MAX_BUDGET = 1000
@@ -97,7 +97,8 @@ class TeamSolver(ABC):
 	
 	def train(self):
 		self.default_players = dict()
-
+		self.latestData = self.latestData.set_index(self.latestData["id"])
+		assert (self.latestData["id"].values == self.latestData.index.values).all()
 		goalkeepers = self.latestData.loc[self.latestData["position"]=="GKP"]
 		defenders = self.latestData.loc[self.latestData["position"]=="DEF"]
 		forward = self.latestData.loc[self.latestData["position"]=="FWD"]
@@ -168,11 +169,11 @@ class TeamSolver(ABC):
 		pointsPerGamePScores = self.calcPScores(pData["points_per_game"])
 		return ictIndexPScores + totalPointsPScores + pointsPerGamePScores
 	
-	def concat_team(self):
+	def flattenTeam(self):
 		return pd.concat(position for position in self.players.values())
 	
 	def getTeam(self) -> pd.DataFrame:
-		final_team = self.concat_team()
+		final_team = self.flattenTeam()
 		return final_team
 	def worstOfPosition(self, pPosition: str) -> pd.Series:
 		return self.players[pPosition][self.score_heuristic].idxmin()
@@ -363,17 +364,24 @@ f"""
 			case "mid":
 				assert len(self.players[position]) == NUM_MID
 
-	def adjust_players(self,cost,id, position: str, current_score: float, score_threshold: float = 1.0) -> bool:
+	def adjust_players(self,cost,id, position: str, current_score: float) -> bool:
 		MINS_THREHSHOLD = 0.5
 		old_players = self.players[position]
 		self.players[position] = self.players[position][self.players[position]["id"]!=id]
-		new_players = self.default_players[position][(self.default_players[position]["cost"] < cost)]
+		new_players: pd.DataFrame = self.default_players[position][(self.default_players[position]["cost"] < cost)]
 		# TODO: Fix bug where players with 0 play chance are being selected
 		new_players = new_players.loc[(new_players["form"] > 0.0) & (new_players["play_percent"] >= MINS_THREHSHOLD)]
 		new_players = new_players[~(new_players["id"].isin(self.players[position]["id"]))]
 		new_players = new_players.sort_values(by="score",ascending=False)
-		if (position == "DEF" and self.label =="Random Forest"):
-			print(new_players)
+		flatPlayers: pd.DataFrame = self.flattenTeam()
+		teamCounts: pd.Series = flatPlayers["team"].value_counts()
+		#print("new_players=")
+		#print(new_players)
+		boolArr: pd.Series[bool] = new_players["team"].apply(lambda x: teamCounts.get(x, 0) < 3)
+		new_players = new_players.loc[boolArr]
+
+		#if (position == "DEF" and self.label =="Random Forest"):
+		#	print(new_players)
 		#print("test")
 		new_players = new_players.head(1)
 		#assert new_players["id"].values[0] != 315.0
@@ -409,7 +417,7 @@ f"""
 	def adjust_team(self,n: int, num_recursions: int = 0):
 		# TODO: Refactor program so that starting team and bench team are stored in the same DF
 		# This would make it so that when doing `get_nth_cheapest()`/`get_nth_most_expensive()`, benches will be taken into account too
-		team = self.concat_team()
+		team = self.flattenTeam()
 		#print(team)
 		n = min(n,len(team)-1)
 		n = max(0,n)
@@ -452,6 +460,7 @@ f"""
 				best_option_index = actual_options["score"].argmax()
 				best_option = actual_options.iloc[[best_option_index]]
 				new_team_df = self.replace_player(team,worst_player["id"],best_option)
+				assert (self.latestData["id"].values == self.latestData.index.values).all()
 				return new_team_df
 		return None
 		#print(self.is_best_player(worst_player,options))
@@ -512,6 +521,7 @@ f"""
 		if(self.verbose):
 			self.print_summary()
 		self.adjust_team(0)
+		assert (self.latestData["id"].values == self.latestData.index.values).all()
 		self.iter += 1
 
 		if self.iter > self.max_iters:

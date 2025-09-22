@@ -24,18 +24,17 @@ class RFTeamPredicter(TeamSolver):
     Team Predicter using Random Forest Regression
     '''
     def __init__(self,
-            pHeuristic: str, 
             pSolverMode: SolverMode, 
             verbose = False, 
-            pLabel: str = None,
-            pTuneHypers: bool = False):
-        super().__init__(pHeuristic, pSolverMode, verbose, pLabel)
+            pLabel: str = None):
+        super().__init__("score", pSolverMode, verbose, pLabel)
         # TODO: Seperate this into `fit()` argument 
         # TODO: Implement way of saving model
+        # TODO: Improve accuracy by seperating different positions into different models
         self.allDummyColumns: set[str] = set()
         self.idNameDict: dict[int, str] = dict()
 
-        xCols = ["id","ict_index", "team", "gameweek", "season", "form", "position", "opposing_team", "play_percent", "status", "clean_sheets", "expected_goals"]
+        xCols = ["id","ict_index", "team", "gameweek", "season", "form", "position", "opposing_team", "play_percent", "clean_sheets", "expected_goals", "status"]
         yCols = ["points_this_week"]
         allCols = xCols + yCols
         tempDf = pd.DataFrame(columns=allCols)
@@ -48,66 +47,43 @@ class RFTeamPredicter(TeamSolver):
                 self.idNameDict[key] = val
 
             currentPlayers = set(datum["id"].apply(lambda x: "id_" + str(x)))
-
-            #currentTeams = set(datum["team"].apply(lambda x: "team_" + x))
-            currentOpposingTeams = set(datum["opposing_team"].apply(lambda x: "opposing_team_" + x))
-            currentStatuses = set(datum["status"].apply(lambda x: "status_" + x))
             self.allDummyColumns = self.allDummyColumns.union(currentPlayers)
-            #self.allDummyColumns = self.allDummyColumns.union(currentTeams)
+
+            currentTeams = set(datum["team"].apply(lambda x: "team_" + x))
+            self.allDummyColumns = self.allDummyColumns.union(currentTeams)
+
+            currentOpposingTeams = set(datum["opposing_team"].apply(lambda x: "opposing_team_" + x))
             self.allDummyColumns = self.allDummyColumns.union(currentOpposingTeams)
+
+            currentStatuses = set(datum["status"].apply(lambda x: "status_" + x))
             self.allDummyColumns = self.allDummyColumns.union(currentStatuses)
 
             tempDf = pd.concat([tempDf, opposingTeams])
         
         y: pd.DataFrame = tempDf[yCols]
         self.x: pd.DataFrame = tempDf.drop(columns=yCols)
-        x = self.x.drop(columns=["team"])
-        self.toDummyColumns = ["id", "position", "opposing_team", "status"]
-        x = self.setDummies(x)
+        self.toDummyColumns = ["id", "position", "team", "opposing_team", "status"]
+        x = self.setDummies(self.x)
 
         # TODO: Make sure there is a column for ALL unique players (across all gameweeks, all seasons)
         # This would fix a bug caused by differences in the number of players
         xTrain, xTest, yTrain, yTest = train_test_split(x, y, test_size=0.2, random_state=19)
         
         yTrain: pd.Series = yTrain
-        
-        paramGrid = {
-            "n_estimators": [500, 1000, 1500],
-            #"criterion": ["entropy", "gini"],
-            "min_samples_split": [5,10,15],
-            "min_samples_leaf": [1,2,4],
-            "max_depth": [10,20,30]
-        }
 
-        regressor = RandomForestRegressor(random_state=13)
+        regressor = RandomForestRegressor(random_state=13, n_jobs=-1)
         
+        # Interestingly, accuracy seems to be MUCH higher when hyperparameters are NOT tuned!!!
         print("Fitting model...")
-        regressor = regressor.fit(xTrain, np.ravel(yTrain.values))
-
-        cvVerboseLevel = 0
-        if(self.verbose):
-            cvVerboseLevel = 3
-
-        # TODO: Retune hyperparameters with more options, maybe do overnight
-        # WARNING: Hyperparameter tuning takes a long time
-        if pTuneHypers:
-            self.regressor = RandomizedSearchCV(regressor, paramGrid, scoring="r2", cv=3, n_jobs=-1, verbose=cvVerboseLevel, random_state=19)
-            self.regressor = self.regressor.fit(xTrain, np.ravel(yTrain.values))
-            print(f"best estimator = {self.regressor.best_estimator_}")
-            print(f"best params = {self.regressor.best_params_}")
-            estimator = self.regressor.best_estimator_
-        else:
-            bestParams = {
-                "n_estimators": 500,
-                "min_samples_split": 15,
-                "min_samples_leaf": 2
-            }
-            self.regressor = RandomForestRegressor(random_state=13,
-                                                   n_estimators=bestParams["n_estimators"],
-                                                   min_samples_split=bestParams["min_samples_split"],
-                                                   min_samples_leaf=bestParams["min_samples_leaf"])
-            self.regressor = self.regressor.fit(xTrain, np.ravel(yTrain.values))
-            estimator = self.regressor
+        self.regressor = regressor.fit(xTrain, np.ravel(yTrain.values))
+        self.regressor = self.regressor.fit(xTrain, np.ravel(yTrain.values))
+        
+        featureImportances = self.regressor.feature_importances_
+        featureNames = self.regressor.feature_names_in_
+        tempDf = pd.DataFrame({"column": featureNames, "importance": featureImportances}).sort_values(by="importance", ascending=False)
+        print("Best parameters:")
+        print(tempDf.head(20))
+        estimator = self.regressor
         print("Finished fitting model.")
 
         treeLimit = 5
@@ -135,21 +111,33 @@ class RFTeamPredicter(TeamSolver):
         print(f"r2={r2}")
         self.setAccuracy(r2)
         self.updatePredictionData()
-        self.latestData["score"] *= self.latestData["play_percent"]
 
         # TODO: add calculations to get fixtures for next week
 
     def precalcScores(self, pData, pGameweek, pSeason):
         return
 
+    def valueFromDummies(self, pDummies: pd.Series, pColumn: str) -> str:
+        columnPrefix: str = f"{pColumn}_"
+        for column in pDummies.index:
+            if(column.startswith(columnPrefix)):
+                if (pDummies[column]):
+                    columnSplit = column.split(columnPrefix)
+                    assert len(columnSplit) == 2
+                    return columnSplit[1]
+        raise KeyError(pColumn)
+
     # TODO: repredict() method
-    def updateScores(self, pScore: pd.DataFrame):
-        _id = pScore["id"]
+    def updateScores(self, pScore: pd.Series):
+        _id = int(self.valueFromDummies(pScore, "id"))
+        _oppTeam = self.valueFromDummies(pScore, "opposing_team")
         #name = pScore["name"]
         _score = pScore["temp"]
         dataLoc = self.latestData["id"]==_id
+
         # TODO: Add way to get actual opposing team from `pScore`
         self.latestData.loc[dataLoc, "score"] = _score
+        self.latestData.loc[dataLoc, "opposing_team"] = _oppTeam
 
     def setDummies(self, pToDummy: pd.DataFrame) -> pd.DataFrame:
         result = pd.get_dummies(pToDummy, columns=self.toDummyColumns)
@@ -159,28 +147,40 @@ class RFTeamPredicter(TeamSolver):
             if col not in xCols:
                 colsToAdd.append(col)
         result = pd.concat([result, pd.DataFrame([{col:0 for col in colsToAdd}])], axis=1)
-        result = result.reindex(sorted(result.columns), axis=1)
+        result = result.sort_index(axis=1)
         return result
 
     def updatePredictionData(self, pSeason: int = None, pGameweek: int = None):
         latestSeason = self.x["season"].max()
-        latestWeek = self.x.loc[self.x["season"]==latestSeason, "gameweek"].values[0]
-        nextWeek = latestWeek + 1
 
         xForPredict: pd.DataFrame = self.x.copy()
-        selectedGameweek: int = 0
+        selectedGameweek: int = -1
+        predictionWeek: int = -1
         if pGameweek is None:
+            latestWeek = self.x.loc[self.x["season"]==latestSeason, "gameweek"].max()
+            nextWeek = latestWeek + 1
+            xForPredict["gameweek"] = nextWeek
             selectedGameweek = latestWeek
+            predictionWeek = nextWeek
         else:
+            xForPredict["gameweek"] = pGameweek
             selectedGameweek = pGameweek
-        xForPredict["gameweek"] = selectedGameweek
+            predictionWeek = pGameweek
+
+        assert predictionWeek > -1
+        assert selectedGameweek > -1
 
         selectedSeason: int = -1
+        predictionSeason: int = -1
         if pSeason is None:
             selectedSeason: int = latestSeason
+            predictionSeason = latestSeason
         else:
             selectedSeason = pSeason
-        xForPredict["season"] = selectedSeason
+            predictionSeason = pSeason
+        
+        assert selectedSeason > -1
+        assert selectedGameweek > -1
 
         latestDataLoc = (self.x["gameweek"] == selectedGameweek) & (self.x["season"] == selectedSeason)
         xForPredict = xForPredict.loc[latestDataLoc]
@@ -194,17 +194,14 @@ class RFTeamPredicter(TeamSolver):
         fixtureJsonRaw = dict()
         with open(f"./data/fixtures.json", "r") as f:
             fixtureJsonRaw = json.load(f)
-        if pGameweek is None:
-            fixtureJsonRaw = fixtureJsonRaw[str(latestSeason)][str(nextWeek)]
-        else:
-            fixtureJsonRaw = fixtureJsonRaw[str(pSeason)][str(pGameweek)]
+
+        fixtureJsonRaw = fixtureJsonRaw[str(predictionSeason)][str(predictionWeek)]
         self.fixtureDf: pd.DataFrame = pd.DataFrame.from_records(fixtureJsonRaw)
         with open("./data/team_translation_table.json", "r") as f:
             teamDataJson: dict = json.load(f)
         #teamDataDf: pd.DataFrame = pd.DataFrame.from_records(teamDataJson[str(latestSeason)])
         opposingTeams = xForPredict["team"].apply(lambda x: getOpposingTeam(x, self.fixtureDf))
         xForPredict["opposing_team"] = opposingTeams
-        xForPredict = xForPredict.drop(columns=["team"])
         xForPredict = self.setDummies(xForPredict)
         #if (len(xForPredict.columns) != len(self.tempColumns)):
         #    print(f"xForPredict.columns={xForPredict.columns}")
@@ -214,5 +211,10 @@ class RFTeamPredicter(TeamSolver):
         dfCopy: pd.DataFrame = xForPredict.copy()
         dfCopy["temp"] = futureScores
         # TODO: Fix `PerformanceWarning`
-        dfCopy["id"] = IDs
-        dfCopy.apply(self.updateScores, axis=1)
+        #dfCopy["id"] = IDs
+        dfCopy = dfCopy.apply(self.updateScores, axis=1)
+
+        self.latestData["gameweek"] = predictionWeek
+        self.latestData["season"] = predictionSeason
+        #self.latestData["score"] *= self.latestData["play_percent"]
+        #self.latestData = self.latestData.set_index(self.x["id"])

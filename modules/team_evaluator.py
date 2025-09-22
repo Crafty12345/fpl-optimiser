@@ -42,10 +42,10 @@ class TeamEvaluator(TeamSolver):
 		else:
 			return 0.0
 
-	def getTeamDiffs(self, pOtherTeam: dict[str, dict[str, pd.DataFrame]]):
-		thisPlayers: dict[str, dict[str, pd.DataFrame]] = self.getTeam()
-		thisPlayersSet: set[int] = set(thisPlayers["team"]["id"]).union(set(thisPlayers["bench"]["id"]))
-		otherPlayersSet: set[int] = set(pOtherTeam["team"]["id"]).union(set(pOtherTeam["bench"]["id"]))
+	def getTeamDiffs(self, pOtherTeam: pd.DataFrame):
+		thisPlayers: pd.DataFrame = self.getTeam()
+		thisPlayersSet: set[int] = set(thisPlayers["id"].values)
+		otherPlayersSet: set[int] = set(pOtherTeam["id"].values)
 		numCommon: int = len(thisPlayersSet.intersection(otherPlayersSet))
 		return numCommon / len(thisPlayersSet)
 
