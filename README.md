@@ -4,10 +4,17 @@ Someone I know recently started getting into Fantasy Premier League (FPL). He ex
 My instant thought was: This sounds like a mathematical problem!
 So, here we are! The quest to achieve the mathematically perfect FPL team!
 
+# Side-Notes
+- Originally, hyperparameter tuning was added to the Random Forest Regression model. However, after testing, it became apparent that, despite this improving the model's r2 score, it decreased the accuracy of the model in practice.
+
 # TODO
 
  - [X] Restructure project
  - - [X] Move all data to be stored in 1 JSON file, significantly simplifying project structure
- - Implement Random Forest with XGBoost
+ - [X] Potentially add XGBoost to Random Forest
  - [X] Create validation dataset
- - - [ ] Have abstract `predict` method of some sort
+ - - [X] Have abstract `predict` method of some sort
+ - [ ] Make HTML saving more maintainable
+ - [ ] Potentially have RF Team Solver calculate different RFs for different positions
+ - - [ ] Experiment more with different independent variables used for RF
+ - Improve accuracy (ongoing task)

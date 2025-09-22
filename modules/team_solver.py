@@ -505,8 +505,8 @@ f"""
 		if (self.total_cost <= self.budget):
 			iter = 0
 			while (amount_remaining > MAX_AMT_REMAINING) and (amount_remaining >= 0) and (iter < config.MAX_ITERS):
-				if(self.verbose):
-					print(f"Iter: {iter}")
+				#if(self.verbose):
+				#	print(f"Iter: {iter}")
 				self.backward_adjust()
 				self.update_stats()
 				amount_remaining = MAX_BUDGET - (self.total_cost)

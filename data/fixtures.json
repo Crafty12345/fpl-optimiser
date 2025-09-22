@@ -1929,52 +1929,52 @@
         "5": [
             {
                 "away_team": "EVE",
-                "finished": false,
+                "finished": true,
                 "home_team": "LIV"
             },
             {
                 "away_team": "TOT",
-                "finished": false,
+                "finished": true,
                 "home_team": "BHA"
             },
             {
                 "away_team": "NFO",
-                "finished": false,
+                "finished": true,
                 "home_team": "BUR"
             },
             {
                 "away_team": "CRY",
-                "finished": false,
+                "finished": true,
                 "home_team": "WHU"
             },
             {
                 "away_team": "LEE",
-                "finished": false,
+                "finished": true,
                 "home_team": "WOL"
             },
             {
                 "away_team": "CHE",
-                "finished": false,
+                "finished": true,
                 "home_team": "MUN"
             },
             {
                 "away_team": "BRE",
-                "finished": false,
+                "finished": true,
                 "home_team": "FUL"
             },
             {
                 "away_team": "NEW",
-                "finished": false,
+                "finished": true,
                 "home_team": "BOU"
             },
             {
                 "away_team": "AVL",
-                "finished": false,
+                "finished": true,
                 "home_team": "SUN"
             },
             {
                 "away_team": "MCI",
-                "finished": false,
+                "finished": true,
                 "home_team": "ARS"
             }
         ],
