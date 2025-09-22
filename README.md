@@ -17,4 +17,5 @@ So, here we are! The quest to achieve the mathematically perfect FPL team!
  - [ ] Make HTML saving more maintainable
  - [ ] Potentially have RF Team Solver calculate different RFs for different positions
  - - [ ] Experiment more with different independent variables used for RF
+ - [ ] Get opposition teams for old gameweeks
  - Improve accuracy (ongoing task)
