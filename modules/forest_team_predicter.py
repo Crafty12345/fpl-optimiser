@@ -4,6 +4,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.tree import export_graphviz
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+import xgboost as xgb
 import numpy as np
 import json
 import subprocess
@@ -69,6 +70,9 @@ class RFTeamPredicter(TeamSolver):
         
         y: pd.DataFrame = tempDf[yCols]
         self.x: pd.DataFrame = tempDf.drop(columns=yCols)
+        self.x["gameweek"] = self.x["gameweek"].astype(np.uint16)
+        self.x["season"] = self.x["season"].astype(np.uint16)
+
         self.toDummyColumns = ["id", "position", "team", "opposing_team", "status"]
         x = self.setDummies(self.x)
 
@@ -79,7 +83,8 @@ class RFTeamPredicter(TeamSolver):
         yTrain: pd.Series = yTrain
 
         regressor = RandomForestRegressor(random_state=13, n_jobs=-1)
-        
+        #regressor = xgb.XGBRFRegressor(random_state=19)
+
         # Interestingly, accuracy seems to be MUCH higher when hyperparameters are NOT tuned!!!
         print("Fitting model...")
         self.regressor = regressor.fit(xTrain, np.ravel(yTrain.values))

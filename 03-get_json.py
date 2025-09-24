@@ -90,7 +90,11 @@ def processFile(pDate: RawPlayerDataFile, pOldData: list[dict]) -> pd.DataFrame:
     df = pd.DataFrame(all_data_raw["elements"])
     
     allowed_cols = ["id", "first_name","second_name","now_cost","ict_index","total_points","points_per_game","element_type","team_code","form", "status", "clean_sheets", "expected_goals", "minutes"]
+    
     player_data = df[allowed_cols]
+
+    player_data["clean_sheets"] = player_data["clean_sheets"].astype(np.float64)
+    player_data["expected_goals"] = player_data["expected_goals"].astype(np.float64)
     playPercent = player_data["minutes"] / (currentGameweek + 1) / 90.00
     player_data = player_data.drop(columns=["minutes"])
     player_data["play_percent"] = playPercent
