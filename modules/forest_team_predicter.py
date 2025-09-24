@@ -33,7 +33,14 @@ class RFTeamPredicter(TeamSolver):
         # TODO: Improve accuracy by seperating different positions into different models
         self.allDummyColumns: set[str] = set()
         self.idNameDict: dict[int, str] = dict()
+        self.regressor: RandomForestRegressor = None
 
+        # TODO: add calculations to get fixtures for next week
+
+    def precalcScores(self, pData, pGameweek, pSeason):
+        return
+    
+    def fit(self):
         xCols = ["id","ict_index", "team", "gameweek", "season", "form", "position", "opposing_team", "play_percent", "clean_sheets", "expected_goals", "status"]
         yCols = ["points_this_week"]
         allCols = xCols + yCols
@@ -110,12 +117,6 @@ class RFTeamPredicter(TeamSolver):
         r2 = r2_score(yTest, yPredicted)
         print(f"r2={r2}")
         self.setAccuracy(r2)
-        self.updatePredictionData()
-
-        # TODO: add calculations to get fixtures for next week
-
-    def precalcScores(self, pData, pGameweek, pSeason):
-        return
 
     def valueFromDummies(self, pDummies: pd.Series, pColumn: str) -> str:
         columnPrefix: str = f"{pColumn}_"
@@ -150,34 +151,26 @@ class RFTeamPredicter(TeamSolver):
         result = result.sort_index(axis=1)
         return result
 
-    def updatePredictionData(self, pSeason: int = None, pGameweek: int = None):
-        latestSeason = self.x["season"].max()
+    def updatePredictionData(self, pSeason: int, pTargetSeason: int, pGameweek: int, pTargetWeek: int) -> None:
+        """
+        :param int pSeason: The season to default to if pTargetSeason has not happened yet
+        :param int pTargetSeason: The season to predict values for
+        :param int pGameweek: The gameweek to default to if pTargetWeek has not happened yet
+        :param int pTargetWeek: The gameweek to predict values for
+        """
+
+        if (self.regressor is None):
+            raise ValueError("Regressor has not been fitted yet. Remember to call fit().")
 
         xForPredict: pd.DataFrame = self.x.copy()
-        selectedGameweek: int = -1
-        predictionWeek: int = -1
-        if pGameweek is None:
-            latestWeek = self.x.loc[self.x["season"]==latestSeason, "gameweek"].max()
-            nextWeek = latestWeek + 1
-            xForPredict["gameweek"] = nextWeek
-            selectedGameweek = latestWeek
-            predictionWeek = nextWeek
-        else:
-            xForPredict["gameweek"] = pGameweek
-            selectedGameweek = pGameweek
-            predictionWeek = pGameweek
+        selectedGameweek: int = pGameweek
+        predictionWeek: int = pTargetWeek
 
         assert predictionWeek > -1
         assert selectedGameweek > -1
 
-        selectedSeason: int = -1
-        predictionSeason: int = -1
-        if pSeason is None:
-            selectedSeason: int = latestSeason
-            predictionSeason = latestSeason
-        else:
-            selectedSeason = pSeason
-            predictionSeason = pSeason
+        selectedSeason: int = pSeason
+        predictionSeason: int = pTargetSeason
         
         assert selectedSeason > -1
         assert selectedGameweek > -1

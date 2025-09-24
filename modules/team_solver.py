@@ -31,11 +31,12 @@ class SolverMode(Enum):
 
 # TODO : Continue refactoring; maybe change self.id to self.label: str?
 class TeamSolver(ABC):
-
 	@abstractmethod
 	def precalcScores(self, pData: pd.DataFrame, pGameweek: int, pSeason: int): raise NotImplementedError()
 	@abstractmethod
-	def updatePredictionData(self, pSeason: int = None, pGameweek: int = None): raise NotImplementedError()
+	def updatePredictionData(self, pRefSeason: int, pTargetSeason: int, pRefWeek: int, pTargetWeek: int): raise NotImplementedError()
+	@abstractmethod
+	def fit(self): raise NotImplementedError()
 
 	def __init__(self, pHeuristic: str, pMode: SolverMode, verbose: bool=False, pLabel: str = None):
 		self.accuracy = None
@@ -76,24 +77,13 @@ class TeamSolver(ABC):
 		avg = pSeries.mean()
 		return (pSeries - avg) / stdDev
 	
-	def getDfByWeekAndSeason(self, pSeason: int, pGameweek: int) -> pd.DataFrame:
+	def getDfByWeekAndSeason(self, pGameweek: int, pSeason: int) -> pd.DataFrame:
 		result: pd.DataFrame = None
 		for datum in self.allData:
 			if result is None:
 				if (datum["season"].values[0] == pSeason and datum["gameweek"].values[0] == pGameweek):
 					result = datum
 		return result
-	
-	def updatePredictionData(self, pSeason: int = None, pGameweek: int = None) -> None:
-		selectedDf: pd.DataFrame = None
-		if (pSeason is None and pGameweek is None):
-			self.latestData: pd.DataFrame = self.allData[-1].copy()
-			return
-		selectedDf = self.getDfByWeekAndSeason(pSeason, pGameweek)
-		if (selectedDf is None):
-			print(f"Unable to predict for week {pGameweek} of season {pSeason}")
-		elif selectedDf is not None:
-			self.latestData = selectedDf.copy()
 	
 	def train(self):
 		self.default_players = dict()

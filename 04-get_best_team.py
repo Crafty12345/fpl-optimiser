@@ -4,7 +4,7 @@ import time
 import json
 
 from modules.team_solver import TeamSolver,SolverMode
-from modules.team_predicter import LinearTeamPredicter
+from modules.lin_team_predicter import LinearTeamPredicter
 from modules.forest_team_predicter import RFTeamPredicter
 from modules.team_evaluator import TeamEvaluator
 import config
@@ -26,15 +26,21 @@ json_filename = f"{resultsDirectory}/results_{CURRENT_DATE}.json"
 all_teams: list[TeamSolver] = []
 
 team_solver = LinearTeamPredicter("combined",SolverMode.CHEAPEST_FIRST,verbose=True)
+team_solver.fit()
 all_teams.append(team_solver)
 
 team_solver = LinearTeamPredicter("combined",SolverMode.HIGHEST_COST_FIRST,verbose=True)
+team_solver.fit()
 all_teams.append(team_solver)
 
 rfTeam = RFTeamPredicter(SolverMode.CHEAPEST_FIRST,verbose=True)
+rfTeam.fit()
+rfTeam.updatePredictionData(config.CURRENT_SEASON, config.CURRENT_SEASON, config.CURRENT_GAMEWEEK, config.CURRENT_GAMEWEEK+1)
 all_teams.append(rfTeam)
 
 rfTeam = RFTeamPredicter(SolverMode.HIGHEST_COST_FIRST,verbose=True)
+rfTeam.fit()
+rfTeam.updatePredictionData(config.CURRENT_SEASON, config.CURRENT_SEASON, config.CURRENT_GAMEWEEK, config.CURRENT_GAMEWEEK+1)
 all_teams.append(rfTeam)
 
 resultList: list[dict] = []

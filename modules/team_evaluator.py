@@ -7,8 +7,9 @@ from modules.team_solver import TeamSolver, SolverMode
 from modules.forest_team_predicter import RandomForestRegressor
 
 class TeamEvaluator(TeamSolver):
+	# TODO: Have seperate class to hold TeamSolver which uses points_this_week
 	def __init__(self):
-		super().__init__(pHeuristic="combined",
+		super().__init__(pHeuristic="score",
 				   		 pMode=SolverMode.CHEAPEST_FIRST,
 						 verbose=False)
 		self.allData = []
@@ -32,7 +33,7 @@ class TeamEvaluator(TeamSolver):
 					self.find_team()
 					tempModel = deepcopy(pModel)
 					tempModel.setVerbose(False)
-					tempModel.updatePredictionData(season, gameweek)
+					tempModel.updatePredictionData(season, season, gameweek, gameweek)
 					tempModel.train()
 					tempModel.find_team()
 					_sum += self.getTeamDiffs(tempModel.getTeam())
@@ -48,6 +49,9 @@ class TeamEvaluator(TeamSolver):
 		otherPlayersSet: set[int] = set(pOtherTeam["id"].values)
 		numCommon: int = len(thisPlayersSet.intersection(otherPlayersSet))
 		return numCommon / len(thisPlayersSet)
+	
+	def fit() -> None: pass
+	def updatePredictionData() -> None: pass
 
 	def precalcScores(self, pData, pGameweek, pSeason):
 		...

@@ -22,11 +22,12 @@ class LinearTeamPredicter(TeamSolver):
 				pLabel: str = None):
 		
 		super().__init__(pHeuristic, pSolverMode, verbose, pLabel)
-
 		self.uniquePlayers = self.allData[-1]["name"]
+		self.playerModelDict: dict[str, LinearRegression] = dict()
+
+	def fit(self) -> None:
 		if(self.verbose):
 			print("[DEBUG]: Done reading data files! Calculating linear regression...")
-		self.playerModelDict: dict[str, LinearRegression] = dict()
 
 		for player in self.uniquePlayers:
 			y = []
@@ -68,6 +69,8 @@ class LinearTeamPredicter(TeamSolver):
 		return result
 		...
 	def predictPlayer(self, pX: int, pPlayer: str):
+		if (len(self.playerModelDict) == 0):
+			raise ValueError("Unable to predict player: Models have not been fitted yet. Remember to call fit()")
 		model = self.playerModelDict[pPlayer]
 		xToPredict = np.asarray(pX).reshape((1, -1))
 		predictedScore = model.predict(xToPredict).reshape(-1)
@@ -76,20 +79,17 @@ class LinearTeamPredicter(TeamSolver):
 		predictedWeightedScore = predictedScore * playerForm * chanceOfPlay
 		return predictedWeightedScore
 
-	def updatePredictionData(self, pSeason: int = None, pGameweek: int = None):
+	def updatePredictionData(self, pSeason: int, pGameweek: int = None):
 		selectedIndex: int = self.getDfIndex(pSeason, pGameweek)
 		xToPredict = np.asarray([selectedIndex]).reshape((1, -1))
 		for player in self.playerModelDict.keys():
 			newScore = self.predictPlayer(xToPredict, player)
 			self.latestData.loc[self.latestData["name"]==player, "score"] = newScore
 
-	def updatePredictionData(self, pSeason: int = None, pGameweek: int = None) -> None:
+	def updatePredictionData(self, pRefSeason: int, pTargetSeason: int, pRefWeek: int, pTargetWeek: int) -> None:
 		selectedDf: pd.DataFrame = None
-		if (pSeason is None and pGameweek is None):
-			self.latestData: pd.DataFrame = self.allData[-1].copy()
-			return
-		selectedDf = self.getDfByWeekAndSeason(pSeason, pGameweek)
+		selectedDf = self.getDfByWeekAndSeason(pTargetWeek, pTargetSeason)
 		if (selectedDf is None):
-			print(f"Unable to predict for week {pGameweek} of season {pSeason}")
+			print(f"Unable to update predictions for week {pRefWeek} of season {pRefSeason}")
 		elif selectedDf is not None:
 			self.latestData = selectedDf.copy()
