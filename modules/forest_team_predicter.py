@@ -4,7 +4,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.tree import export_graphviz
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
-import xgboost as xgb
+from tqdm import tqdm
 import numpy as np
 import json
 import subprocess
@@ -34,7 +34,7 @@ class RFTeamPredicter(TeamSolver):
         # TODO: Improve accuracy by seperating different positions into different models
         self.allDummyColumns: set[str] = set()
         self.idNameDict: dict[int, str] = dict()
-        self.regressor: RandomForestRegressor = None
+        self.models: dict[str, RandomForestRegressor] = dict()
 
         # TODO: add calculations to get fixtures for next week
 
@@ -42,7 +42,7 @@ class RFTeamPredicter(TeamSolver):
         return
     
     def fit(self):
-        xCols = ["id","ict_index", "team", "gameweek", "season", "form", "position", "opposing_team", "play_percent", "clean_sheets", "expected_goals", "status"]
+        xCols = ["id","ict_index", "position", "team", "gameweek", "season", "form", "opposing_team", "play_percent", "clean_sheets", "expected_goals", "status"]
         yCols = ["points_this_week"]
         allCols = xCols + yCols
         tempDf = pd.DataFrame(columns=allCols)
@@ -69,58 +69,64 @@ class RFTeamPredicter(TeamSolver):
             tempDf = pd.concat([tempDf, opposingTeams])
         
         y: pd.DataFrame = tempDf[yCols]
+        y = y["points_this_week"].astype(np.float64)
         self.x: pd.DataFrame = tempDf.drop(columns=yCols)
         self.x["gameweek"] = self.x["gameweek"].astype(np.uint16)
         self.x["season"] = self.x["season"].astype(np.uint16)
 
-        self.toDummyColumns = ["id", "position", "team", "opposing_team", "status"]
-        x = self.setDummies(self.x)
+        self.toDummyColumns = ["team", "opposing_team", "status"]
 
         # TODO: Make sure there is a column for ALL unique players (across all gameweeks, all seasons)
         # This would fix a bug caused by differences in the number of players
-        xTrain, xTest, yTrain, yTest = train_test_split(x, y, test_size=0.2, random_state=19)
+        allR2s = []
+        for position in tqdm(["GKP", "FWD", "MID", "DEF"], desc="Fitting models"):
+            positionLoc = self.x["position"]==position
+            xCopy = self.x.copy()[positionLoc]
+            x = self.setDummies(xCopy)
+            yOfPos = y.loc[positionLoc]
+            xTrain, xTest, yTrain, yTest = train_test_split(x, yOfPos, test_size=0.2, random_state=19)
         
-        yTrain: pd.Series = yTrain
+            yTrain: pd.Series = yTrain
+            regressor = RandomForestRegressor(random_state=13, n_jobs=-1, n_estimators=1000, verbose=1)
+            #regressor = xgb.XGBRFRegressor(random_state=19)
 
-        regressor = RandomForestRegressor(random_state=13, n_jobs=-1)
-        #regressor = xgb.XGBRFRegressor(random_state=19)
+            # Interestingly, accuracy seems to be MUCH higher when hyperparameters are NOT tuned!!!
+            regressor = regressor.fit(xTrain, np.ravel(yTrain.values))
+            yPredicted = regressor.predict(xTest)
+            r2 = r2_score(yTest, yPredicted)
+            allR2s.append(r2)
+            self.models[position] = regressor
 
-        # Interestingly, accuracy seems to be MUCH higher when hyperparameters are NOT tuned!!!
-        print("Fitting model...")
-        self.regressor = regressor.fit(xTrain, np.ravel(yTrain.values))
-        self.regressor = self.regressor.fit(xTrain, np.ravel(yTrain.values))
+        meanR2 = sum(allR2s) / len(allR2s)
+        print(f"r2={meanR2}")
         
-        featureImportances = self.regressor.feature_importances_
-        featureNames = self.regressor.feature_names_in_
-        tempDf = pd.DataFrame({"column": featureNames, "importance": featureImportances}).sort_values(by="importance", ascending=False)
-        print("Best parameters:")
-        print(tempDf.head(20))
-        estimator = self.regressor
-        print("Finished fitting model.")
+        # featureImportances = self.regressor.feature_importances_
+        # featureNames = self.regressor.feature_names_in_
+        # tempDf = pd.DataFrame({"column": featureNames, "importance": featureImportances}).sort_values(by="importance", ascending=False)
+        # print("Best parameters:")
+        # print(tempDf.head(20))
+        # estimator = self.regressor
+        # print("Finished fitting models.")
 
-        treeLimit = 5
-        assert treeLimit < len(estimator.estimators_)
+        # treeLimit = 5
+        # assert treeLimit < len(estimator.estimators_)
 
-        print("Saving trees...")
-        featureNames = []
-        for column in x.columns:
-            toAdd: str = column
-            if (column.startswith("id_")):
-                actualId = int(column.split("id_")[1])
-                toAdd = self.idNameDict[actualId]
-            featureNames.append(toAdd)
+        # print("Saving trees...")
+        # featureNames = []
+        # for column in x.columns:
+        #     toAdd: str = column
+        #     if (column.startswith("id_")):
+        #         actualId = int(column.split("id_")[1])
+        #         toAdd = self.idNameDict[actualId]
+        #     featureNames.append(toAdd)
 
-        for i in range(treeLimit):
-            tree = estimator.estimators_[i]
-            export_graphviz(tree, f"trees/tree{i}.dot", feature_names=featureNames, label="all", filled=True)
-            subprocess.run(["dot", "-Tpng", f"trees/tree{i}.dot", "-o", f"trees/tree{i}.png"])
-            subprocess.run(["rm", f"trees/tree{i}.dot"])
-        print("Finished saving trees")
+        # for i in range(treeLimit):
+        #     tree = estimator.estimators_[i]
+        #     export_graphviz(tree, f"trees/tree{i}.dot", feature_names=featureNames, label="all", filled=True)
+        #     subprocess.run(["dot", "-Tpng", f"trees/tree{i}.dot", "-o", f"trees/tree{i}.png"])
+        #     subprocess.run(["rm", f"trees/tree{i}.dot"])
+        # print("Finished saving trees")
 
-        yPredicted = self.regressor.predict(xTest)
-        mse = mean_squared_error(yTest, yPredicted)
-        r2 = r2_score(yTest, yPredicted)
-        print(f"r2={r2}")
         self.setAccuracy(r2)
 
     def valueFromDummies(self, pDummies: pd.Series, pColumn: str) -> str:
@@ -135,7 +141,8 @@ class RFTeamPredicter(TeamSolver):
 
     # TODO: repredict() method
     def updateScores(self, pScore: pd.Series):
-        _id = int(self.valueFromDummies(pScore, "id"))
+        _id = int(pScore["id"])
+        #_id = int(self.valueFromDummies(pScore, "id"))
         _oppTeam = self.valueFromDummies(pScore, "opposing_team")
         #name = pScore["name"]
         _score = pScore["temp"]
@@ -147,13 +154,18 @@ class RFTeamPredicter(TeamSolver):
 
     def setDummies(self, pToDummy: pd.DataFrame) -> pd.DataFrame:
         result = pd.get_dummies(pToDummy, columns=self.toDummyColumns)
-        colsToAdd = list()
+        result = result.drop(columns=["position"])
+        colsToAdd = set()
         xCols: set[str] = set(result.columns)
         for col in self.allDummyColumns:
-            if col not in xCols:
-                colsToAdd.append(col)
-        result = pd.concat([result, pd.DataFrame([{col:0 for col in colsToAdd}])], axis=1)
+            if col not in xCols and col not in pToDummy.columns:
+                result.insert(len(result.columns), col, 0)
+                result = result.copy()
+        #result.columns = self.allDummyColumns
+        #print(result.head())
+        # result = pd.concat([result, pd.DataFrame([{col:0 for col in colsToAdd}])], axis=1)
         result = result.sort_index(axis=1)
+        result["id"] = result["id"].astype("category")
         return result
 
     def updatePredictionData(self, pSeason: int, pTargetSeason: int, pGameweek: int, pTargetWeek: int) -> None:
@@ -164,7 +176,7 @@ class RFTeamPredicter(TeamSolver):
         :param int pTargetWeek: The gameweek to predict values for
         """
 
-        if (self.regressor is None):
+        if (len(self.models) == 0):
             raise ValueError("Regressor has not been fitted yet. Remember to call fit().")
 
         xForPredict: pd.DataFrame = self.x.copy()
@@ -200,17 +212,16 @@ class RFTeamPredicter(TeamSolver):
         #teamDataDf: pd.DataFrame = pd.DataFrame.from_records(teamDataJson[str(latestSeason)])
         opposingTeams = xForPredict["team"].apply(lambda x: getOpposingTeam(x, self.fixtureDf))
         xForPredict["opposing_team"] = opposingTeams
-        xForPredict = self.setDummies(xForPredict)
-        #if (len(xForPredict.columns) != len(self.tempColumns)):
-        #    print(f"xForPredict.columns={xForPredict.columns}")
-        #    print(f"Column mismatch: xForPredict has {len(xForPredict.columns)}, and pd.get_dummies(self.x) has {len(pd.get_dummies(self.x).columns)}")
-        
-        futureScores = self.regressor.predict(xForPredict)
-        dfCopy: pd.DataFrame = xForPredict.copy()
-        dfCopy["temp"] = futureScores
+        for position in ["GKP", "DEF", "MID", "FWD"]:
+            loc = xForPredict["position"] == position
+            xOfPosition = xForPredict.loc[loc]
+            xOfPosition = self.setDummies(xOfPosition)
+            futureScores = self.models[position].predict(xOfPosition)
+            dfCopy: pd.DataFrame = xOfPosition.copy()
+            dfCopy["temp"] = futureScores
         # TODO: Fix `PerformanceWarning`
         #dfCopy["id"] = IDs
-        dfCopy = dfCopy.apply(self.updateScores, axis=1)
+            dfCopy = dfCopy.apply(self.updateScores, axis=1)
 
         self.latestData["gameweek"] = predictionWeek
         self.latestData["season"] = predictionSeason

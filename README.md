@@ -6,6 +6,7 @@ So, here we are! The quest to achieve the mathematically perfect FPL team!
 
 # Side-Notes
 - Originally, hyperparameter tuning was added to the Random Forest Regression model. However, after testing, it became apparent that, despite this improving the model's r2 score, it decreased the accuracy of the model in practice.
+- I tried to implement XGBoost, however this seemed to make the model significantly less accurate.
 
 # TODO
 

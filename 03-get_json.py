@@ -186,14 +186,14 @@ def filterDuplicates(pToFilter: list[DataFile]):
 
 allFiles = glob("./data/raw/player_stats/**-**/*.json")\
 
-with open("./data/raw/old_data/24-25.json", "r") as f:
-    old2024Data = json.load(f)["matrix"]
+with open("./data/raw/old_data/players_24-25.json", "r") as f:
+    old2025Data = json.load(f)["matrix"]
 
 # Source: https://fantasy.premierleague.com/api/bootstrap-static/
 filesSorted: list[RawFixtureDataFile] = sortFiles(allFiles)
 filesProcessed = []
 for i, fileName in enumerate(filesSorted):
-    data, gameweek, teams = processFile(fileName, old2024Data)
+    data, gameweek, teams = processFile(fileName, old2025Data)
     filesProcessed.append({
         "gameweek": gameweek,
         "season": fileName.season.endYear,

@@ -11,8 +11,8 @@ pd.options.mode.copy_on_write = True
 
 NUM_GOALKEEPERS = 1
 # TODO: Implement auto-tuning for number of defenders/forwards/mid
-NUM_DEFENDERS = 3
-NUM_FORWARD = 3
+NUM_DEFENDERS = 4
+NUM_FORWARD = 2
 NUM_MID = 4
 
 MAX_BUDGET = 1000
@@ -65,6 +65,8 @@ class TeamSolver(ABC):
 			for (currentGameweek, playerData) in tempDict.items():
 				currentGameweek = int(currentGameweek)
 				currentData = pd.DataFrame.from_records(playerData)
+				currentData["gameweek"] = currentData["gameweek"].astype(np.uint16)
+				currentData["season"] = currentData["season"].astype(np.uint16)
 				self.precalcScores(currentData, currentGameweek, season)
 				
 				self.allData.append(currentData)
