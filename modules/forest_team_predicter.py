@@ -10,17 +10,9 @@ import json
 import subprocess
 
 from modules.team_solver import TeamSolver, SolverMode
+from modules.team_predicter import TeamPredicter
 
-def getOpposingTeam(pTeam: str, pFixtureDf: pd.DataFrame) -> str:
-    result = pFixtureDf.loc[pFixtureDf["home_team"]==pTeam]["away_team"]
-    if len(result) == 0:
-        result = pFixtureDf.loc[pFixtureDf["away_team"]==pTeam]["home_team"]
-    if len(result) == 0:
-        return "UNK"
-    else:
-        return result.values[0]
-
-class RFTeamPredicter(TeamSolver):
+class RFTeamPredicter(TeamPredicter):
     '''
     Team Predicter using Random Forest Regression
     '''
@@ -32,8 +24,6 @@ class RFTeamPredicter(TeamSolver):
         # TODO: Seperate this into `fit()` argument 
         # TODO: Implement way of saving model
         # TODO: Improve accuracy by seperating different positions into different models
-        self.allDummyColumns: set[str] = set()
-        self.idNameDict: dict[int, str] = dict()
         self.models: dict[str, RandomForestRegressor] = dict()
 
         # TODO: add calculations to get fixtures for next week
@@ -42,46 +32,20 @@ class RFTeamPredicter(TeamSolver):
         return
     
     def fit(self):
-        xCols = ["id","ict_index", "position", "team", "gameweek", "season", "form", "opposing_team", "play_percent", "clean_sheets", "expected_goals", "status"]
-        yCols = ["points_this_week"]
-        allCols = xCols + yCols
-        tempDf = pd.DataFrame(columns=allCols)
-        for datum in self.allData:
-            opposingTeams = datum.copy()
-            opposingTeams = opposingTeams[allCols]
-
-            playerIds = zip(datum["id"].values, datum["name"])
-            for key, val in playerIds:
-                self.idNameDict[key] = val
-
-            currentPlayers = set(datum["id"].apply(lambda x: "id_" + str(x)))
-            self.allDummyColumns = self.allDummyColumns.union(currentPlayers)
-
-            currentTeams = set(datum["team"].apply(lambda x: "team_" + x))
-            self.allDummyColumns = self.allDummyColumns.union(currentTeams)
-
-            currentOpposingTeams = set(datum["opposing_team"].apply(lambda x: "opposing_team_" + x))
-            self.allDummyColumns = self.allDummyColumns.union(currentOpposingTeams)
-
-            currentStatuses = set(datum["status"].apply(lambda x: "status_" + x))
-            self.allDummyColumns = self.allDummyColumns.union(currentStatuses)
-
-            tempDf = pd.concat([tempDf, opposingTeams])
+        tempDf = self.concatWeeks(self.setDummyCols)
+        tempDf = self.fixDataTypes(tempDf)
         
-        y: pd.DataFrame = tempDf[yCols]
-        y = y["points_this_week"].astype(np.float64)
-        self.x: pd.DataFrame = tempDf.drop(columns=yCols)
-        self.x["gameweek"] = self.x["gameweek"].astype(np.uint16)
-        self.x["season"] = self.x["season"].astype(np.uint16)
-
-        self.toDummyColumns = ["team", "opposing_team", "status"]
+        y: pd.DataFrame = tempDf[self.yCols]
+        self.x: pd.DataFrame = tempDf.drop(columns=self.yCols)
+        tempX = self.x[self.xCols]
 
         # TODO: Make sure there is a column for ALL unique players (across all gameweeks, all seasons)
         # This would fix a bug caused by differences in the number of players
         allR2s = []
         for position in tqdm(["GKP", "FWD", "MID", "DEF"], desc="Fitting models"):
-            positionLoc = self.x["position"]==position
-            xCopy = self.x.copy()[positionLoc]
+            positionLoc = tempX["position"]==position
+            xCopy = tempX.copy()[positionLoc]
+            xCopy = xCopy.drop(columns=["position"])
             x = self.setDummies(xCopy)
             yOfPos = y.loc[positionLoc]
             xTrain, xTest, yTrain, yTest = train_test_split(x, yOfPos, test_size=0.2, random_state=19)
@@ -152,22 +116,6 @@ class RFTeamPredicter(TeamSolver):
         self.latestData.loc[dataLoc, "score"] = _score
         self.latestData.loc[dataLoc, "opposing_team"] = _oppTeam
 
-    def setDummies(self, pToDummy: pd.DataFrame) -> pd.DataFrame:
-        result = pd.get_dummies(pToDummy, columns=self.toDummyColumns)
-        result = result.drop(columns=["position"])
-        colsToAdd = set()
-        xCols: set[str] = set(result.columns)
-        for col in self.allDummyColumns:
-            if col not in xCols and col not in pToDummy.columns:
-                result.insert(len(result.columns), col, 0)
-                result = result.copy()
-        #result.columns = self.allDummyColumns
-        #print(result.head())
-        # result = pd.concat([result, pd.DataFrame([{col:0 for col in colsToAdd}])], axis=1)
-        result = result.sort_index(axis=1)
-        result["id"] = result["id"].astype("category")
-        return result
-
     def updatePredictionData(self, pSeason: int, pTargetSeason: int, pGameweek: int, pTargetWeek: int) -> None:
         """
         :param int pSeason: The season to default to if pTargetSeason has not happened yet
@@ -179,7 +127,7 @@ class RFTeamPredicter(TeamSolver):
         if (len(self.models) == 0):
             raise ValueError("Regressor has not been fitted yet. Remember to call fit().")
 
-        xForPredict: pd.DataFrame = self.x.copy()
+        xForPredict: pd.DataFrame = self.x.copy()[self.xCols]
         selectedGameweek: int = pGameweek
         predictionWeek: int = pTargetWeek
 
@@ -207,14 +155,16 @@ class RFTeamPredicter(TeamSolver):
 
         fixtureJsonRaw = fixtureJsonRaw[str(predictionSeason)][str(predictionWeek)]
         self.fixtureDf: pd.DataFrame = pd.DataFrame.from_records(fixtureJsonRaw)
-        with open("./data/team_translation_table.json", "r") as f:
-            teamDataJson: dict = json.load(f)
-        #teamDataDf: pd.DataFrame = pd.DataFrame.from_records(teamDataJson[str(latestSeason)])
-        opposingTeams = xForPredict["team"].apply(lambda x: getOpposingTeam(x, self.fixtureDf))
+
+        opposingTeams = xForPredict["team"].apply(lambda x: self.getOpposingTeam(x, self.fixtureDf))
         xForPredict["opposing_team"] = opposingTeams
+        xForPredict["gameweek"] = predictionWeek
+        xForPredict["season"] = predictionSeason
+        
         for position in ["GKP", "DEF", "MID", "FWD"]:
             loc = xForPredict["position"] == position
             xOfPosition = xForPredict.loc[loc]
+            xOfPosition = xOfPosition.drop(columns=["position"])
             xOfPosition = self.setDummies(xOfPosition)
             futureScores = self.models[position].predict(xOfPosition)
             dfCopy: pd.DataFrame = xOfPosition.copy()

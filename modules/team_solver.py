@@ -87,6 +87,15 @@ class TeamSolver(ABC):
 					result = datum
 		return result
 	
+	def getOpposingTeam(self, pTeam: str, pFixtureDf: pd.DataFrame) -> str:
+		result = pFixtureDf.loc[pFixtureDf["home_team"]==pTeam]["away_team"]
+		if len(result) == 0:
+			result = pFixtureDf.loc[pFixtureDf["away_team"]==pTeam]["home_team"]
+		if len(result) == 0:
+			return "UNK"
+		else:
+			return result.values[0]
+	
 	def train(self):
 		self.default_players = dict()
 		self.latestData = self.latestData.set_index(self.latestData["id"])
