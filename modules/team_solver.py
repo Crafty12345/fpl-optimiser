@@ -14,9 +14,10 @@ NUM_GOALKEEPERS = 1
 NUM_DEFENDERS = 4
 NUM_FORWARD = 2
 NUM_MID = 4
+assert NUM_GOALKEEPERS + NUM_DEFENDERS + NUM_FORWARD + NUM_MID == 11
 
 MAX_BUDGET = 1000
-MAX_AMT_REMAINING = 5
+MAX_AMT_REMAINING = 2
 
 instance_count = 0
 
@@ -116,10 +117,24 @@ class TeamSolver(ABC):
 		self.players: dict[str,pd.DataFrame] = dict()
 		
 		# Add 1 for bench
-		self.players["GKP"] = self.default_players["GKP"][0:NUM_GOALKEEPERS+1]
-		self.players["DEF"] = self.default_players["DEF"][0:NUM_DEFENDERS+1]
-		self.players["FWD"] = self.default_players["FWD"][0:NUM_FORWARD+1]
-		self.players["MID"] = self.default_players["MID"][0:NUM_MID+1]
+		self.players["GKP"] = self.default_players["GKP"].head(NUM_GOALKEEPERS+1)
+
+		teamCounts = self.countTeams()
+		boolArr: pd.Series[bool] = self.default_players["DEF"]["team"].apply(lambda x: teamCounts.get(x, 0) < 3)
+		possibleDefs = self.default_players["DEF"].loc[boolArr]
+		self.players["DEF"] = self.default_players["DEF"].head(NUM_DEFENDERS+1)
+
+		teamCounts = self.countTeams()
+		boolArr: pd.Series[bool] = self.default_players["FWD"]["team"].apply(lambda x: teamCounts.get(x, 0) < 3)
+		possibleFwds = self.default_players["FWD"].loc[boolArr]
+		self.players["FWD"] = possibleFwds.head(NUM_FORWARD+1)
+
+		teamCounts = self.countTeams()
+		boolArr: pd.Series[bool] = self.default_players["MID"]["team"].apply(lambda x: teamCounts.get(x, 0) < 3)
+		possibleMids = self.default_players["MID"].loc[boolArr]
+		self.players["MID"] = possibleMids.head(NUM_MID+1)
+
+
 		#self.validate_team()
 
 		self.total_cost = self.sum_stat("cost")
@@ -128,6 +143,11 @@ class TeamSolver(ABC):
 		self.iter = 0
 
 		self.update_stats()
+
+	def countTeams(self) -> pd.DataFrame:
+		flatPlayers: pd.DataFrame = self.flattenTeam()
+		teamCounts: pd.Series = flatPlayers["team"].value_counts()
+		return teamCounts
 
 	def get_bench_player(self, position: str) -> pd.Series:
 		'''
@@ -453,6 +473,11 @@ f"""
 		options = self.default_players[worst_player_position]
 		options = options.loc[~(options["id"].isin(team["id"]))]
 		actual_options = options.loc[options["score"] > worst_player["score"]]
+		flatPlayers: pd.DataFrame = self.flattenTeam()
+		teamCounts: pd.Series = flatPlayers["team"].value_counts()
+		boolArr: pd.Series[bool] = actual_options["team"].apply(lambda x: teamCounts.get(x, 0) < 3)
+		actual_options = actual_options.loc[boolArr]
+
 		amount_remaining = MAX_BUDGET - self.total_cost
 		if len(actual_options) > 0:
 			max_price = worst_player["cost"] + amount_remaining
@@ -505,7 +530,7 @@ f"""
 		amount_remaining = MAX_BUDGET - (self.total_cost)
 		if (self.total_cost <= self.budget):
 			iter = 0
-			while (amount_remaining > MAX_AMT_REMAINING) and (amount_remaining >= 0) and (iter < config.MAX_ITERS):
+			while (amount_remaining >= MAX_AMT_REMAINING) and (iter < config.MAX_ITERS):
 				#if(self.verbose):
 				#	print(f"Iter: {iter}")
 				self.backward_adjust()

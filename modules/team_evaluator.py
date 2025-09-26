@@ -2,6 +2,7 @@ import json
 import pandas as pd
 from abc import ABC, abstractmethod
 from copy import deepcopy
+from tqdm import tqdm
 
 from modules.team_solver import TeamSolver, SolverMode
 from modules.forest_team_predicter import RandomForestRegressor
@@ -23,7 +24,7 @@ class TeamEvaluator(TeamSolver):
 		
 		for (_season, tempDict) in self.dataJson.items():
 			season: int = int(_season)
-			for (_gameweek, playerData) in tempDict.items():
+			for (_gameweek, playerData) in tqdm(tempDict.items(), desc=f"Evaluating {pModel.label}"):
 				gameweek: int = int(_gameweek)
 				currentData = pd.DataFrame.from_records(playerData)
 				if(currentData["points_this_week"].notnull().all()):

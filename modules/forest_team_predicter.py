@@ -12,6 +12,8 @@ import subprocess
 from modules.team_solver import TeamSolver, SolverMode
 from modules.team_predicter import TeamPredicter
 
+NUM_TREES = 2000
+
 class RFTeamPredicter(TeamPredicter):
     '''
     Team Predicter using Random Forest Regression
@@ -51,7 +53,7 @@ class RFTeamPredicter(TeamPredicter):
             xTrain, xTest, yTrain, yTest = train_test_split(x, yOfPos, test_size=0.2, random_state=19)
         
             yTrain: pd.Series = yTrain
-            regressor = RandomForestRegressor(random_state=13, n_jobs=-1, n_estimators=1000, verbose=1)
+            regressor = RandomForestRegressor(random_state=13, n_jobs=-1, n_estimators=NUM_TREES, verbose=1)
             #regressor = xgb.XGBRFRegressor(random_state=19)
 
             # Interestingly, accuracy seems to be MUCH higher when hyperparameters are NOT tuned!!!

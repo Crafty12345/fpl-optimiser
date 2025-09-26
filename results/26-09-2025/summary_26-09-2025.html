@@ -6,279 +6,873 @@
 	</head>
 	<body>
 
-		<h1> Team Solver 'NNTeamPredicter' - Score with mode cheapest first </h1>
+		<h1> Team Solver 'LinearTeamPredicter' - Combined with mode cheapest first </h1>
 		<p>Index: 0</p>
 
-		<p>Cost: 939.0</p>
-		<p>Score: 113.66914463043213</p>
+		<p>Cost: 1000</p>
+		<p>Score: 252.16454482399655</p>
 		<table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>id</th>
-      <th>ict_index</th>
-      <th>position</th>
-      <th>team</th>
-      <th>gameweek</th>
-      <th>season</th>
+      <th>clean_sheets</th>
+      <th>cost</th>
+      <th>expected_goals</th>
       <th>form</th>
+      <th>gameweek</th>
+      <th>ict_index</th>
+      <th>id</th>
+      <th>name</th>
       <th>opposing_team</th>
       <th>play_percent</th>
-      <th>clean_sheets</th>
-      <th>expected_goals</th>
-      <th>status</th>
-      <th>cost</th>
-      <th>name</th>
       <th>points_per_game</th>
+      <th>points_this_week</th>
+      <th>position</th>
+      <th>season</th>
+      <th>status</th>
+      <th>team</th>
       <th>total_points</th>
+      <th>combined</th>
+      <th>weight</th>
       <th>score</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>670</td>
-      <td>13.0</td>
-      <td>GKP</td>
-      <td>SUN</td>
-      <td>6</td>
-      <td>26</td>
-      <td>6.7</td>
-      <td>NFO</td>
-      <td>0.833333</td>
       <td>2.0</td>
+      <td>45</td>
       <td>0.0</td>
-      <td>a</td>
-      <td>45.0</td>
+      <td>6.7</td>
+      <td>5</td>
+      <td>13.0</td>
+      <td>670</td>
       <td>Robin Roefs</td>
+      <td>AVL</td>
+      <td>0.833333</td>
       <td>5.8</td>
-      <td>29.0</td>
-      <td>6.54859</td>
+      <td>2</td>
+      <td>GKP</td>
+      <td>26</td>
+      <td>a</td>
+      <td>SUN</td>
+      <td>29</td>
+      <td>5.668</td>
+      <td>0.422705</td>
+      <td>5.873106</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>72</td>
-      <td>20.2</td>
+      <td>2.0</td>
+      <td>52</td>
+      <td>0.75</td>
+      <td>8.0</td>
+      <td>5</td>
+      <td>29.1</td>
+      <td>226</td>
+      <td>Trevoh Chalobah</td>
+      <td>MUN</td>
+      <td>0.792593</td>
+      <td>7.6</td>
+      <td>8</td>
       <td>DEF</td>
-      <td>BOU</td>
-      <td>6</td>
       <td>26</td>
-      <td>8.7</td>
-      <td>LEE</td>
-      <td>0.833333</td>
-      <td>3.0</td>
-      <td>0.14</td>
       <td>a</td>
-      <td>48.0</td>
-      <td>Marcos Senesi Barón</td>
-      <td>7.4</td>
-      <td>37.0</td>
-      <td>9.583094</td>
+      <td>CHE</td>
+      <td>38</td>
+      <td>9.475409</td>
+      <td>0.543478</td>
+      <td>20.251371</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>260</td>
-      <td>18.0</td>
-      <td>DEF</td>
-      <td>CRY</td>
-      <td>6</td>
-      <td>26</td>
-      <td>9.3</td>
-      <td>LIV</td>
-      <td>0.833333</td>
       <td>3.0</td>
-      <td>0.39</td>
+      <td>51</td>
+      <td>0.3</td>
+      <td>6.3</td>
+      <td>5</td>
+      <td>16.8</td>
+      <td>257</td>
+      <td>Maxence Lacroix</td>
+      <td>WHU</td>
+      <td>0.833333</td>
+      <td>6.0</td>
+      <td>2</td>
+      <td>DEF</td>
+      <td>26</td>
       <td>a</td>
-      <td>47.0</td>
-      <td>Marc Guéhi</td>
-      <td>7.2</td>
-      <td>36.0</td>
-      <td>9.349835</td>
+      <td>CRY</td>
+      <td>30</td>
+      <td>6.316822</td>
+      <td>0.567633</td>
+      <td>16.067524</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>226</td>
-      <td>29.1</td>
+      <td>3.0</td>
+      <td>50</td>
+      <td>0.28</td>
+      <td>6.7</td>
+      <td>5</td>
+      <td>27.9</td>
+      <td>258</td>
+      <td>Tyrick Mitchell</td>
+      <td>WHU</td>
+      <td>0.833333</td>
+      <td>6.0</td>
+      <td>8</td>
       <td>DEF</td>
-      <td>CHE</td>
-      <td>6</td>
       <td>26</td>
-      <td>8.0</td>
-      <td>BHA</td>
-      <td>0.792593</td>
-      <td>2.0</td>
-      <td>0.75</td>
       <td>a</td>
-      <td>51.0</td>
-      <td>Trevoh Chalobah</td>
-      <td>7.6</td>
-      <td>38.0</td>
-      <td>8.430855</td>
+      <td>CRY</td>
+      <td>30</td>
+      <td>7.562954</td>
+      <td>0.567633</td>
+      <td>15.605957</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>74</td>
-      <td>18.3</td>
-      <td>DEF</td>
-      <td>BOU</td>
-      <td>6</td>
-      <td>26</td>
-      <td>6.0</td>
-      <td>LEE</td>
+      <td>1.0</td>
+      <td>44</td>
+      <td>0.17</td>
+      <td>4.7</td>
+      <td>5</td>
+      <td>26.6</td>
+      <td>603</td>
+      <td>El Hadji Malick Diouf</td>
+      <td>CRY</td>
       <td>0.833333</td>
-      <td>3.0</td>
-      <td>0.01</td>
+      <td>3.6</td>
+      <td>3</td>
+      <td>DEF</td>
+      <td>26</td>
       <td>a</td>
-      <td>45.0</td>
-      <td>Adrien Truffert</td>
-      <td>4.8</td>
-      <td>24.0</td>
-      <td>7.034791</td>
+      <td>WHU</td>
+      <td>18</td>
+      <td>4.750404</td>
+      <td>0.700483</td>
+      <td>8.00161</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>430</td>
-      <td>52.2</td>
-      <td>FWD</td>
-      <td>MCI</td>
-      <td>6</td>
-      <td>26</td>
-      <td>10.3</td>
-      <td>BUR</td>
-      <td>0.764815</td>
       <td>3.0</td>
+      <td>143</td>
       <td>6.18</td>
-      <td>d</td>
-      <td>143.0</td>
+      <td>10.3</td>
+      <td>5</td>
+      <td>52.2</td>
+      <td>430</td>
       <td>Erling Haaland</td>
+      <td>ARS</td>
+      <td>0.764815</td>
       <td>9.2</td>
-      <td>46.0</td>
-      <td>10.64229</td>
+      <td>9</td>
+      <td>FWD</td>
+      <td>26</td>
+      <td>d</td>
+      <td>MCI</td>
+      <td>46</td>
+      <td>13.846451</td>
+      <td>0.289855</td>
+      <td>22.398392</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>624</td>
-      <td>34.3</td>
+      <td>2.0</td>
+      <td>78</td>
+      <td>1.5</td>
+      <td>6.0</td>
+      <td>5</td>
+      <td>36.3</td>
+      <td>249</td>
+      <td>João Pedro Junqueira de Jesus</td>
+      <td>MUN</td>
+      <td>0.777778</td>
+      <td>7.0</td>
+      <td>2</td>
       <td>FWD</td>
-      <td>WHU</td>
-      <td>6</td>
       <td>26</td>
-      <td>6.7</td>
-      <td>EVE</td>
-      <td>0.833333</td>
-      <td>1.0</td>
-      <td>0.67</td>
       <td>a</td>
-      <td>77.0</td>
-      <td>Jarrod Bowen</td>
-      <td>4.8</td>
-      <td>24.0</td>
-      <td>6.647017</td>
+      <td>CHE</td>
+      <td>35</td>
+      <td>9.61706</td>
+      <td>0.543478</td>
+      <td>15.983164</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>82</td>
-      <td>41.0</td>
-      <td>MID</td>
-      <td>BOU</td>
-      <td>6</td>
-      <td>26</td>
-      <td>6.7</td>
-      <td>LEE</td>
-      <td>0.833333</td>
       <td>3.0</td>
+      <td>77</td>
       <td>2.78</td>
-      <td>a</td>
-      <td>77.0</td>
-      <td>Antoine Semenyo</td>
-      <td>8.2</td>
+      <td>6.7</td>
+      <td>5</td>
       <td>41.0</td>
-      <td>8.366521</td>
+      <td>82</td>
+      <td>Antoine Semenyo</td>
+      <td>NEW</td>
+      <td>0.833333</td>
+      <td>8.2</td>
+      <td>5</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>BOU</td>
+      <td>41</td>
+      <td>11.478005</td>
+      <td>0.700483</td>
+      <td>36.49934</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>449</td>
-      <td>48.1</td>
-      <td>MID</td>
-      <td>MUN</td>
-      <td>6</td>
-      <td>26</td>
-      <td>7.3</td>
-      <td>BRE</td>
-      <td>0.825926</td>
       <td>0.0</td>
+      <td>90</td>
       <td>2.73</td>
-      <td>a</td>
-      <td>90.0</td>
+      <td>7.3</td>
+      <td>5</td>
+      <td>48.1</td>
+      <td>449</td>
       <td>Bruno Borges Fernandes</td>
+      <td>CHE</td>
+      <td>0.825926</td>
       <td>5.2</td>
-      <td>26.0</td>
-      <td>7.189418</td>
+      <td>10</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>MUN</td>
+      <td>26</td>
+      <td>8.941822</td>
+      <td>0.57971</td>
+      <td>25.607324</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>390</td>
-      <td>26.5</td>
-      <td>MID</td>
-      <td>LIV</td>
-      <td>6</td>
-      <td>26</td>
-      <td>6.8</td>
-      <td>CRY</td>
-      <td>0.666667</td>
       <td>2.0</td>
-      <td>0.29</td>
-      <td>a</td>
-      <td>56.0</td>
-      <td>Ryan Gravenberch</td>
+      <td>55</td>
+      <td>2.06</td>
+      <td>6.3</td>
+      <td>5</td>
+      <td>38.1</td>
+      <td>200</td>
+      <td>Jaidon Anthony</td>
+      <td>NFO</td>
+      <td>0.818519</td>
       <td>6.8</td>
-      <td>27.0</td>
-      <td>7.183279</td>
+      <td>10</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>BUR</td>
+      <td>34</td>
+      <td>9.596918</td>
+      <td>0.917874</td>
+      <td>21.528193</td>
     </tr>
     <tr>
       <th>10</th>
-      <td>660</td>
-      <td>33.8</td>
-      <td>MID</td>
-      <td>LEE</td>
-      <td>6</td>
-      <td>26</td>
-      <td>6.3</td>
-      <td>BOU</td>
-      <td>0.833333</td>
       <td>2.0</td>
-      <td>0.61</td>
+      <td>67</td>
+      <td>1.93</td>
+      <td>5.7</td>
+      <td>5</td>
+      <td>32.2</td>
+      <td>237</td>
+      <td>Enzo Fernández</td>
+      <td>MUN</td>
+      <td>0.811111</td>
+      <td>6.0</td>
+      <td>1</td>
+      <td>MID</td>
+      <td>26</td>
       <td>a</td>
-      <td>50.0</td>
-      <td>Anton Stach</td>
-      <td>5.8</td>
-      <td>29.0</td>
-      <td>6.791365</td>
+      <td>CHE</td>
+      <td>30</td>
+      <td>8.045691</td>
+      <td>0.543478</td>
+      <td>14.765992</td>
     </tr>
   </tbody>
 </table>
-		<p>Suggested captain: Erling Haaland</p>
-		<p>Suggested vice captain: Marcos Senesi Barón</p>
+		<p>Suggested captain: Antoine Semenyo</p>
+		<p>Suggested vice captain: Bruno Borges Fernandes</p>
 		<h2>Bench</h2>
 		<table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>id</th>
-      <th>ict_index</th>
-      <th>position</th>
-      <th>team</th>
-      <th>gameweek</th>
-      <th>season</th>
+      <th>clean_sheets</th>
+      <th>cost</th>
+      <th>expected_goals</th>
       <th>form</th>
+      <th>gameweek</th>
+      <th>ict_index</th>
+      <th>id</th>
+      <th>name</th>
       <th>opposing_team</th>
       <th>play_percent</th>
-      <th>clean_sheets</th>
-      <th>expected_goals</th>
-      <th>status</th>
-      <th>cost</th>
-      <th>name</th>
       <th>points_per_game</th>
+      <th>points_this_week</th>
+      <th>position</th>
+      <th>season</th>
+      <th>status</th>
+      <th>team</th>
+      <th>total_points</th>
+      <th>combined</th>
+      <th>weight</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3.0</td>
+      <td>50</td>
+      <td>0.0</td>
+      <td>4.7</td>
+      <td>5</td>
+      <td>9.0</td>
+      <td>253</td>
+      <td>Dean Henderson</td>
+      <td>WHU</td>
+      <td>0.833333</td>
+      <td>4.4</td>
+      <td>1</td>
+      <td>GKP</td>
+      <td>26</td>
+      <td>a</td>
+      <td>CRY</td>
+      <td>22</td>
+      <td>3.663423</td>
+      <td>0.567633</td>
+      <td>7.162861</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.0</td>
+      <td>40</td>
+      <td>0.17</td>
+      <td>4.3</td>
+      <td>5</td>
+      <td>18.5</td>
+      <td>347</td>
+      <td>Gabriel Gudmundsson</td>
+      <td>WOL</td>
+      <td>0.812963</td>
+      <td>4.2</td>
+      <td>4</td>
+      <td>DEF</td>
+      <td>26</td>
+      <td>a</td>
+      <td>LEE</td>
+      <td>21</td>
+      <td>4.507716</td>
+      <td>0.253623</td>
+      <td>5.32855</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>77</td>
+      <td>0.67</td>
+      <td>6.7</td>
+      <td>5</td>
+      <td>34.3</td>
+      <td>624</td>
+      <td>Jarrod Bowen</td>
+      <td>CRY</td>
+      <td>0.833333</td>
+      <td>4.8</td>
+      <td>9</td>
+      <td>FWD</td>
+      <td>26</td>
+      <td>a</td>
+      <td>WHU</td>
+      <td>24</td>
+      <td>6.948142</td>
+      <td>0.700483</td>
+      <td>19.768122</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.0</td>
+      <td>81</td>
+      <td>1.85</td>
+      <td>5.0</td>
+      <td>5</td>
+      <td>41.0</td>
+      <td>119</td>
+      <td>Bryan Mbeumo</td>
+      <td>CHE</td>
+      <td>0.794444</td>
+      <td>3.8</td>
+      <td>3</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>MUN</td>
+      <td>19</td>
+      <td>6.589226</td>
+      <td>0.57971</td>
+      <td>17.32304</td>
+    </tr>
+  </tbody>
+</table>
+		<p>Bench cost: 248</p>
+		<p>Bench score: 49.5825719805017</p>
+		<h2>Summary</h2>
+		Total cost: 1000
+		<br>
+		Total score: 252.16454482399655
+		
+<br>Accuracy: 20.51%
+		<hr>
+
+		<h1> Team Solver 'LinearTeamPredicter' - Combined with mode most expensive first </h1>
+		<p>Index: 1</p>
+
+		<p>Cost: 943</p>
+		<p>Score: 275.3510732586309</p>
+		<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>clean_sheets</th>
+      <th>cost</th>
+      <th>expected_goals</th>
+      <th>form</th>
+      <th>gameweek</th>
+      <th>ict_index</th>
+      <th>id</th>
+      <th>name</th>
+      <th>opposing_team</th>
+      <th>play_percent</th>
+      <th>points_per_game</th>
+      <th>points_this_week</th>
+      <th>position</th>
+      <th>season</th>
+      <th>status</th>
+      <th>team</th>
+      <th>total_points</th>
+      <th>combined</th>
+      <th>weight</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4.0</td>
+      <td>50</td>
+      <td>0.0</td>
+      <td>6.3</td>
+      <td>5</td>
+      <td>8.8</td>
+      <td>469</td>
+      <td>Nick Pope</td>
+      <td>BOU</td>
+      <td>0.833333</td>
+      <td>6.4</td>
+      <td>6</td>
+      <td>GKP</td>
+      <td>26</td>
+      <td>a</td>
+      <td>NEW</td>
+      <td>32</td>
+      <td>5.863143</td>
+      <td>0.603865</td>
+      <td>10.988116</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3.0</td>
+      <td>48</td>
+      <td>0.14</td>
+      <td>8.7</td>
+      <td>5</td>
+      <td>20.2</td>
+      <td>72</td>
+      <td>Marcos Senesi Barón</td>
+      <td>NEW</td>
+      <td>0.833333</td>
+      <td>7.4</td>
+      <td>9</td>
+      <td>DEF</td>
+      <td>26</td>
+      <td>a</td>
+      <td>BOU</td>
+      <td>37</td>
+      <td>8.254041</td>
+      <td>0.700483</td>
+      <td>22.394293</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.0</td>
+      <td>47</td>
+      <td>0.39</td>
+      <td>9.3</td>
+      <td>5</td>
+      <td>18.0</td>
+      <td>260</td>
+      <td>Marc Guéhi</td>
+      <td>WHU</td>
+      <td>0.833333</td>
+      <td>7.2</td>
+      <td>7</td>
+      <td>DEF</td>
+      <td>26</td>
+      <td>a</td>
+      <td>CRY</td>
+      <td>36</td>
+      <td>7.784842</td>
+      <td>0.567633</td>
+      <td>21.513888</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2.0</td>
+      <td>52</td>
+      <td>0.75</td>
+      <td>8.0</td>
+      <td>5</td>
+      <td>29.1</td>
+      <td>226</td>
+      <td>Trevoh Chalobah</td>
+      <td>MUN</td>
+      <td>0.792593</td>
+      <td>7.6</td>
+      <td>8</td>
+      <td>DEF</td>
+      <td>26</td>
+      <td>a</td>
+      <td>CHE</td>
+      <td>38</td>
+      <td>9.475409</td>
+      <td>0.543478</td>
+      <td>20.251371</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3.0</td>
+      <td>50</td>
+      <td>0.28</td>
+      <td>6.7</td>
+      <td>5</td>
+      <td>27.9</td>
+      <td>258</td>
+      <td>Tyrick Mitchell</td>
+      <td>WHU</td>
+      <td>0.833333</td>
+      <td>6.0</td>
+      <td>8</td>
+      <td>DEF</td>
+      <td>26</td>
+      <td>a</td>
+      <td>CRY</td>
+      <td>30</td>
+      <td>7.562954</td>
+      <td>0.567633</td>
+      <td>15.605957</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1.0</td>
+      <td>77</td>
+      <td>0.67</td>
+      <td>6.7</td>
+      <td>5</td>
+      <td>34.3</td>
+      <td>624</td>
+      <td>Jarrod Bowen</td>
+      <td>CRY</td>
+      <td>0.833333</td>
+      <td>4.8</td>
+      <td>9</td>
+      <td>FWD</td>
+      <td>26</td>
+      <td>a</td>
+      <td>WHU</td>
+      <td>24</td>
+      <td>6.948142</td>
+      <td>0.700483</td>
+      <td>19.768122</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2.0</td>
+      <td>78</td>
+      <td>1.5</td>
+      <td>6.0</td>
+      <td>5</td>
+      <td>36.3</td>
+      <td>249</td>
+      <td>João Pedro Junqueira de Jesus</td>
+      <td>MUN</td>
+      <td>0.777778</td>
+      <td>7.0</td>
+      <td>2</td>
+      <td>FWD</td>
+      <td>26</td>
+      <td>a</td>
+      <td>CHE</td>
+      <td>35</td>
+      <td>9.61706</td>
+      <td>0.543478</td>
+      <td>15.983164</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>3.0</td>
+      <td>77</td>
+      <td>2.78</td>
+      <td>6.7</td>
+      <td>5</td>
+      <td>41.0</td>
+      <td>82</td>
+      <td>Antoine Semenyo</td>
+      <td>NEW</td>
+      <td>0.833333</td>
+      <td>8.2</td>
+      <td>5</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>BOU</td>
+      <td>41</td>
+      <td>11.478005</td>
+      <td>0.700483</td>
+      <td>36.49934</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.0</td>
+      <td>90</td>
+      <td>2.73</td>
+      <td>7.3</td>
+      <td>5</td>
+      <td>48.1</td>
+      <td>449</td>
+      <td>Bruno Borges Fernandes</td>
+      <td>CHE</td>
+      <td>0.825926</td>
+      <td>5.2</td>
+      <td>10</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>MUN</td>
+      <td>26</td>
+      <td>8.941822</td>
+      <td>0.57971</td>
+      <td>25.607324</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2.0</td>
+      <td>55</td>
+      <td>2.06</td>
+      <td>6.3</td>
+      <td>5</td>
+      <td>38.1</td>
+      <td>200</td>
+      <td>Jaidon Anthony</td>
+      <td>NFO</td>
+      <td>0.818519</td>
+      <td>6.8</td>
+      <td>10</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>BUR</td>
+      <td>34</td>
+      <td>9.596918</td>
+      <td>0.917874</td>
+      <td>21.528193</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2.0</td>
+      <td>67</td>
+      <td>1.93</td>
+      <td>5.7</td>
+      <td>5</td>
+      <td>32.2</td>
+      <td>237</td>
+      <td>Enzo Fernández</td>
+      <td>MUN</td>
+      <td>0.811111</td>
+      <td>6.0</td>
+      <td>1</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>CHE</td>
+      <td>30</td>
+      <td>8.045691</td>
+      <td>0.543478</td>
+      <td>14.765992</td>
+    </tr>
+  </tbody>
+</table>
+		<p>Suggested captain: Antoine Semenyo</p>
+		<p>Suggested vice captain: Bruno Borges Fernandes</p>
+		<h2>Bench</h2>
+		<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>clean_sheets</th>
+      <th>cost</th>
+      <th>expected_goals</th>
+      <th>form</th>
+      <th>gameweek</th>
+      <th>ict_index</th>
+      <th>id</th>
+      <th>name</th>
+      <th>opposing_team</th>
+      <th>play_percent</th>
+      <th>points_per_game</th>
+      <th>points_this_week</th>
+      <th>position</th>
+      <th>season</th>
+      <th>status</th>
+      <th>team</th>
+      <th>total_points</th>
+      <th>combined</th>
+      <th>weight</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3.0</td>
+      <td>50</td>
+      <td>0.0</td>
+      <td>4.7</td>
+      <td>5</td>
+      <td>9.0</td>
+      <td>253</td>
+      <td>Dean Henderson</td>
+      <td>WHU</td>
+      <td>0.833333</td>
+      <td>4.4</td>
+      <td>1</td>
+      <td>GKP</td>
+      <td>26</td>
+      <td>a</td>
+      <td>CRY</td>
+      <td>22</td>
+      <td>3.663423</td>
+      <td>0.567633</td>
+      <td>7.162861</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3.0</td>
+      <td>51</td>
+      <td>0.3</td>
+      <td>6.3</td>
+      <td>5</td>
+      <td>16.8</td>
+      <td>257</td>
+      <td>Maxence Lacroix</td>
+      <td>WHU</td>
+      <td>0.833333</td>
+      <td>6.0</td>
+      <td>2</td>
+      <td>DEF</td>
+      <td>26</td>
+      <td>a</td>
+      <td>CRY</td>
+      <td>30</td>
+      <td>6.316822</td>
+      <td>0.567633</td>
+      <td>16.067524</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.0</td>
+      <td>70</td>
+      <td>1.03</td>
+      <td>5.0</td>
+      <td>5</td>
+      <td>26.8</td>
+      <td>97</td>
+      <td>Francisco Evanilson de Lima Barbosa</td>
+      <td>NEW</td>
+      <td>0.809259</td>
+      <td>3.6</td>
+      <td>2</td>
+      <td>FWD</td>
+      <td>26</td>
+      <td>a</td>
+      <td>BOU</td>
+      <td>18</td>
+      <td>4.772857</td>
+      <td>0.700483</td>
+      <td>9.89189</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.0</td>
+      <td>81</td>
+      <td>1.85</td>
+      <td>5.0</td>
+      <td>5</td>
+      <td>41.0</td>
+      <td>119</td>
+      <td>Bryan Mbeumo</td>
+      <td>CHE</td>
+      <td>0.794444</td>
+      <td>3.8</td>
+      <td>3</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>MUN</td>
+      <td>19</td>
+      <td>6.589226</td>
+      <td>0.57971</td>
+      <td>17.32304</td>
+    </tr>
+  </tbody>
+</table>
+		<p>Bench cost: 252</p>
+		<p>Bench score: 50.445315178265744</p>
+		<h2>Summary</h2>
+		Total cost: 943
+		<br>
+		Total score: 275.3510732586309
+		
+<br>Accuracy: 21.54%
+		<hr>
+
+		<h1> Team Solver 'RFTeamPredicter' - Score with mode cheapest first </h1>
+		<p>Index: 2</p>
+
+		<p>Cost: 948</p>
+		<p>Score: 113.91550000000001</p>
+		<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>clean_sheets</th>
+      <th>cost</th>
+      <th>expected_goals</th>
+      <th>form</th>
+      <th>gameweek</th>
+      <th>ict_index</th>
+      <th>id</th>
+      <th>name</th>
+      <th>opposing_team</th>
+      <th>play_percent</th>
+      <th>points_per_game</th>
+      <th>points_this_week</th>
+      <th>position</th>
+      <th>season</th>
+      <th>status</th>
+      <th>team</th>
       <th>total_points</th>
       <th>score</th>
     </tr>
@@ -286,92 +880,744 @@
   <tbody>
     <tr>
       <th>0</th>
-      <td>469</td>
-      <td>8.8</td>
-      <td>GKP</td>
-      <td>NEW</td>
-      <td>6</td>
-      <td>26</td>
-      <td>5.8</td>
-      <td>ARS</td>
-      <td>0.833333</td>
-      <td>4.0</td>
+      <td>2.0</td>
+      <td>55</td>
       <td>0.0</td>
+      <td>5.3</td>
+      <td>6</td>
+      <td>6.1</td>
+      <td>366</td>
+      <td>Alisson Becker</td>
+      <td>CRY</td>
+      <td>0.833333</td>
+      <td>3.6</td>
+      <td>2</td>
+      <td>GKP</td>
+      <td>26</td>
       <td>a</td>
-      <td>50.0</td>
-      <td>Nick Pope</td>
-      <td>6.4</td>
-      <td>32.0</td>
-      <td>6.134118</td>
+      <td>LIV</td>
+      <td>18</td>
+      <td>6.171</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>258</td>
-      <td>27.9</td>
-      <td>DEF</td>
-      <td>CRY</td>
+      <td>4.0</td>
+      <td>50</td>
+      <td>0.05</td>
+      <td>7.0</td>
       <td>6</td>
-      <td>26</td>
-      <td>6.7</td>
-      <td>LIV</td>
+      <td>13.6</td>
+      <td>476</td>
+      <td>Dan Burn</td>
+      <td>ARS</td>
       <td>0.833333</td>
-      <td>3.0</td>
-      <td>0.28</td>
+      <td>6.4</td>
+      <td>9</td>
+      <td>DEF</td>
+      <td>26</td>
       <td>a</td>
-      <td>50.0</td>
-      <td>Tyrick Mitchell</td>
-      <td>6.0</td>
-      <td>30.0</td>
-      <td>6.817828</td>
+      <td>NEW</td>
+      <td>32</td>
+      <td>8.8765</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>560</td>
-      <td>22.7</td>
-      <td>FWD</td>
-      <td>SUN</td>
+      <td>3.0</td>
+      <td>48</td>
+      <td>0.14</td>
+      <td>8.7</td>
       <td>6</td>
+      <td>20.2</td>
+      <td>72</td>
+      <td>Marcos Senesi Barón</td>
+      <td>LEE</td>
+      <td>0.833333</td>
+      <td>7.4</td>
+      <td>9</td>
+      <td>DEF</td>
       <td>26</td>
-      <td>6.3</td>
-      <td>NFO</td>
-      <td>0.435185</td>
-      <td>1.0</td>
-      <td>1.01</td>
       <td>a</td>
-      <td>55.0</td>
-      <td>Wilson Isidor</td>
-      <td>5.0</td>
-      <td>25.0</td>
-      <td>6.182092</td>
+      <td>BOU</td>
+      <td>37</td>
+      <td>8.6685</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>200</td>
-      <td>38.1</td>
-      <td>MID</td>
-      <td>BUR</td>
+      <td>3.0</td>
+      <td>45</td>
+      <td>0.01</td>
+      <td>6.0</td>
       <td>6</td>
+      <td>18.3</td>
+      <td>74</td>
+      <td>Adrien Truffert</td>
+      <td>LEE</td>
+      <td>0.833333</td>
+      <td>4.8</td>
+      <td>9</td>
+      <td>DEF</td>
       <td>26</td>
+      <td>a</td>
+      <td>BOU</td>
+      <td>24</td>
+      <td>7.4975</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2.0</td>
+      <td>61</td>
+      <td>0.18</td>
+      <td>6.7</td>
+      <td>6</td>
+      <td>21.8</td>
+      <td>373</td>
+      <td>Virgil van Dijk</td>
+      <td>CRY</td>
+      <td>0.833333</td>
+      <td>5.2</td>
+      <td>4</td>
+      <td>DEF</td>
+      <td>26</td>
+      <td>a</td>
+      <td>LIV</td>
+      <td>26</td>
+      <td>6.689</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>3.0</td>
+      <td>143</td>
+      <td>6.18</td>
+      <td>10.3</td>
+      <td>6</td>
+      <td>52.2</td>
+      <td>430</td>
+      <td>Erling Haaland</td>
+      <td>BUR</td>
+      <td>0.764815</td>
+      <td>9.2</td>
+      <td>9</td>
+      <td>FWD</td>
+      <td>26</td>
+      <td>d</td>
+      <td>MCI</td>
+      <td>46</td>
+      <td>11.408</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1.0</td>
+      <td>55</td>
+      <td>0.49</td>
+      <td>4.7</td>
+      <td>6</td>
+      <td>13.5</td>
+      <td>691</td>
+      <td>Dominic Calvert-Lewin</td>
+      <td>BOU</td>
+      <td>0.32963</td>
+      <td>4.7</td>
+      <td>11</td>
+      <td>FWD</td>
+      <td>26</td>
+      <td>a</td>
+      <td>LEE</td>
+      <td>14</td>
+      <td>7.1215</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.0</td>
+      <td>90</td>
+      <td>2.73</td>
+      <td>7.3</td>
+      <td>6</td>
+      <td>48.1</td>
+      <td>449</td>
+      <td>Bruno Borges Fernandes</td>
+      <td>BRE</td>
+      <td>0.825926</td>
+      <td>5.2</td>
+      <td>10</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>MUN</td>
+      <td>26</td>
+      <td>9.071</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1.0</td>
+      <td>65</td>
+      <td>0.29</td>
+      <td>5.7</td>
+      <td>6</td>
+      <td>25.3</td>
+      <td>324</td>
+      <td>Alex Iwobi</td>
+      <td>AVL</td>
+      <td>0.725926</td>
+      <td>5.2</td>
+      <td>13</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>FUL</td>
+      <td>26</td>
+      <td>8.463</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1.0</td>
+      <td>59</td>
+      <td>1.25</td>
       <td>6.3</td>
+      <td>6</td>
+      <td>33.1</td>
+      <td>160</td>
+      <td>Yankuba Minteh</td>
+      <td>CHE</td>
+      <td>0.764815</td>
+      <td>4.8</td>
+      <td>9</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>BHA</td>
+      <td>24</td>
+      <td>7.6325</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2.0</td>
+      <td>55</td>
+      <td>2.06</td>
+      <td>6.3</td>
+      <td>6</td>
+      <td>38.1</td>
+      <td>200</td>
+      <td>Jaidon Anthony</td>
       <td>MCI</td>
       <td>0.818519</td>
-      <td>2.0</td>
-      <td>2.06</td>
-      <td>a</td>
-      <td>55.0</td>
-      <td>Jaidon Anthony</td>
       <td>6.8</td>
-      <td>34.0</td>
-      <td>6.768052</td>
+      <td>10</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>BUR</td>
+      <td>34</td>
+      <td>7.4825</td>
     </tr>
   </tbody>
 </table>
-		<p>Bench cost: 210.0</p>
-		<p>Bench score: 25.902089595794678</p>
+		<p>Suggested captain: Erling Haaland</p>
+		<p>Suggested vice captain: Bruno Borges Fernandes</p>
+		<h2>Bench</h2>
+		<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>clean_sheets</th>
+      <th>cost</th>
+      <th>expected_goals</th>
+      <th>form</th>
+      <th>gameweek</th>
+      <th>ict_index</th>
+      <th>id</th>
+      <th>name</th>
+      <th>opposing_team</th>
+      <th>play_percent</th>
+      <th>points_per_game</th>
+      <th>points_this_week</th>
+      <th>position</th>
+      <th>season</th>
+      <th>status</th>
+      <th>team</th>
+      <th>total_points</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3.0</td>
+      <td>45</td>
+      <td>0.0</td>
+      <td>4.3</td>
+      <td>6</td>
+      <td>8.9</td>
+      <td>67</td>
+      <td>Đorđe Petrović</td>
+      <td>LEE</td>
+      <td>0.833333</td>
+      <td>4.2</td>
+      <td>6</td>
+      <td>GKP</td>
+      <td>26</td>
+      <td>a</td>
+      <td>BOU</td>
+      <td>21</td>
+      <td>5.321</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.0</td>
+      <td>46</td>
+      <td>0.06</td>
+      <td>5.0</td>
+      <td>6</td>
+      <td>21.6</td>
+      <td>36</td>
+      <td>Matty Cash</td>
+      <td>FUL</td>
+      <td>0.801852</td>
+      <td>5.0</td>
+      <td>10</td>
+      <td>DEF</td>
+      <td>26</td>
+      <td>a</td>
+      <td>AVL</td>
+      <td>25</td>
+      <td>6.0995</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>77</td>
+      <td>0.67</td>
+      <td>6.7</td>
+      <td>6</td>
+      <td>34.3</td>
+      <td>624</td>
+      <td>Jarrod Bowen</td>
+      <td>EVE</td>
+      <td>0.833333</td>
+      <td>4.8</td>
+      <td>9</td>
+      <td>FWD</td>
+      <td>26</td>
+      <td>a</td>
+      <td>WHU</td>
+      <td>24</td>
+      <td>6.395</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2.0</td>
+      <td>54</td>
+      <td>0.72</td>
+      <td>5.0</td>
+      <td>6</td>
+      <td>18.8</td>
+      <td>302</td>
+      <td>Idrissa Gana Gueye</td>
+      <td>WHU</td>
+      <td>0.805556</td>
+      <td>4.0</td>
+      <td>10</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>EVE</td>
+      <td>20</td>
+      <td>7.019</td>
+    </tr>
+  </tbody>
+</table>
+		<p>Bench cost: 222</p>
+		<p>Bench score: 24.8345</p>
 		<h2>Summary</h2>
-		Total cost: 939.0
+		Total cost: 948
 		<br>
-		Total score: 113.66914463043213
+		Total score: 113.91550000000001
 		
-<br>Accuracy: 33.85%
+<br>Accuracy: 59.23%
+		<hr>
+
+		<h1> Team Solver 'RFTeamPredicter' - Score with mode most expensive first </h1>
+		<p>Index: 3</p>
+
+		<p>Cost: 948</p>
+		<p>Score: 113.91550000000001</p>
+		<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>clean_sheets</th>
+      <th>cost</th>
+      <th>expected_goals</th>
+      <th>form</th>
+      <th>gameweek</th>
+      <th>ict_index</th>
+      <th>id</th>
+      <th>name</th>
+      <th>opposing_team</th>
+      <th>play_percent</th>
+      <th>points_per_game</th>
+      <th>points_this_week</th>
+      <th>position</th>
+      <th>season</th>
+      <th>status</th>
+      <th>team</th>
+      <th>total_points</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2.0</td>
+      <td>55</td>
+      <td>0.0</td>
+      <td>5.3</td>
+      <td>6</td>
+      <td>6.1</td>
+      <td>366</td>
+      <td>Alisson Becker</td>
+      <td>CRY</td>
+      <td>0.833333</td>
+      <td>3.6</td>
+      <td>2</td>
+      <td>GKP</td>
+      <td>26</td>
+      <td>a</td>
+      <td>LIV</td>
+      <td>18</td>
+      <td>6.171</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4.0</td>
+      <td>50</td>
+      <td>0.05</td>
+      <td>7.0</td>
+      <td>6</td>
+      <td>13.6</td>
+      <td>476</td>
+      <td>Dan Burn</td>
+      <td>ARS</td>
+      <td>0.833333</td>
+      <td>6.4</td>
+      <td>9</td>
+      <td>DEF</td>
+      <td>26</td>
+      <td>a</td>
+      <td>NEW</td>
+      <td>32</td>
+      <td>8.8765</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.0</td>
+      <td>48</td>
+      <td>0.14</td>
+      <td>8.7</td>
+      <td>6</td>
+      <td>20.2</td>
+      <td>72</td>
+      <td>Marcos Senesi Barón</td>
+      <td>LEE</td>
+      <td>0.833333</td>
+      <td>7.4</td>
+      <td>9</td>
+      <td>DEF</td>
+      <td>26</td>
+      <td>a</td>
+      <td>BOU</td>
+      <td>37</td>
+      <td>8.6685</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3.0</td>
+      <td>45</td>
+      <td>0.01</td>
+      <td>6.0</td>
+      <td>6</td>
+      <td>18.3</td>
+      <td>74</td>
+      <td>Adrien Truffert</td>
+      <td>LEE</td>
+      <td>0.833333</td>
+      <td>4.8</td>
+      <td>9</td>
+      <td>DEF</td>
+      <td>26</td>
+      <td>a</td>
+      <td>BOU</td>
+      <td>24</td>
+      <td>7.4975</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2.0</td>
+      <td>61</td>
+      <td>0.18</td>
+      <td>6.7</td>
+      <td>6</td>
+      <td>21.8</td>
+      <td>373</td>
+      <td>Virgil van Dijk</td>
+      <td>CRY</td>
+      <td>0.833333</td>
+      <td>5.2</td>
+      <td>4</td>
+      <td>DEF</td>
+      <td>26</td>
+      <td>a</td>
+      <td>LIV</td>
+      <td>26</td>
+      <td>6.689</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>3.0</td>
+      <td>143</td>
+      <td>6.18</td>
+      <td>10.3</td>
+      <td>6</td>
+      <td>52.2</td>
+      <td>430</td>
+      <td>Erling Haaland</td>
+      <td>BUR</td>
+      <td>0.764815</td>
+      <td>9.2</td>
+      <td>9</td>
+      <td>FWD</td>
+      <td>26</td>
+      <td>d</td>
+      <td>MCI</td>
+      <td>46</td>
+      <td>11.408</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1.0</td>
+      <td>55</td>
+      <td>0.49</td>
+      <td>4.7</td>
+      <td>6</td>
+      <td>13.5</td>
+      <td>691</td>
+      <td>Dominic Calvert-Lewin</td>
+      <td>BOU</td>
+      <td>0.32963</td>
+      <td>4.7</td>
+      <td>11</td>
+      <td>FWD</td>
+      <td>26</td>
+      <td>a</td>
+      <td>LEE</td>
+      <td>14</td>
+      <td>7.1215</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.0</td>
+      <td>90</td>
+      <td>2.73</td>
+      <td>7.3</td>
+      <td>6</td>
+      <td>48.1</td>
+      <td>449</td>
+      <td>Bruno Borges Fernandes</td>
+      <td>BRE</td>
+      <td>0.825926</td>
+      <td>5.2</td>
+      <td>10</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>MUN</td>
+      <td>26</td>
+      <td>9.071</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1.0</td>
+      <td>65</td>
+      <td>0.29</td>
+      <td>5.7</td>
+      <td>6</td>
+      <td>25.3</td>
+      <td>324</td>
+      <td>Alex Iwobi</td>
+      <td>AVL</td>
+      <td>0.725926</td>
+      <td>5.2</td>
+      <td>13</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>FUL</td>
+      <td>26</td>
+      <td>8.463</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1.0</td>
+      <td>59</td>
+      <td>1.25</td>
+      <td>6.3</td>
+      <td>6</td>
+      <td>33.1</td>
+      <td>160</td>
+      <td>Yankuba Minteh</td>
+      <td>CHE</td>
+      <td>0.764815</td>
+      <td>4.8</td>
+      <td>9</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>BHA</td>
+      <td>24</td>
+      <td>7.6325</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2.0</td>
+      <td>55</td>
+      <td>2.06</td>
+      <td>6.3</td>
+      <td>6</td>
+      <td>38.1</td>
+      <td>200</td>
+      <td>Jaidon Anthony</td>
+      <td>MCI</td>
+      <td>0.818519</td>
+      <td>6.8</td>
+      <td>10</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>BUR</td>
+      <td>34</td>
+      <td>7.4825</td>
+    </tr>
+  </tbody>
+</table>
+		<p>Suggested captain: Erling Haaland</p>
+		<p>Suggested vice captain: Bruno Borges Fernandes</p>
+		<h2>Bench</h2>
+		<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>clean_sheets</th>
+      <th>cost</th>
+      <th>expected_goals</th>
+      <th>form</th>
+      <th>gameweek</th>
+      <th>ict_index</th>
+      <th>id</th>
+      <th>name</th>
+      <th>opposing_team</th>
+      <th>play_percent</th>
+      <th>points_per_game</th>
+      <th>points_this_week</th>
+      <th>position</th>
+      <th>season</th>
+      <th>status</th>
+      <th>team</th>
+      <th>total_points</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3.0</td>
+      <td>45</td>
+      <td>0.0</td>
+      <td>4.3</td>
+      <td>6</td>
+      <td>8.9</td>
+      <td>67</td>
+      <td>Đorđe Petrović</td>
+      <td>LEE</td>
+      <td>0.833333</td>
+      <td>4.2</td>
+      <td>6</td>
+      <td>GKP</td>
+      <td>26</td>
+      <td>a</td>
+      <td>BOU</td>
+      <td>21</td>
+      <td>5.321</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.0</td>
+      <td>46</td>
+      <td>0.06</td>
+      <td>5.0</td>
+      <td>6</td>
+      <td>21.6</td>
+      <td>36</td>
+      <td>Matty Cash</td>
+      <td>FUL</td>
+      <td>0.801852</td>
+      <td>5.0</td>
+      <td>10</td>
+      <td>DEF</td>
+      <td>26</td>
+      <td>a</td>
+      <td>AVL</td>
+      <td>25</td>
+      <td>6.0995</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>77</td>
+      <td>0.67</td>
+      <td>6.7</td>
+      <td>6</td>
+      <td>34.3</td>
+      <td>624</td>
+      <td>Jarrod Bowen</td>
+      <td>EVE</td>
+      <td>0.833333</td>
+      <td>4.8</td>
+      <td>9</td>
+      <td>FWD</td>
+      <td>26</td>
+      <td>a</td>
+      <td>WHU</td>
+      <td>24</td>
+      <td>6.395</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2.0</td>
+      <td>54</td>
+      <td>0.72</td>
+      <td>5.0</td>
+      <td>6</td>
+      <td>18.8</td>
+      <td>302</td>
+      <td>Idrissa Gana Gueye</td>
+      <td>WHU</td>
+      <td>0.805556</td>
+      <td>4.0</td>
+      <td>10</td>
+      <td>MID</td>
+      <td>26</td>
+      <td>a</td>
+      <td>EVE</td>
+      <td>20</td>
+      <td>7.019</td>
+    </tr>
+  </tbody>
+</table>
+		<p>Bench cost: 222</p>
+		<p>Bench score: 24.8345</p>
+		<h2>Summary</h2>
+		Total cost: 948
+		<br>
+		Total score: 113.91550000000001
+		
+<br>Accuracy: 60.51%
 		<hr>
