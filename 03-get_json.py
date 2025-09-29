@@ -80,12 +80,13 @@ def processFile(pDate: RawPlayerDataFile, pOldData: list[dict]) -> pd.DataFrame:
 
     # Need eventData in order to get correct gameweek
     eventData = pd.DataFrame(all_data_raw["events"])
-    eventData = eventData.loc[eventData["finished"]==True]
+    nextWeek = eventData.loc[eventData["is_next"]==True]
 
-    if len(eventData) < 1:
+    if len(nextWeek) < 1:
         currentGameweek = 0
     else:
-        currentGameweek: int = eventData["id"].values[-1]
+        nextGameweek: int = nextWeek["id"].values[-1]
+        currentGameweek = nextGameweek - 1
 
     df = pd.DataFrame(all_data_raw["elements"])
     
