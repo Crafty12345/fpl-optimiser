@@ -9,11 +9,7 @@ import os
 import config
 
 class FixtureDifficultyMatrix():
-    def __init__(self,
-                  pScale: float, 
-                  pStartGameweek: int, 
-                  pEndGameweek: int,
-                  pSeason: int):
+    def __init__(self):
         
         with open("./data/current_table.txt") as f:
             self.table = f.readlines()
@@ -23,107 +19,91 @@ class FixtureDifficultyMatrix():
         self.indexes = dict()
         for i, team in enumerate(self.table):
             self.indexes[team] = (i+1) / self.numTeams
-        
-        self.startGameweek = pStartGameweek
-        self.endGameweek = pEndGameweek + 1
 
-        self.season = pSeason
-
-        self.thisGameweek = config.CURRENT_GAMEWEEK
         self.thisGameweekDiffs = dict()
         self.fixtureDataExists = True
 
         self.simpleDifficulties = dict()
         self.normalisedDifficulties = dict()
-        self.precomputeFixtureDifficulty(pScale)
 
-    def precomputeFixtureDifficulty(self, pScale: float):
+    def precomputeFixtureDifficulty(self,
+                  pBehindSteps: int,
+                  pCurrentGameweek: int,
+                  pAheadSteps: int,
+                  pSeason: int,
+                  pScale: float):
+        
         MIN_SCORE_OFFSET = -pScale
         MAX_SCORE_OFFSET = pScale
+        if pCurrentGameweek < 0 or pCurrentGameweek > config.MAX_GAMEWEEKS:
+            raise ValueError("Invalid current gameweek")
 
-        # The range of gameweeks to get fixture data from
-        fixtureRange = range(self.startGameweek, self.endGameweek+1)
+        startGameweek = max(pCurrentGameweek - pBehindSteps, 0)
+        endGameweek = min(pCurrentGameweek + pAheadSteps, config.MAX_GAMEWEEKS)
+
         allFixtureDataRaw = []
         with open("./data/team_translation_table.json") as f:
-            teamNamesJson = json.load(f)[str(self.season)]
+            teamNamesJson = json.load(f)[str(pSeason)]
         teamNameDf: pd.DataFrame = pd.DataFrame.from_records(teamNamesJson)
 
-        for gameweek in fixtureRange:
-            fixtureDataPath = f"./data/raw/fixture_data/{self.season}/fixture_data_{gameweek}.json"
-            if(os.path.isfile(fixtureDataPath)):
-                with open(fixtureDataPath) as f:
-                    allFixtureDataRaw.append(json.load(f))
-                    self.fixtureDataExists = True
-            else:
-                warn(f"Season {self.season} has no entry for gameweek {gameweek}.")
-                self.fixtureDataExists = False
+
+        fixtureDataPath = "./data/fixtures.json"
+        with open(fixtureDataPath, "r") as f:
+            fixturesJson: dict[str, dict[str, list[dict]]] = json.load(f)
 
         numFixtures = len(allFixtureDataRaw)
         sums = dict()
-        for gameweek in allFixtureDataRaw:
+        for _season in fixturesJson.keys():
+            season = int(_season)
 
-            alreadyPlayedTeams = set()
-            currentGameweekDict = dict()
-            currentGameweek = -1
+            for _gameweek, weekData in fixturesJson[_season].items():
+                alreadyPlayedTeams = set()
+                currentGameweekDict = dict()
+                gameweek = int(_gameweek)
+                if (season == pSeason and
+                    (gameweek >= startGameweek and gameweek <= endGameweek)):
+                    for fixture in weekData:
+                        homeTeam = fixture["home_team"]
+                        awayTeam = fixture["away_team"]
 
-            for val in gameweek:
-                currentGameweek = val["event"]
+                        homeTeamDifficulty = self.calcSimpleDifficulty(homeTeam, awayTeam)
+                        awayTeamDifficulty = self.calcSimpleDifficulty(awayTeam, homeTeam)
 
-                homeTeamId = val["team_h"]
-                homeTeamName = teamNameDf.loc[teamNameDf["id"]==homeTeamId]["name"].values[0]
-                awayTeamId = val["team_a"]
-                awayTeamName = teamNameDf.loc[teamNameDf["id"]==awayTeamId]["name"].values[0]
-                homeTeam = homeTeamName
-                awayTeam = awayTeamName
+                        # If the home team has already played this week (i.e. if it is a double-gameweek for the home team),
+                        # then decrease the sum. We do this because it is statistically likely for players to earn more points during
+                        # a double-gameweek due to bonuses.
 
-                homeTeamDifficulty = self.calcSimpleDifficulty(homeTeam, awayTeam)
-                awayTeamDifficulty = self.calcSimpleDifficulty(awayTeam, homeTeam)
+                        if (homeTeam in alreadyPlayedTeams):
+                            homeTeamDifficulty = -self.decayDifficulty(homeTeamDifficulty)
+                        if (awayTeam in alreadyPlayedTeams):
+                            awayTeamDifficulty = -self.decayDifficulty(awayTeamDifficulty)
 
-                # If the home team has already played this week (i.e. if it is a double-gameweek for the home team),
-                # then decrease the sum. We do this because it is statistically likely for players to earn more points during
-                # a double-gameweek due to bonuses.
+                        if(homeTeam not in sums.keys()):
+                            sums[homeTeam] = 0
+                        if(awayTeam not in sums.keys()):
+                            sums[awayTeam] = 0
 
-                if (homeTeam in alreadyPlayedTeams):
-                    homeTeamDifficulty = -self.decayDifficulty(homeTeamDifficulty)
+                        sums[homeTeam] += homeTeamDifficulty
+                        sums[awayTeam] += awayTeamDifficulty
 
-                if (awayTeam in alreadyPlayedTeams):
-                    #print()
-                    #print(f"{awayTeam} has double-gameweek in {val}.")
-                    #print(f"Difficulty: {awayTeamDifficulty}")
-                    awayTeamDifficulty = -self.decayDifficulty(awayTeamDifficulty)
-                    #print(f"Sum: {sums[awayTeam]}")
-                    #print(f"New average: {sums[awayTeam]/numFixtures}")
+                        if(homeTeam not in currentGameweekDict.keys()):
+                            currentGameweekDict[homeTeam] = 0
+                        if (awayTeam not in currentGameweekDict.keys()):
+                            currentGameweekDict[awayTeam] = 0
+                        currentGameweekDict[homeTeam] += homeTeamDifficulty
+                        currentGameweekDict[awayTeam] += awayTeamDifficulty
 
-                if(homeTeam not in sums.keys()):
-                    sums[homeTeam] = 0
-                if(awayTeam not in sums.keys()):
-                    sums[awayTeam] = 0
+                        alreadyPlayedTeams.add(homeTeam)
+                        alreadyPlayedTeams.add(awayTeam)
 
-                sums[homeTeam] += homeTeamDifficulty
-                sums[awayTeam] += awayTeamDifficulty
+                    if (gameweek == pCurrentGameweek):
+                        self.thisGameweekDiffs = copy(currentGameweekDict)
+                        avg = self.averageDifficulty(self.thisGameweekDiffs)
 
-                if(homeTeam not in currentGameweekDict.keys()):
-                    currentGameweekDict[homeTeam] = 0
-                if (awayTeam not in currentGameweekDict.keys()):
-                    currentGameweekDict[awayTeam] = 0
-                currentGameweekDict[homeTeam] += homeTeamDifficulty
-                currentGameweekDict[awayTeam] += awayTeamDifficulty
-
-                alreadyPlayedTeams.add(homeTeam)
-                alreadyPlayedTeams.add(awayTeam)
-
-            if (currentGameweek == self.thisGameweek):
-                self.thisGameweekDiffs = copy(currentGameweekDict)
-                avg = self.averageDifficulty(self.thisGameweekDiffs)
-
-                # Account for teams not having any games in a given gameweek (i.e. double-gameweeks)
-
-                actualGameweek = gameweek[0]["event"]
-
-                for team in self.allTeams:
-                    if team not in self.thisGameweekDiffs.keys():
-                        print(f"Warning: {team} does not have any games in gameweek {actualGameweek} of season {self.season}")
-                        self.thisGameweekDiffs[team] = avg
+                        for team in self.allTeams:
+                            if team not in self.thisGameweekDiffs.keys():
+                                print(f"Warning: {team} does not have any games in gameweek {gameweek} of season {season}")
+                                self.thisGameweekDiffs[team] = avg
 
         for team, sum in sums.items():
             # simpleDifficulties = average of how badly a team will do in relation to another team
@@ -153,7 +133,6 @@ class FixtureDifficultyMatrix():
         simpleDifficulty = (teamAPosition - teamBPosition + 1) / 2
         return simpleDifficulty
         
-    
     def getSimpleDifficulty(self, pTeam: str) -> float:
         if(pTeam not in self.simpleDifficulties.keys()):
             # Avoid warning twice for the same issue
@@ -162,7 +141,5 @@ class FixtureDifficultyMatrix():
             return 0.5
 
         return self.simpleDifficulties[pTeam]
-    def getNormalisedDifficulty(self, pTeam: str) -> float:
-        return self.normalisedDifficulties[pTeam]
     def getCurrentDifficulty(self, pTeam: str) -> float:
         return self.thisGameweekDiffs[pTeam]

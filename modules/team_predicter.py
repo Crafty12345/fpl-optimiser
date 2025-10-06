@@ -6,7 +6,7 @@ from modules.team_solver import TeamSolver
 class TeamPredicter(TeamSolver):
     def __init__(self, pHeuristic, pMode, verbose = False, pLabel = None):
         super().__init__(pHeuristic, pMode, verbose, pLabel)
-        self.xCols = ["id","ict_index", "position", "team", "gameweek", "season", "form", "opposing_team", "play_percent", "clean_sheets", "expected_goals", "status"]
+        self.xCols = ["id","ict_index", "position", "team", "gameweek", "season", "form", "opposing_team", "play_percent", "fixture_dif", "clean_sheets", "expected_goals", "status"]
         self.categoricalColumns = ["id", "position", "team", "opposing_team", "status"]
         self.yCols = ["points_this_week"]
         self.toDummyColumns = ["team", "opposing_team", "status"]

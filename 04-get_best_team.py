@@ -58,6 +58,7 @@ all_teams.append(rfTeam)
 
 resultList: list[dict] = []
 
+# TODO: Optimise team evaluating
 for (i, team) in enumerate(all_teams):
      # TODO: Somehow combine team.train() and team.find_team() into one method
      # TODO: Make HTML outputting more expandable

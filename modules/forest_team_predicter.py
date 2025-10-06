@@ -7,10 +7,10 @@ from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from tqdm import tqdm
 import numpy as np
 import json
-import subprocess
 
 from modules.team_solver import TeamSolver, SolverMode
 from modules.team_predicter import TeamPredicter
+from modules.fixture_difficulty_matrix import FixtureDifficultyMatrix
 
 NUM_TREES = 2000
 
@@ -33,12 +33,21 @@ class RFTeamPredicter(TeamPredicter):
     def precalcScores(self, pData, pGameweek, pSeason):
         return
     
+    def getFixtureDiff(self, pMatrix: FixtureDifficultyMatrix, pDatum: pd.Series):
+        pMatrix.precomputeFixtureDifficulty(0, pDatum["gameweek"], 3, pDatum["season"], 1.0)
+        result = pMatrix.calcNormalisedDifficulty(pDatum["team"], pDatum["opposing_team"], -1.0, 1.0)
+        return result
+
     def fit(self):
         tempDf = self.concatWeeks(self.setDummyCols)
         tempDf = self.fixDataTypes(tempDf)
         
+        self.fixtureMatrix = FixtureDifficultyMatrix()
+
         y: pd.DataFrame = tempDf[self.yCols]
         self.x: pd.DataFrame = tempDf.drop(columns=self.yCols)
+        self.x["fixture_dif"] = self.x.apply(lambda x: self.getFixtureDiff(self.fixtureMatrix, x), axis=1)
+        self.x["fixture_dif"] = self.x["fixture_dif"].astype(np.float32)
         tempX = self.x[self.xCols]
 
         # TODO: Make sure there is a column for ALL unique players (across all gameweeks, all seasons)
@@ -162,6 +171,9 @@ class RFTeamPredicter(TeamPredicter):
         xForPredict["opposing_team"] = opposingTeams
         xForPredict["gameweek"] = predictionWeek
         xForPredict["season"] = predictionSeason
+
+        xForPredict["fixture_dif"] = xForPredict.apply(lambda x: self.getFixtureDiff(self.fixtureMatrix, x), axis=1)
+        xForPredict["fixture_dif"] = xForPredict["fixture_dif"].astype(np.float32)
         
         for position in ["GKP", "DEF", "MID", "FWD"]:
             loc = xForPredict["position"] == position

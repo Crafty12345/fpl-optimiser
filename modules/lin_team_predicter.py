@@ -53,8 +53,9 @@ class LinearTeamPredicter(TeamSolver):
 		if(self.score_heuristic == "combined"):
 			pData["combined"] = self.calculateCombinedScore(pData)
 		
-		matrix = FixtureDifficultyMatrix(1.0, pGameweek, pGameweek, pSeason)
-		pData["weight"] = pData["team"].apply(matrix.getSimpleDifficulty)
+		matrix = FixtureDifficultyMatrix()
+		matrix.precomputeFixtureDifficulty(0, pGameweek, 3, pSeason, 1.0)
+		pData["weight"] = pData.apply(lambda x: matrix.calcSimpleDifficulty(x["team"], x["opposing_team"]), axis=1)
 		# Decrease weight as season gets older
 		pData["weight"] = pData["weight"] / (config.CURRENT_SEASON - pSeason + 0.9)
 

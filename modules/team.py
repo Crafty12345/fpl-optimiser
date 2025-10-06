@@ -59,7 +59,7 @@ class Team():
                                player["points_per_game"],
                                player["form"],
                                Position.fromString(player["position"]),
-                               player["team"], player["score"], isAvailable, player["play_percent"], pScore=player["score"])
+                               player["team"], player["score"], isAvailable, player["play_percent"], player["opposing_team"], pScore=player["score"])
             players.append(newPlayer)
         return cls.fromPlayerList(players)
 

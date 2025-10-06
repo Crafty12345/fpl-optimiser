@@ -25,6 +25,7 @@ class Position(Enum):
         return [cls.GKP, cls.DEF, cls.FWD, cls.MID]
         
 
+# TODO: fromDataframe() static method
 class Player():
     def __init__(self,
                  id: int,
@@ -39,6 +40,7 @@ class Player():
                  pCombinedScore: float,
                  pIsAvailable: bool,
                  pStartsPer90: float,
+                 pOpposingTeam: float,
                  pScore: float = 0):
         self.id = id
         self.name = name
@@ -59,6 +61,7 @@ class Player():
         self.currentFixtureDifficulty = 0.0
         self.available = pIsAvailable
         self.startsPer90 = pStartsPer90
+        self.opposingTeam = pOpposingTeam
         pass
 
     @classmethod
@@ -78,9 +81,9 @@ class Player():
         position = Position.fromString(positionStr)
         teamName = playerDf["team"].values[0]
         isAvailable = playerDf["status"].values[0] == "a"
-        print(name, playerDf["status"].values[0])
         startsPer90 = playerDf["play_percent"].values[0]
-        return cls(id, name, cost, ictIndex, totalPoints, pointsPerGame, form, position, teamName, combinedScore, isAvailable, startsPer90)
+        opposingTeam = playerDf["opposing_team"].values[0]
+        return cls(id, name, cost, ictIndex, totalPoints, pointsPerGame, form, position, teamName, combinedScore, isAvailable, startsPer90, opposingTeam)
 
     def getId(self): return self.id
     def getName(self): return self.name
@@ -134,7 +137,7 @@ class Player():
 
     def recalculateFixtureDifficulty(self, pMatrix: FixtureDifficultyMatrix):
         self.fixtureDifficulty = pMatrix.getSimpleDifficulty(self.teamName)
-        self.normalisedFixtureDifficulty = pMatrix.getNormalisedDifficulty(self.teamName)
+        self.normalisedFixtureDifficulty = pMatrix.calcNormalisedDifficulty(self.teamName, self.opposingTeam, 0.0, 1.0)
         self.currentFixtureDifficulty = pMatrix.getCurrentDifficulty(self.teamName)
 
     def calculateScorePPG(self):
