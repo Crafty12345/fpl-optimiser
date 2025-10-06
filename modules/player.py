@@ -79,7 +79,7 @@ class Player():
         teamName = playerDf["team"].values[0]
         isAvailable = playerDf["status"].values[0] == "a"
         print(name, playerDf["status"].values[0])
-        startsPer90 = playerDf["starts_per_90"].values[0]
+        startsPer90 = playerDf["play_percent"].values[0]
         return cls(id, name, cost, ictIndex, totalPoints, pointsPerGame, form, position, teamName, combinedScore, isAvailable, startsPer90)
 
     def getId(self): return self.id
