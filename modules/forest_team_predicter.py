@@ -74,33 +74,6 @@ class RFTeamPredicter(TeamPredicter):
 
         meanR2 = sum(allR2s) / len(allR2s)
         print(f"r2={meanR2}")
-        
-        # featureImportances = self.regressor.feature_importances_
-        # featureNames = self.regressor.feature_names_in_
-        # tempDf = pd.DataFrame({"column": featureNames, "importance": featureImportances}).sort_values(by="importance", ascending=False)
-        # print("Best parameters:")
-        # print(tempDf.head(20))
-        # estimator = self.regressor
-        # print("Finished fitting models.")
-
-        # treeLimit = 5
-        # assert treeLimit < len(estimator.estimators_)
-
-        # print("Saving trees...")
-        # featureNames = []
-        # for column in x.columns:
-        #     toAdd: str = column
-        #     if (column.startswith("id_")):
-        #         actualId = int(column.split("id_")[1])
-        #         toAdd = self.idNameDict[actualId]
-        #     featureNames.append(toAdd)
-
-        # for i in range(treeLimit):
-        #     tree = estimator.estimators_[i]
-        #     export_graphviz(tree, f"trees/tree{i}.dot", feature_names=featureNames, label="all", filled=True)
-        #     subprocess.run(["dot", "-Tpng", f"trees/tree{i}.dot", "-o", f"trees/tree{i}.png"])
-        #     subprocess.run(["rm", f"trees/tree{i}.dot"])
-        # print("Finished saving trees")
 
         self.setAccuracy(r2)
 

@@ -9,6 +9,9 @@ class Position(Enum):
     MID = 3
     def __str__(self):
         return self.name
+    def __hash__(self):
+        return hash(self.value)
+    
     @staticmethod
     def fromString(pStr: str):
         positionNumMap = dict()
@@ -21,7 +24,7 @@ class Position(Enum):
         except KeyError:
             raise ValueError(f"Invalid position name: {pStr.upper()}")
     @classmethod
-    def listValues(cls) -> list:
+    def listValues(cls) -> list["Position"]:
         return [cls.GKP, cls.DEF, cls.FWD, cls.MID]
         
 
@@ -84,6 +87,26 @@ class Player():
         startsPer90 = playerDf["play_percent"].values[0]
         opposingTeam = playerDf["opposing_team"].values[0]
         return cls(id, name, cost, ictIndex, totalPoints, pointsPerGame, form, position, teamName, combinedScore, isAvailable, startsPer90, opposingTeam)
+    
+    @classmethod
+    def fromRow(cls, pData: pd.Series):
+        name = pData["name"]
+        id = pData["id"]
+        cost = pData["cost"]
+        ictIndex = pData["ict_index"]
+        totalPoints = pData["total_points"]
+        pointsPerGame = pData["points_per_game"]
+        form = pData["form"]
+        combinedScore = pData["combined"]
+        score = pData["score"]
+
+        positionStr = pData["position"]
+        position = Position.fromString(positionStr)
+        teamName = pData["team"]
+        isAvailable = pData["status"] == "a"
+        startsPer90 = pData["play_percent"]
+        opposingTeam = pData["opposing_team"]
+        return cls(id, name, cost, ictIndex, totalPoints, pointsPerGame, form, position, teamName, combinedScore, isAvailable, startsPer90, opposingTeam, score)
 
     def getId(self): return self.id
     def getName(self): return self.name
@@ -95,6 +118,8 @@ class Player():
     def isBenched(self): return self.benchPlayer
     def isAvailable(self): return self.available
     def getCurrentDifficulty(self): return self.currentFixtureDifficulty
+    def getTeam(self): return self.teamName
+    def __hash__(self): return hash(self.id)
     
     def __str__(self):
         isCaptainStr = " (Captain) " if (self.isCaptain() and not self.isBenched()) else ""
