@@ -355,3 +355,5 @@ class BenchTeam(Team):
         minBench = min([player.getScore() for player in self.benchPlayers])
         minMin = min(minNonBench, minBench)
         return minMin
+    def getBenchPlayerList(self) -> list[Player]:
+        return self.benchPlayersList

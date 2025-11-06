@@ -52,7 +52,8 @@ class Player():
         self.position = position
         self.teamName = teamName
         self.combinedScore = pCombinedScore
-        self.score = pScore
+        self.rawScore = pScore
+        self.score = self.rawScore
         self.captain = False
         self.viceCaptain = False
         self.benchPlayer = False
@@ -139,6 +140,13 @@ class Player():
         self.fixtureDifficulty = pMatrix.getSimpleDifficulty(self.teamName)
         self.normalisedFixtureDifficulty = pMatrix.calcNormalisedDifficulty(self.teamName, self.opposingTeam, 0.0, 1.0)
         self.currentFixtureDifficulty = pMatrix.getCurrentDifficulty(self.teamName)
+        self.calculateScoreRaw()
+
+    def calculateScoreRaw(self):
+        """
+        EXPERIMENTAL method to calculate score whilst taking into account fixture difficulties
+        """
+        self.score = (self.rawScore * (1- self.normalisedFixtureDifficulty))
 
     def calculateScorePPG(self):
         """
