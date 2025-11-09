@@ -11,7 +11,7 @@ import json
 import os
 
 import config
-from modules.data_file import DataFile, RawFixtureDataFile, RawPlayerDataFile
+from modules.data_file import DataFile, RawFixtureDataFile, RawPlayerDataFile, Season
 
 def get_position_name(position: int):
     match position:
@@ -48,7 +48,6 @@ def team_from_code(team_code: int, pTeamData: pd.DataFrame) -> str:
 def teamFromId(teamId: int, pTeamData: pd.DataFrame) -> str:
     return pTeamData.loc[pTeamData["id"]==teamId]["short_name"].values[0]
 
-
 def getOpposingTeam(pPlayingTeamCode: int, pTeamData: pd.DataFrame, pFixtureData: pd.DataFrame) -> str:
     #print(pFixtureData[["team_h","team_a"]])
 
@@ -70,16 +69,19 @@ def getOpposingTeam(pPlayingTeamCode: int, pTeamData: pd.DataFrame, pFixtureData
         # There may be weeks in which teams don't have a game
         return "UNK"
 
-def processFile(pDate: RawPlayerDataFile, pOldData: list[dict]) -> pd.DataFrame:
+def updateDict(pId: int, pName: str, pPlayerNameDict: dict[int, str]):
+    pPlayerNameDict[pId] = pName
+
+def processJson(pAllData: dict, pDf: pd.DataFrame, pCurrentWeek: int):
+    ...
+
+def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: list[dict], pPlayerNameDict: dict[int, str]) -> pd.DataFrame:
     '''
     Function to clean data
     '''
 
-    with open(pDate.filename) as f:
-        all_data_raw = json.load(f)
-
     # Need eventData in order to get correct gameweek
-    eventData = pd.DataFrame(all_data_raw["events"])
+    eventData = pd.DataFrame(pRawData["events"])
     nextWeek = eventData.loc[eventData["is_next"]==True]
 
     if len(nextWeek) < 1:
@@ -88,9 +90,15 @@ def processFile(pDate: RawPlayerDataFile, pOldData: list[dict]) -> pd.DataFrame:
         nextGameweek: int = nextWeek["id"].values[-1]
         currentGameweek = nextGameweek - 1
 
-    df = pd.DataFrame(all_data_raw["elements"])
+    df = pd.DataFrame(pRawData["elements"])
     
-    allowed_cols = ["id", "first_name","second_name","now_cost","ict_index","total_points","points_per_game","element_type","team_code","form", "status", "clean_sheets", "expected_goals", "minutes"]
+    allowed_cols = ["id", "first_name","second_name","now_cost","ict_index","total_points","points_per_game","element_type", "form", "status", "clean_sheets", "expected_goals", "minutes"]
+    if "team_name" in df.columns:
+        allowed_cols.append("team_name")
+    elif "team_code" in df.columns:
+        allowed_cols.append("team_code")
+    else:
+        raise KeyError(f"Unable to find team in gameweek {currentGameweek} of season {currentSeason}")
     
     player_data = df[allowed_cols]
 
@@ -109,31 +117,43 @@ def processFile(pDate: RawPlayerDataFile, pOldData: list[dict]) -> pd.DataFrame:
     player_data = player_data.drop(columns=["element_type"])
     player_data = player_data.rename(columns={"now_cost":"cost"})
 
-    team_data = pd.DataFrame(all_data_raw["teams"])
+    team_data = pd.DataFrame(pRawData["teams"])
     team_data = team_data[["code", "id","short_name"]]
 
     print(f"Processing file '{pDate.filename}'")
     print(f"currentGameweek={currentGameweek}")
     print(f"currentSeason={pDate.season.endYear}")
-    player_data["team"] = player_data["team_code"].apply(lambda x: team_from_code(x, team_data))
+    if "team_code" in player_data.columns:
+        player_data["team"] = player_data["team_code"].apply(lambda x: team_from_code(x, team_data))
+    elif "team_name" in player_data.columns:
+        player_data["team"] = player_data["team_name"]
+    else:
+        raise ValueError(f"Team not found for player {player_data['id']}")
     
     player_data["gameweek"] = currentGameweek
     player_data["season"] = pDate.season.endYear
 
     # UNK = "UNKOWN"
-    player_data["opposing_team"] = "UNK"
-    fixtureFilename = f"./data/raw/fixture_data/{pDate.season.endYear}/fixture_data_{currentGameweek}.json"
-    if(os.path.isfile(fixtureFilename)):
-        with open(fixtureFilename, "r") as f:
-            dataJson = json.load(f)
-        fixtures = pd.DataFrame.from_records(dataJson)
-        player_data["opposing_team"] = player_data["team_code"].apply(lambda x: getOpposingTeam(x, team_data, fixtures))
-    player_data = player_data.drop(columns=["team_code"])
+    if "opposing_team" not in player_data.columns:
+        player_data["opposing_team"] = "UNK"
+        fixtureFilename = f"./data/raw/fixture_data/{pDate.season.endYear}/fixture_data_{currentGameweek}.json"
+        if(os.path.isfile(fixtureFilename)):
+            with open(fixtureFilename, "r") as f:
+                dataJson = json.load(f)
+            fixtures = pd.DataFrame.from_records(dataJson)
+            player_data["opposing_team"] = player_data["team_code"].apply(lambda x: getOpposingTeam(x, team_data, fixtures))
+    if "team_code" in player_data.columns:
+        player_data = player_data.drop(columns=["team_code"])
     
 
-    player_data["first_name"] = player_data["first_name"] + " " + player_data["second_name"]
-    player_data = player_data.drop(columns=["second_name"])
-    player_data = player_data.rename(columns={"first_name": "name"})
+    if ("first_name" in player_data.columns and "second_name" in player_data.columns):
+        player_data["first_name"] = player_data["first_name"] + " " + player_data["second_name"]
+        player_data = player_data.drop(columns=["second_name"])
+        player_data = player_data.rename(columns={"first_name": "name"})
+        player_data.apply(lambda x: updateDict(x["id"], x["name"], pPlayerNameDict), axis=1)
+    else:
+        player_data["name"] = player_data["id"].apply(lambda x: pPlayerNameDict[x])
+
 
     player_data["form"] = pd.to_numeric(player_data["form"])
     
@@ -157,11 +177,14 @@ def processFile(pDate: RawPlayerDataFile, pOldData: list[dict]) -> pd.DataFrame:
             if (playerId in player_data["id"]):
                 player_data.loc[player_data["id"]==playerId, "points_this_week"] = pointsAtGameweek
 
-    # if (pDate.season.endYear == 26):
-    #     print(player_data.loc[player_data["name"]=="Alexander Isak"])
-    #     assert False
+    return player_data, currentGameweek, pRawData["teams"]
 
-    return player_data, currentGameweek, all_data_raw["teams"]
+def processOldData(pDate: RawPlayerDataFile, pPlayerNameDict: dict[int, str]):
+    with open(pDate.filename, "r") as f:
+        oldDataRaw: dict[str, dict] = json.load(f)
+    for (key, val) in oldDataRaw.items():
+        processFile(val, pDate, None, pPlayerNameDict)
+
 
 def filterDuplicates(pToFilter: list[DataFile]):
     seenGameweeks: dict[str, set] = dict()
@@ -187,20 +210,30 @@ def filterDuplicates(pToFilter: list[DataFile]):
 
 allFiles = glob("./data/raw/player_stats/**-**/*.json")\
 
-with open("./data/raw/old_data/players_24-25.json", "r") as f:
+with open("./data/raw/old_data/points/24-25.json", "r") as f:
     old2025Data = json.load(f)["matrix"]
 
 # Source: https://fantasy.premierleague.com/api/bootstrap-static/
-filesSorted: list[RawFixtureDataFile] = sortFiles(allFiles)
-filesProcessed = []
-for i, fileName in enumerate(filesSorted):
-    data, gameweek, teams = processFile(fileName, old2025Data)
-    filesProcessed.append({
-        "gameweek": gameweek,
-        "season": fileName.season.endYear,
-        "data": data,
-        "teams": teams
-    })
+filesSorted: list[RawPlayerDataFile] = sortFiles(allFiles)
+filesProcessed: list[dict] = []
+playerNames: dict[int, str] = dict()
+
+
+# for i, fileName in enumerate(filesSorted):
+#     with open(fileName.filename, "r") as f:
+#         jsonData = json.load(f)
+#     data, gameweek, teams = processFile(jsonData, fileName, old2025Data, playerNames)
+#     filesProcessed.append({
+#         "gameweek": gameweek,
+#         "season": fileName.season.endYear,
+#         "data": data,
+#         "teams": teams
+#     })
+
+print("Finished processing new data. Processing old data now.")
+
+tempFile = RawPlayerDataFile(Season(24,25), "data/raw/old_data/players/24-25.json", 0)
+processOldData(tempFile, playerNames)
 
 filteredFiles: list[dict] = filterDuplicates(filesProcessed)
 
