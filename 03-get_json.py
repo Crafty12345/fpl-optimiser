@@ -9,6 +9,7 @@ import numpy as np
 from pathlib import Path
 import json
 import os
+import lzma
 
 import config
 from modules.data_file import DataFile, RawFixtureDataFile, RawPlayerDataFile, Season
@@ -24,13 +25,10 @@ def get_position_name(position: int):
         case 4:
             return "FWD"
         
-def sortFiles(pFiles: list[str]) -> list[DataFile]:
+def parseFileNames(pFiles: list[str]) -> list[DataFile]:
     # Pattern that makes sure files are named correctly
     pattern = r"^\.\/data\/raw\/player_stats\/\d{2}-\d{2}\/fpl_stats_\d{2}-\d{2}-\d{4}\.json$"
     regex = re.compile(pattern)
-
-    datePattern = r"\d{2}-\d{2}-\d{4}"
-    dateRegex = re.compile(datePattern)
 
     dates: list[DataFile] = []
     for file in pFiles:
@@ -39,7 +37,20 @@ def sortFiles(pFiles: list[str]) -> list[DataFile]:
         else:
             newFile = RawPlayerDataFile.parse(file)
             dates.append(newFile)
-    dates = sorted(dates)
+    return dates
+
+def parseOldFilenames(pFiles: list[str]) -> list[DataFile]:
+    # Pattern that makes sure files are named correctly
+    pattern = r"^data\/raw\/old_data\/players\/(\d{2})-(\d{2})\/fpl_stats_(\d{2})-(\d{2})-(\d{4})\.json$"
+    regex = re.compile(pattern)
+
+    dates: list[DataFile] = []
+    for file in pFiles:
+        if not (regex.fullmatch(file)):
+            raise LookupError(f"Invalid file: {file}")
+        else:
+            newFile = RawPlayerDataFile.parseOld(file)
+            dates.append(newFile)
     return dates
 
 def team_from_code(team_code: int, pTeamData: pd.DataFrame) -> str:
@@ -52,8 +63,8 @@ def getOpposingTeam(pPlayingTeamCode: int, pTeamData: pd.DataFrame, pFixtureData
     #print(pFixtureData[["team_h","team_a"]])
 
     playingTeamId: int = pTeamData.loc[pTeamData["code"]==pPlayingTeamCode]["id"].values[0]
-
     homeTeamResult = pFixtureData.loc[pFixtureData["team_h"]==playingTeamId]
+
     resultInt: int = -1
     # If team is playing home that week
     if(len(homeTeamResult) >= 1):
@@ -69,11 +80,19 @@ def getOpposingTeam(pPlayingTeamCode: int, pTeamData: pd.DataFrame, pFixtureData
         # There may be weeks in which teams don't have a game
         return "UNK"
 
+def getOldOpposingTeam(pPlayingTeam: str, pFixtures: pd.DataFrame):
+    homeTeamResult = pFixtures.loc[pFixtures["home_team"]==pPlayingTeam]
+    if (len(homeTeamResult) > 0):
+        return homeTeamResult["away_team"].values[0]
+    else:
+        awayTeamResult = pFixtures.loc[pFixtures["away_team"] == pPlayingTeam]
+        if len(awayTeamResult) > 0:
+            return awayTeamResult["home_team"].values[0]
+    return "UNK"
+
 def updateDict(pId: int, pName: str, pPlayerNameDict: dict[int, str]):
     pPlayerNameDict[pId] = pName
 
-def processJson(pAllData: dict, pDf: pd.DataFrame, pCurrentWeek: int):
-    ...
 
 def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: list[dict], pPlayerNameDict: dict[int, str]) -> pd.DataFrame:
     '''
@@ -137,15 +156,19 @@ def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: list[dict], 
     if "opposing_team" not in player_data.columns:
         player_data["opposing_team"] = "UNK"
         fixtureFilename = f"./data/raw/fixture_data/{pDate.season.endYear}/fixture_data_{currentGameweek}.json"
+        altFixtureFilename = f"data/raw/old_data/fixtures/"
         if(os.path.isfile(fixtureFilename)):
             with open(fixtureFilename, "r") as f:
                 dataJson = json.load(f)
             fixtures = pd.DataFrame.from_records(dataJson)
-            player_data["opposing_team"] = player_data["team_code"].apply(lambda x: getOpposingTeam(x, team_data, fixtures))
+            if ("team_h" in fixtures) and ("team_a" in fixtures):
+                player_data["opposing_team"] = player_data["team_code"].apply(lambda x: getOpposingTeam(x, team_data, fixtures))
+            else:
+                player_data["opposing_team"] = player_data["team"].apply(lambda x: getOldOpposingTeam(x, fixtures))
+
     if "team_code" in player_data.columns:
         player_data = player_data.drop(columns=["team_code"])
     
-
     if ("first_name" in player_data.columns and "second_name" in player_data.columns):
         player_data["first_name"] = player_data["first_name"] + " " + player_data["second_name"]
         player_data = player_data.drop(columns=["second_name"])
@@ -179,13 +202,6 @@ def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: list[dict], 
 
     return player_data, currentGameweek, pRawData["teams"]
 
-def processOldData(pDate: RawPlayerDataFile, pPlayerNameDict: dict[int, str]):
-    with open(pDate.filename, "r") as f:
-        oldDataRaw: dict[str, dict] = json.load(f)
-    for (key, val) in oldDataRaw.items():
-        processFile(val, pDate, None, pPlayerNameDict)
-
-
 def filterDuplicates(pToFilter: list[DataFile]):
     seenGameweeks: dict[str, set] = dict()
     seenSeasons: set[int] = set()
@@ -214,28 +230,33 @@ with open("./data/raw/old_data/points/24-25.json", "r") as f:
     old2025Data = json.load(f)["matrix"]
 
 # Source: https://fantasy.premierleague.com/api/bootstrap-static/
-filesSorted: list[RawPlayerDataFile] = sortFiles(allFiles)
+filesSorted: list[RawPlayerDataFile] = parseFileNames(allFiles)
+
+allOldFiles = glob("data/raw/old_data/players/**/**.json")
+filesSorted += parseOldFilenames(allOldFiles)
+filesSorted = sorted(filesSorted)
+
 filesProcessed: list[dict] = []
 playerNames: dict[int, str] = dict()
 
+for i, fileName in enumerate(filesSorted):
+    with open(fileName.filename, "r") as f:
+        jsonData = json.load(f)
+    data, gameweek, teams = processFile(jsonData, fileName, old2025Data, playerNames)
+    filesProcessed.append({
+        "gameweek": gameweek,
+        "season": fileName.season.endYear,
+        "data": data,
+        "teams": teams
+    })
 
-# for i, fileName in enumerate(filesSorted):
-#     with open(fileName.filename, "r") as f:
-#         jsonData = json.load(f)
-#     data, gameweek, teams = processFile(jsonData, fileName, old2025Data, playerNames)
-#     filesProcessed.append({
-#         "gameweek": gameweek,
-#         "season": fileName.season.endYear,
-#         "data": data,
-#         "teams": teams
-#     })
-
-print("Finished processing new data. Processing old data now.")
-
-tempFile = RawPlayerDataFile(Season(24,25), "data/raw/old_data/players/24-25.json", 0)
-processOldData(tempFile, playerNames)
+#print("Finished processing new data. Processing old data now.")
 
 filteredFiles: list[dict] = filterDuplicates(filesProcessed)
+temp = []
+for file in filteredFiles:
+    temp.append((file["gameweek"], file["season"]))
+
 
 # Make sure each gameweek only has 1 file
 
@@ -254,6 +275,7 @@ for (i, file) in enumerate(filteredFiles):
 
     # Ignore files where opposing team is unknown
     if((file["data"]["opposing_team"]=="UNK").all()):
+        print(f"Warning: Unable to find opposing team of week {gameweek} of season {season}")
         ignoreFile = True
 
     if not ignoreFile:
@@ -330,12 +352,21 @@ for file in tempFixtureFiles:
         fixtureDatum: list[dict] = json.load(f)
     for tempDict in fixtureDatum:
         toAdd = dict()
+
         actualGameweek = tempDict["event"]
         toAdd["finished"] = tempDict["finished"]
-        homeTeamData = teamDataDf.loc[teamDataDf["id"]==tempDict["team_h"]]
-        awayTeamData = teamDataDf.loc[teamDataDf["id"]==tempDict["team_a"]]
-        toAdd["home_team"] = homeTeamData["name"].values[0]
-        toAdd["away_team"] = awayTeamData["name"].values[0]
+        if "team_h" in tempDict.keys():
+            homeTeamData = teamDataDf.loc[teamDataDf["id"]==tempDict["team_h"]]
+            toAdd["home_team"] = homeTeamData["name"].values[0]
+        else:
+            toAdd["home_team"] = tempDict["home_team"]
+
+        if "team_a" in tempDict.keys():
+            awayTeamData = teamDataDf.loc[teamDataDf["id"]==tempDict["team_a"]]
+            toAdd["away_team"] = awayTeamData["name"].values[0]
+        else:
+            toAdd["away_team"] = tempDict["away_team"]
+
         if(currentSeason not in results.keys()):
             results[currentSeason] = dict()
         if (actualGameweek not in results[currentSeason].keys()):

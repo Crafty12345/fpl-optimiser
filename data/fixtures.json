@@ -1,15 +1,250 @@
 {
     "25": {
-        "6": [
+        "1": [
             {
-                "away_team": "MCI",
+                "away_team": "WOL",
+                "finished": true,
+                "home_team": "ARS"
+            },
+            {
+                "away_team": "FUL",
+                "finished": true,
+                "home_team": "MUN"
+            },
+            {
+                "away_team": "AVL",
+                "finished": true,
+                "home_team": "WHU"
+            },
+            {
+                "away_team": "SOU",
                 "finished": true,
                 "home_team": "NEW"
             },
             {
+                "away_team": "BOU",
+                "finished": true,
+                "home_team": "NFO"
+            },
+            {
+                "away_team": "TOT",
+                "finished": true,
+                "home_team": "LEI"
+            },
+            {
+                "away_team": "CRY",
+                "finished": true,
+                "home_team": "BRE"
+            },
+            {
+                "away_team": "BHA",
+                "finished": true,
+                "home_team": "EVE"
+            },
+            {
+                "away_team": "MCI",
+                "finished": true,
+                "home_team": "CHE"
+            },
+            {
+                "away_team": "LIV",
+                "finished": true,
+                "home_team": "IPS"
+            }
+        ],
+        "2": [
+            {
+                "away_team": "ARS",
+                "finished": true,
+                "home_team": "AVL"
+            },
+            {
+                "away_team": "LEI",
+                "finished": true,
+                "home_team": "FUL"
+            },
+            {
+                "away_team": "NFO",
+                "finished": true,
+                "home_team": "SOU"
+            },
+            {
+                "away_team": "NEW",
+                "finished": true,
+                "home_team": "BOU"
+            },
+            {
+                "away_team": "EVE",
+                "finished": true,
+                "home_team": "TOT"
+            },
+            {
+                "away_team": "BRE",
+                "finished": true,
+                "home_team": "LIV"
+            },
+            {
+                "away_team": "MUN",
+                "finished": true,
+                "home_team": "BHA"
+            },
+            {
+                "away_team": "CHE",
+                "finished": true,
+                "home_team": "WOL"
+            },
+            {
+                "away_team": "IPS",
+                "finished": true,
+                "home_team": "MCI"
+            }
+        ],
+        "3": [
+            {
+                "away_team": "BHA",
+                "finished": true,
+                "home_team": "ARS"
+            },
+            {
+                "away_team": "FUL",
+                "finished": true,
+                "home_team": "IPS"
+            },
+            {
+                "away_team": "CRY",
+                "finished": true,
+                "home_team": "CHE"
+            },
+            {
+                "away_team": "SOU",
+                "finished": true,
+                "home_team": "BRE"
+            },
+            {
+                "away_team": "WOL",
+                "finished": true,
+                "home_team": "NFO"
+            },
+            {
+                "away_team": "BOU",
+                "finished": true,
+                "home_team": "EVE"
+            },
+            {
+                "away_team": "TOT",
+                "finished": true,
+                "home_team": "NEW"
+            }
+        ],
+        "4": [
+            {
+                "away_team": "ARS",
+                "finished": true,
+                "home_team": "TOT"
+            },
+            {
+                "away_team": "WHU",
+                "finished": true,
+                "home_team": "FUL"
+            },
+            {
+                "away_team": "LEI",
+                "finished": true,
+                "home_team": "CRY"
+            },
+            {
+                "away_team": "MUN",
+                "finished": true,
+                "home_team": "SOU"
+            },
+            {
+                "away_team": "NFO",
+                "finished": true,
+                "home_team": "LIV"
+            },
+            {
+                "away_team": "CHE",
+                "finished": true,
+                "home_team": "BOU"
+            },
+            {
+                "away_team": "BRE",
+                "finished": true,
+                "home_team": "MCI"
+            },
+            {
+                "away_team": "IPS",
+                "finished": true,
+                "home_team": "BHA"
+            }
+        ],
+        "5": [
+            {
+                "away_team": "ARS",
+                "finished": true,
+                "home_team": "MCI"
+            },
+            {
+                "away_team": "NEW",
+                "finished": true,
+                "home_team": "FUL"
+            },
+            {
+                "away_team": "MUN",
+                "finished": true,
+                "home_team": "CRY"
+            },
+            {
+                "away_team": "IPS",
+                "finished": true,
+                "home_team": "SOU"
+            },
+            {
+                "away_team": "NFO",
+                "finished": true,
+                "home_team": "BHA"
+            },
+            {
+                "away_team": "BOU",
+                "finished": true,
+                "home_team": "LIV"
+            },
+            {
+                "away_team": "BRE",
+                "finished": true,
+                "home_team": "TOT"
+            },
+            {
+                "away_team": "CHE",
+                "finished": true,
+                "home_team": "WHU"
+            }
+        ],
+        "6": [
+            {
                 "away_team": "LEI",
                 "finished": true,
                 "home_team": "ARS"
+            },
+            {
+                "away_team": "FUL",
+                "finished": true,
+                "home_team": "NFO"
+            },
+            {
+                "away_team": "CRY",
+                "finished": true,
+                "home_team": "EVE"
+            },
+            {
+                "away_team": "SOU",
+                "finished": true,
+                "home_team": "BOU"
+            },
+            {
+                "away_team": "TOT",
+                "finished": true,
+                "home_team": "MUN"
             },
             {
                 "away_team": "WHU",
@@ -22,56 +257,16 @@
                 "home_team": "CHE"
             },
             {
-                "away_team": "CRY",
-                "finished": true,
-                "home_team": "EVE"
-            },
-            {
-                "away_team": "FUL",
-                "finished": true,
-                "home_team": "NFO"
-            },
-            {
-                "away_team": "LIV",
-                "finished": true,
-                "home_team": "WOL"
-            },
-            {
                 "away_team": "AVL",
                 "finished": true,
                 "home_team": "IPS"
-            },
-            {
-                "away_team": "TOT",
-                "finished": true,
-                "home_team": "MUN"
-            },
-            {
-                "away_team": "SOU",
-                "finished": true,
-                "home_team": "BOU"
             }
         ],
         "7": [
             {
-                "away_team": "LIV",
-                "finished": true,
-                "home_team": "CRY"
-            },
-            {
                 "away_team": "SOU",
                 "finished": true,
                 "home_team": "ARS"
-            },
-            {
-                "away_team": "WOL",
-                "finished": true,
-                "home_team": "BRE"
-            },
-            {
-                "away_team": "BOU",
-                "finished": true,
-                "home_team": "LEI"
             },
             {
                 "away_team": "FUL",
@@ -79,19 +274,9 @@
                 "home_team": "MCI"
             },
             {
-                "away_team": "IPS",
+                "away_team": "LIV",
                 "finished": true,
-                "home_team": "WHU"
-            },
-            {
-                "away_team": "NEW",
-                "finished": true,
-                "home_team": "EVE"
-            },
-            {
-                "away_team": "MUN",
-                "finished": true,
-                "home_team": "AVL"
+                "home_team": "CRY"
             },
             {
                 "away_team": "NFO",
@@ -99,21 +284,51 @@
                 "home_team": "CHE"
             },
             {
+                "away_team": "BOU",
+                "finished": true,
+                "home_team": "LEI"
+            },
+            {
                 "away_team": "TOT",
                 "finished": true,
                 "home_team": "BHA"
+            },
+            {
+                "away_team": "WOL",
+                "finished": true,
+                "home_team": "BRE"
+            },
+            {
+                "away_team": "IPS",
+                "finished": true,
+                "home_team": "WHU"
             }
         ],
         "8": [
             {
-                "away_team": "WHU",
+                "away_team": "ARS",
                 "finished": true,
-                "home_team": "TOT"
+                "home_team": "BOU"
             },
             {
                 "away_team": "AVL",
                 "finished": true,
                 "home_team": "FUL"
+            },
+            {
+                "away_team": "CRY",
+                "finished": true,
+                "home_team": "NFO"
+            },
+            {
+                "away_team": "LEI",
+                "finished": true,
+                "home_team": "SOU"
+            },
+            {
+                "away_team": "WHU",
+                "finished": true,
+                "home_team": "TOT"
             },
             {
                 "away_team": "BRE",
@@ -126,37 +341,37 @@
                 "home_team": "NEW"
             },
             {
-                "away_team": "LEI",
-                "finished": true,
-                "home_team": "SOU"
-            },
-            {
-                "away_team": "EVE",
-                "finished": true,
-                "home_team": "IPS"
-            },
-            {
-                "away_team": "ARS",
-                "finished": true,
-                "home_team": "BOU"
-            },
-            {
-                "away_team": "MCI",
-                "finished": true,
-                "home_team": "WOL"
-            },
-            {
                 "away_team": "CHE",
                 "finished": true,
                 "home_team": "LIV"
             },
             {
-                "away_team": "CRY",
+                "away_team": "EVE",
                 "finished": true,
-                "home_team": "NFO"
+                "home_team": "IPS"
             }
         ],
         "9": [
+            {
+                "away_team": "LIV",
+                "finished": true,
+                "home_team": "ARS"
+            },
+            {
+                "away_team": "FUL",
+                "finished": true,
+                "home_team": "EVE"
+            },
+            {
+                "away_team": "TOT",
+                "finished": true,
+                "home_team": "CRY"
+            },
+            {
+                "away_team": "SOU",
+                "finished": true,
+                "home_team": "MCI"
+            },
             {
                 "away_team": "NFO",
                 "finished": true,
@@ -178,34 +393,9 @@
                 "home_team": "BHA"
             },
             {
-                "away_team": "SOU",
-                "finished": true,
-                "home_team": "MCI"
-            },
-            {
-                "away_team": "FUL",
-                "finished": true,
-                "home_team": "EVE"
-            },
-            {
                 "away_team": "NEW",
                 "finished": true,
                 "home_team": "CHE"
-            },
-            {
-                "away_team": "TOT",
-                "finished": true,
-                "home_team": "CRY"
-            },
-            {
-                "away_team": "MUN",
-                "finished": true,
-                "home_team": "WHU"
-            },
-            {
-                "away_team": "LIV",
-                "finished": true,
-                "home_team": "ARS"
             }
         ],
         "10": [
@@ -215,29 +405,9 @@
                 "home_team": "NEW"
             },
             {
-                "away_team": "MCI",
+                "away_team": "BRE",
                 "finished": true,
-                "home_team": "BOU"
-            },
-            {
-                "away_team": "LEI",
-                "finished": true,
-                "home_team": "IPS"
-            },
-            {
-                "away_team": "BHA",
-                "finished": true,
-                "home_team": "LIV"
-            },
-            {
-                "away_team": "WHU",
-                "finished": true,
-                "home_team": "NFO"
-            },
-            {
-                "away_team": "EVE",
-                "finished": true,
-                "home_team": "SOU"
+                "home_team": "FUL"
             },
             {
                 "away_team": "CRY",
@@ -245,9 +415,29 @@
                 "home_team": "WOL"
             },
             {
+                "away_team": "EVE",
+                "finished": true,
+                "home_team": "SOU"
+            },
+            {
+                "away_team": "WHU",
+                "finished": true,
+                "home_team": "NFO"
+            },
+            {
+                "away_team": "MCI",
+                "finished": true,
+                "home_team": "BOU"
+            },
+            {
                 "away_team": "AVL",
                 "finished": true,
                 "home_team": "TOT"
+            },
+            {
+                "away_team": "BHA",
+                "finished": true,
+                "home_team": "LIV"
             },
             {
                 "away_team": "CHE",
@@ -255,16 +445,16 @@
                 "home_team": "MUN"
             },
             {
-                "away_team": "BRE",
+                "away_team": "LEI",
                 "finished": true,
-                "home_team": "FUL"
+                "home_team": "IPS"
             }
         ],
         "11": [
             {
-                "away_team": "BOU",
+                "away_team": "ARS",
                 "finished": true,
-                "home_team": "BRE"
+                "home_team": "CHE"
             },
             {
                 "away_team": "FUL",
@@ -272,29 +462,9 @@
                 "home_team": "CRY"
             },
             {
-                "away_team": "EVE",
-                "finished": true,
-                "home_team": "WHU"
-            },
-            {
                 "away_team": "SOU",
                 "finished": true,
                 "home_team": "WOL"
-            },
-            {
-                "away_team": "MCI",
-                "finished": true,
-                "home_team": "BHA"
-            },
-            {
-                "away_team": "AVL",
-                "finished": true,
-                "home_team": "LIV"
-            },
-            {
-                "away_team": "LEI",
-                "finished": true,
-                "home_team": "MUN"
             },
             {
                 "away_team": "NEW",
@@ -302,41 +472,26 @@
                 "home_team": "NFO"
             },
             {
+                "away_team": "BOU",
+                "finished": true,
+                "home_team": "BRE"
+            },
+            {
                 "away_team": "IPS",
                 "finished": true,
                 "home_team": "TOT"
             },
             {
-                "away_team": "ARS",
+                "away_team": "MCI",
                 "finished": true,
-                "home_team": "CHE"
+                "home_team": "BHA"
             }
         ],
         "12": [
             {
-                "away_team": "CHE",
-                "finished": true,
-                "home_team": "LEI"
-            },
-            {
                 "away_team": "NFO",
                 "finished": true,
                 "home_team": "ARS"
-            },
-            {
-                "away_team": "CRY",
-                "finished": true,
-                "home_team": "AVL"
-            },
-            {
-                "away_team": "BHA",
-                "finished": true,
-                "home_team": "BOU"
-            },
-            {
-                "away_team": "BRE",
-                "finished": true,
-                "home_team": "EVE"
             },
             {
                 "away_team": "WOL",
@@ -344,9 +499,9 @@
                 "home_team": "FUL"
             },
             {
-                "away_team": "TOT",
+                "away_team": "CRY",
                 "finished": true,
-                "home_team": "MCI"
+                "home_team": "AVL"
             },
             {
                 "away_team": "LIV",
@@ -354,31 +509,51 @@
                 "home_team": "SOU"
             },
             {
+                "away_team": "BHA",
+                "finished": true,
+                "home_team": "BOU"
+            },
+            {
+                "away_team": "TOT",
+                "finished": true,
+                "home_team": "MCI"
+            },
+            {
+                "away_team": "BRE",
+                "finished": true,
+                "home_team": "EVE"
+            },
+            {
+                "away_team": "CHE",
+                "finished": true,
+                "home_team": "LEI"
+            },
+            {
                 "away_team": "MUN",
                 "finished": true,
                 "home_team": "IPS"
-            },
-            {
-                "away_team": "WHU",
-                "finished": true,
-                "home_team": "NEW"
             }
         ],
         "13": [
             {
-                "away_team": "SOU",
+                "away_team": "ARS",
                 "finished": true,
-                "home_team": "BHA"
+                "home_team": "WHU"
             },
             {
-                "away_team": "LEI",
+                "away_team": "FUL",
                 "finished": true,
-                "home_team": "BRE"
+                "home_team": "TOT"
             },
             {
                 "away_team": "NEW",
                 "finished": true,
                 "home_team": "CRY"
+            },
+            {
+                "away_team": "SOU",
+                "finished": true,
+                "home_team": "BHA"
             },
             {
                 "away_team": "IPS",
@@ -391,56 +566,31 @@
                 "home_team": "WOL"
             },
             {
-                "away_team": "ARS",
+                "away_team": "LEI",
                 "finished": true,
-                "home_team": "WHU"
+                "home_team": "BRE"
             },
             {
                 "away_team": "AVL",
                 "finished": true,
                 "home_team": "CHE"
-            },
-            {
-                "away_team": "EVE",
-                "finished": true,
-                "home_team": "MUN"
-            },
-            {
-                "away_team": "FUL",
-                "finished": true,
-                "home_team": "TOT"
-            },
-            {
-                "away_team": "MCI",
-                "finished": true,
-                "home_team": "LIV"
             }
         ],
         "14": [
             {
+                "away_team": "MUN",
+                "finished": true,
+                "home_team": "ARS"
+            },
+            {
+                "away_team": "BHA",
+                "finished": true,
+                "home_team": "FUL"
+            },
+            {
                 "away_team": "CRY",
                 "finished": true,
                 "home_team": "IPS"
-            },
-            {
-                "away_team": "WHU",
-                "finished": true,
-                "home_team": "LEI"
-            },
-            {
-                "away_team": "WOL",
-                "finished": true,
-                "home_team": "EVE"
-            },
-            {
-                "away_team": "NFO",
-                "finished": true,
-                "home_team": "MCI"
-            },
-            {
-                "away_team": "LIV",
-                "finished": true,
-                "home_team": "NEW"
             },
             {
                 "away_team": "CHE",
@@ -448,36 +598,26 @@
                 "home_team": "SOU"
             },
             {
-                "away_team": "MUN",
+                "away_team": "NFO",
                 "finished": true,
-                "home_team": "ARS"
-            },
-            {
-                "away_team": "BRE",
-                "finished": true,
-                "home_team": "AVL"
-            },
-            {
-                "away_team": "BHA",
-                "finished": true,
-                "home_team": "FUL"
+                "home_team": "MCI"
             },
             {
                 "away_team": "TOT",
                 "finished": true,
                 "home_team": "BOU"
+            },
+            {
+                "away_team": "BRE",
+                "finished": true,
+                "home_team": "AVL"
             }
         ],
         "15": [
             {
-                "away_team": "SOU",
+                "away_team": "ARS",
                 "finished": true,
-                "home_team": "AVL"
-            },
-            {
-                "away_team": "NEW",
-                "finished": true,
-                "home_team": "BRE"
+                "home_team": "FUL"
             },
             {
                 "away_team": "MCI",
@@ -485,14 +625,14 @@
                 "home_team": "CRY"
             },
             {
+                "away_team": "SOU",
+                "finished": true,
+                "home_team": "AVL"
+            },
+            {
                 "away_team": "NFO",
                 "finished": true,
                 "home_team": "MUN"
-            },
-            {
-                "away_team": "ARS",
-                "finished": true,
-                "home_team": "FUL"
             },
             {
                 "away_team": "BOU",
@@ -500,19 +640,19 @@
                 "home_team": "IPS"
             },
             {
-                "away_team": "BHA",
-                "finished": true,
-                "home_team": "LEI"
-            },
-            {
                 "away_team": "CHE",
                 "finished": true,
                 "home_team": "TOT"
             },
             {
-                "away_team": "WOL",
+                "away_team": "NEW",
                 "finished": true,
-                "home_team": "WHU"
+                "home_team": "BRE"
+            },
+            {
+                "away_team": "BHA",
+                "finished": true,
+                "home_team": "LEI"
             }
         ],
         "16": [
@@ -527,34 +667,9 @@
                 "home_team": "LIV"
             },
             {
-                "away_team": "LEI",
-                "finished": true,
-                "home_team": "NEW"
-            },
-            {
-                "away_team": "IPS",
-                "finished": true,
-                "home_team": "WOL"
-            },
-            {
-                "away_team": "AVL",
-                "finished": true,
-                "home_team": "NFO"
-            },
-            {
                 "away_team": "CRY",
                 "finished": true,
                 "home_team": "BHA"
-            },
-            {
-                "away_team": "MUN",
-                "finished": true,
-                "home_team": "MCI"
-            },
-            {
-                "away_team": "BRE",
-                "finished": true,
-                "home_team": "CHE"
             },
             {
                 "away_team": "TOT",
@@ -562,229 +677,179 @@
                 "home_team": "SOU"
             },
             {
+                "away_team": "AVL",
+                "finished": true,
+                "home_team": "NFO"
+            },
+            {
                 "away_team": "WHU",
                 "finished": true,
                 "home_team": "BOU"
+            },
+            {
+                "away_team": "BRE",
+                "finished": true,
+                "home_team": "CHE"
+            },
+            {
+                "away_team": "IPS",
+                "finished": true,
+                "home_team": "WOL"
             }
         ],
         "17": [
             {
-                "away_team": "MCI",
-                "finished": false,
-                "home_team": "AVL"
-            },
-            {
-                "away_team": "NFO",
-                "finished": false,
-                "home_team": "BRE"
-            },
-            {
-                "away_team": "NEW",
-                "finished": false,
-                "home_team": "IPS"
-            },
-            {
-                "away_team": "BHA",
-                "finished": false,
-                "home_team": "WHU"
-            },
-            {
                 "away_team": "ARS",
-                "finished": false,
+                "finished": true,
                 "home_team": "CRY"
             },
             {
-                "away_team": "CHE",
-                "finished": false,
-                "home_team": "EVE"
-            },
-            {
                 "away_team": "SOU",
-                "finished": false,
+                "finished": true,
                 "home_team": "FUL"
             },
             {
-                "away_team": "WOL",
-                "finished": false,
-                "home_team": "LEI"
+                "away_team": "NFO",
+                "finished": true,
+                "home_team": "BRE"
             },
             {
                 "away_team": "BOU",
-                "finished": false,
+                "finished": true,
                 "home_team": "MUN"
             },
             {
                 "away_team": "LIV",
-                "finished": false,
+                "finished": true,
                 "home_team": "TOT"
+            },
+            {
+                "away_team": "BHA",
+                "finished": true,
+                "home_team": "WHU"
+            },
+            {
+                "away_team": "CHE",
+                "finished": true,
+                "home_team": "EVE"
+            },
+            {
+                "away_team": "NEW",
+                "finished": true,
+                "home_team": "IPS"
             }
         ],
         "18": [
             {
-                "away_team": "EVE",
-                "finished": false,
-                "home_team": "MCI"
-            },
-            {
-                "away_team": "CRY",
-                "finished": false,
-                "home_team": "BOU"
+                "away_team": "IPS",
+                "finished": true,
+                "home_team": "ARS"
             },
             {
                 "away_team": "FUL",
-                "finished": false,
+                "finished": true,
                 "home_team": "CHE"
             },
             {
-                "away_team": "AVL",
-                "finished": false,
-                "home_team": "NEW"
-            },
-            {
-                "away_team": "TOT",
-                "finished": false,
-                "home_team": "NFO"
+                "away_team": "CRY",
+                "finished": true,
+                "home_team": "BOU"
             },
             {
                 "away_team": "WHU",
-                "finished": false,
+                "finished": true,
                 "home_team": "SOU"
             },
             {
-                "away_team": "MUN",
-                "finished": false,
-                "home_team": "WOL"
-            },
-            {
-                "away_team": "LEI",
-                "finished": false,
-                "home_team": "LIV"
+                "away_team": "TOT",
+                "finished": true,
+                "home_team": "NFO"
             },
             {
                 "away_team": "BRE",
-                "finished": false,
+                "finished": true,
                 "home_team": "BHA"
-            },
-            {
-                "away_team": "IPS",
-                "finished": false,
-                "home_team": "ARS"
             }
         ],
         "19": [
             {
-                "away_team": "MCI",
-                "finished": false,
-                "home_team": "LEI"
+                "away_team": "ARS",
+                "finished": true,
+                "home_team": "BRE"
+            },
+            {
+                "away_team": "BOU",
+                "finished": true,
+                "home_team": "FUL"
             },
             {
                 "away_team": "SOU",
-                "finished": false,
+                "finished": true,
                 "home_team": "CRY"
             },
             {
                 "away_team": "NFO",
-                "finished": false,
+                "finished": true,
                 "home_team": "EVE"
             },
             {
-                "away_team": "BOU",
-                "finished": false,
-                "home_team": "FUL"
-            },
-            {
                 "away_team": "WOL",
-                "finished": false,
+                "finished": true,
                 "home_team": "TOT"
             },
             {
-                "away_team": "LIV",
-                "finished": false,
-                "home_team": "WHU"
-            },
-            {
                 "away_team": "BHA",
-                "finished": false,
+                "finished": true,
                 "home_team": "AVL"
             },
             {
                 "away_team": "CHE",
-                "finished": false,
+                "finished": true,
                 "home_team": "IPS"
-            },
-            {
-                "away_team": "NEW",
-                "finished": false,
-                "home_team": "MUN"
-            },
-            {
-                "away_team": "ARS",
-                "finished": false,
-                "home_team": "BRE"
             }
         ],
         "20": [
             {
-                "away_team": "NEW",
-                "finished": false,
-                "home_team": "TOT"
-            },
-            {
-                "away_team": "LEI",
-                "finished": false,
-                "home_team": "AVL"
-            },
-            {
-                "away_team": "EVE",
-                "finished": false,
-                "home_team": "BOU"
-            },
-            {
-                "away_team": "CHE",
-                "finished": false,
-                "home_team": "CRY"
-            },
-            {
-                "away_team": "WHU",
-                "finished": false,
-                "home_team": "MCI"
-            },
-            {
-                "away_team": "BRE",
-                "finished": false,
-                "home_team": "SOU"
-            },
-            {
                 "away_team": "ARS",
-                "finished": false,
+                "finished": true,
                 "home_team": "BHA"
             },
             {
                 "away_team": "IPS",
-                "finished": false,
+                "finished": true,
                 "home_team": "FUL"
             },
             {
-                "away_team": "MUN",
-                "finished": false,
-                "home_team": "LIV"
+                "away_team": "CHE",
+                "finished": true,
+                "home_team": "CRY"
+            },
+            {
+                "away_team": "BRE",
+                "finished": true,
+                "home_team": "SOU"
             },
             {
                 "away_team": "NFO",
-                "finished": false,
+                "finished": true,
                 "home_team": "WOL"
+            },
+            {
+                "away_team": "EVE",
+                "finished": true,
+                "home_team": "BOU"
+            },
+            {
+                "away_team": "NEW",
+                "finished": true,
+                "home_team": "TOT"
             }
         ],
         "21": [
             {
-                "away_team": "MCI",
+                "away_team": "TOT",
                 "finished": true,
-                "home_team": "BRE"
-            },
-            {
-                "away_team": "BOU",
-                "finished": true,
-                "home_team": "CHE"
+                "home_team": "ARS"
             },
             {
                 "away_team": "FUL",
@@ -792,928 +857,758 @@
                 "home_team": "WHU"
             },
             {
-                "away_team": "LIV",
-                "finished": true,
-                "home_team": "NFO"
-            },
-            {
-                "away_team": "AVL",
-                "finished": true,
-                "home_team": "EVE"
-            },
-            {
                 "away_team": "CRY",
                 "finished": true,
                 "home_team": "LEI"
             },
             {
-                "away_team": "WOL",
+                "away_team": "SOU",
                 "finished": true,
-                "home_team": "NEW"
+                "home_team": "MUN"
             },
             {
-                "away_team": "TOT",
+                "away_team": "LIV",
                 "finished": true,
-                "home_team": "ARS"
+                "home_team": "NFO"
+            },
+            {
+                "away_team": "BOU",
+                "finished": true,
+                "home_team": "CHE"
+            },
+            {
+                "away_team": "MCI",
+                "finished": true,
+                "home_team": "BRE"
             },
             {
                 "away_team": "BHA",
                 "finished": true,
                 "home_team": "IPS"
-            },
-            {
-                "away_team": "SOU",
-                "finished": true,
-                "home_team": "MUN"
             }
         ],
         "22": [
             {
-                "away_team": "BOU",
-                "finished": false,
-                "home_team": "NEW"
-            },
-            {
-                "away_team": "LIV",
-                "finished": false,
-                "home_team": "BRE"
+                "away_team": "AVL",
+                "finished": true,
+                "home_team": "ARS"
             },
             {
                 "away_team": "FUL",
-                "finished": false,
+                "finished": true,
                 "home_team": "LEI"
             },
             {
                 "away_team": "CRY",
-                "finished": false,
+                "finished": true,
                 "home_team": "WHU"
             },
             {
-                "away_team": "AVL",
-                "finished": false,
-                "home_team": "ARS"
-            },
-            {
-                "away_team": "TOT",
-                "finished": false,
-                "home_team": "EVE"
-            },
-            {
-                "away_team": "BHA",
-                "finished": false,
-                "home_team": "MUN"
-            },
-            {
                 "away_team": "SOU",
-                "finished": false,
+                "finished": true,
                 "home_team": "NFO"
             },
             {
-                "away_team": "MCI",
-                "finished": false,
-                "home_team": "IPS"
+                "away_team": "BOU",
+                "finished": true,
+                "home_team": "NEW"
+            },
+            {
+                "away_team": "TOT",
+                "finished": true,
+                "home_team": "EVE"
+            },
+            {
+                "away_team": "LIV",
+                "finished": true,
+                "home_team": "BRE"
+            },
+            {
+                "away_team": "BHA",
+                "finished": true,
+                "home_team": "MUN"
             },
             {
                 "away_team": "WOL",
-                "finished": false,
+                "finished": true,
                 "home_team": "CHE"
+            },
+            {
+                "away_team": "MCI",
+                "finished": true,
+                "home_team": "IPS"
             }
         ],
         "23": [
             {
+                "away_team": "ARS",
+                "finished": true,
+                "home_team": "WOL"
+            },
+            {
+                "away_team": "MUN",
+                "finished": true,
+                "home_team": "FUL"
+            },
+            {
+                "away_team": "BRE",
+                "finished": true,
+                "home_team": "CRY"
+            },
+            {
+                "away_team": "NEW",
+                "finished": true,
+                "home_team": "SOU"
+            },
+            {
                 "away_team": "NFO",
-                "finished": false,
+                "finished": true,
                 "home_team": "BOU"
             },
             {
+                "away_team": "LEI",
+                "finished": true,
+                "home_team": "TOT"
+            },
+            {
                 "away_team": "EVE",
-                "finished": false,
+                "finished": true,
                 "home_team": "BHA"
             },
             {
                 "away_team": "IPS",
-                "finished": false,
+                "finished": true,
                 "home_team": "LIV"
             },
             {
-                "away_team": "NEW",
-                "finished": false,
-                "home_team": "SOU"
-            },
-            {
-                "away_team": "ARS",
-                "finished": false,
-                "home_team": "WOL"
-            },
-            {
                 "away_team": "CHE",
-                "finished": false,
+                "finished": true,
                 "home_team": "MCI"
-            },
-            {
-                "away_team": "BRE",
-                "finished": false,
-                "home_team": "CRY"
-            },
-            {
-                "away_team": "LEI",
-                "finished": false,
-                "home_team": "TOT"
-            },
-            {
-                "away_team": "WHU",
-                "finished": false,
-                "home_team": "AVL"
-            },
-            {
-                "away_team": "MUN",
-                "finished": false,
-                "home_team": "FUL"
             }
         ],
         "24": [
             {
+                "away_team": "MCI",
+                "finished": true,
+                "home_team": "ARS"
+            },
+            {
+                "away_team": "FUL",
+                "finished": true,
+                "home_team": "NEW"
+            },
+            {
+                "away_team": "CRY",
+                "finished": true,
+                "home_team": "MUN"
+            },
+            {
+                "away_team": "SOU",
+                "finished": true,
+                "home_team": "IPS"
+            },
+            {
                 "away_team": "BHA",
-                "finished": false,
+                "finished": true,
                 "home_team": "NFO"
             },
             {
                 "away_team": "LIV",
-                "finished": false,
+                "finished": true,
                 "home_team": "BOU"
             },
             {
-                "away_team": "LEI",
-                "finished": false,
-                "home_team": "EVE"
-            },
-            {
-                "away_team": "SOU",
-                "finished": false,
-                "home_team": "IPS"
-            },
-            {
-                "away_team": "FUL",
-                "finished": false,
-                "home_team": "NEW"
-            },
-            {
-                "away_team": "AVL",
-                "finished": false,
-                "home_team": "WOL"
-            },
-            {
                 "away_team": "TOT",
-                "finished": false,
+                "finished": true,
                 "home_team": "BRE"
             },
             {
-                "away_team": "CRY",
-                "finished": false,
-                "home_team": "MUN"
-            },
-            {
-                "away_team": "MCI",
-                "finished": false,
-                "home_team": "ARS"
-            },
-            {
                 "away_team": "WHU",
-                "finished": false,
+                "finished": true,
                 "home_team": "CHE"
-            },
-            {
-                "away_team": "LIV",
-                "finished": false,
-                "home_team": "EVE"
             }
         ],
         "25": [
             {
-                "away_team": "CHE",
-                "finished": false,
-                "home_team": "BHA"
-            },
-            {
                 "away_team": "ARS",
-                "finished": false,
+                "finished": true,
                 "home_team": "LEI"
             },
             {
-                "away_team": "IPS",
-                "finished": false,
-                "home_team": "AVL"
-            },
-            {
                 "away_team": "NFO",
-                "finished": false,
+                "finished": true,
                 "home_team": "FUL"
             },
             {
-                "away_team": "NEW",
-                "finished": false,
-                "home_team": "MCI"
-            },
-            {
-                "away_team": "BOU",
-                "finished": false,
-                "home_team": "SOU"
-            },
-            {
-                "away_team": "BRE",
-                "finished": false,
-                "home_team": "WHU"
-            },
-            {
                 "away_team": "EVE",
-                "finished": false,
+                "finished": true,
                 "home_team": "CRY"
             },
             {
-                "away_team": "WOL",
-                "finished": false,
-                "home_team": "LIV"
+                "away_team": "BOU",
+                "finished": true,
+                "home_team": "SOU"
             },
             {
                 "away_team": "MUN",
-                "finished": false,
+                "finished": true,
                 "home_team": "TOT"
             },
             {
-                "away_team": "LIV",
-                "finished": false,
+                "away_team": "BRE",
+                "finished": true,
+                "home_team": "WHU"
+            },
+            {
+                "away_team": "CHE",
+                "finished": true,
+                "home_team": "BHA"
+            },
+            {
+                "away_team": "IPS",
+                "finished": true,
                 "home_team": "AVL"
             }
         ],
         "26": [
             {
-                "away_team": "BRE",
-                "finished": false,
-                "home_team": "LEI"
-            },
-            {
-                "away_team": "MUN",
-                "finished": false,
-                "home_team": "EVE"
-            },
-            {
                 "away_team": "WHU",
-                "finished": false,
+                "finished": true,
                 "home_team": "ARS"
             },
             {
-                "away_team": "WOL",
-                "finished": false,
-                "home_team": "BOU"
-            },
-            {
                 "away_team": "CRY",
-                "finished": false,
+                "finished": true,
                 "home_team": "FUL"
             },
             {
-                "away_team": "TOT",
-                "finished": false,
-                "home_team": "IPS"
-            },
-            {
                 "away_team": "BHA",
-                "finished": false,
+                "finished": true,
                 "home_team": "SOU"
             },
             {
-                "away_team": "CHE",
-                "finished": false,
-                "home_team": "AVL"
-            },
-            {
                 "away_team": "NFO",
-                "finished": false,
+                "finished": true,
                 "home_team": "NEW"
             },
             {
-                "away_team": "LIV",
-                "finished": false,
-                "home_team": "MCI"
+                "away_team": "WOL",
+                "finished": true,
+                "home_team": "BOU"
+            },
+            {
+                "away_team": "TOT",
+                "finished": true,
+                "home_team": "IPS"
+            },
+            {
+                "away_team": "BRE",
+                "finished": true,
+                "home_team": "LEI"
+            },
+            {
+                "away_team": "CHE",
+                "finished": true,
+                "home_team": "AVL"
             }
         ],
         "27": [
             {
-                "away_team": "BOU",
-                "finished": false,
-                "home_team": "BHA"
-            },
-            {
-                "away_team": "AVL",
-                "finished": false,
-                "home_team": "CRY"
+                "away_team": "ARS",
+                "finished": true,
+                "home_team": "NFO"
             },
             {
                 "away_team": "FUL",
-                "finished": false,
+                "finished": true,
                 "home_team": "WOL"
             },
             {
+                "away_team": "AVL",
+                "finished": true,
+                "home_team": "CRY"
+            },
+            {
                 "away_team": "SOU",
-                "finished": false,
+                "finished": true,
                 "home_team": "CHE"
             },
             {
+                "away_team": "BOU",
+                "finished": true,
+                "home_team": "BHA"
+            },
+            {
+                "away_team": "MCI",
+                "finished": true,
+                "home_team": "TOT"
+            },
+            {
                 "away_team": "EVE",
-                "finished": false,
+                "finished": true,
                 "home_team": "BRE"
             },
             {
                 "away_team": "IPS",
-                "finished": false,
+                "finished": true,
                 "home_team": "MUN"
-            },
-            {
-                "away_team": "ARS",
-                "finished": false,
-                "home_team": "NFO"
-            },
-            {
-                "away_team": "MCI",
-                "finished": false,
-                "home_team": "TOT"
-            },
-            {
-                "away_team": "NEW",
-                "finished": false,
-                "home_team": "LIV"
-            },
-            {
-                "away_team": "LEI",
-                "finished": false,
-                "home_team": "WHU"
             }
         ],
         "28": [
             {
-                "away_team": "MCI",
-                "finished": false,
-                "home_team": "NFO"
+                "away_team": "ARS",
+                "finished": true,
+                "home_team": "MUN"
             },
             {
                 "away_team": "FUL",
-                "finished": false,
+                "finished": true,
                 "home_team": "BHA"
             },
             {
                 "away_team": "IPS",
-                "finished": false,
+                "finished": true,
                 "home_team": "CRY"
             },
             {
                 "away_team": "SOU",
-                "finished": false,
+                "finished": true,
                 "home_team": "LIV"
             },
             {
-                "away_team": "AVL",
-                "finished": false,
-                "home_team": "BRE"
-            },
-            {
-                "away_team": "EVE",
-                "finished": false,
-                "home_team": "WOL"
-            },
-            {
-                "away_team": "LEI",
-                "finished": false,
-                "home_team": "CHE"
+                "away_team": "MCI",
+                "finished": true,
+                "home_team": "NFO"
             },
             {
                 "away_team": "BOU",
-                "finished": false,
+                "finished": true,
                 "home_team": "TOT"
             },
             {
-                "away_team": "ARS",
-                "finished": false,
-                "home_team": "MUN"
+                "away_team": "AVL",
+                "finished": true,
+                "home_team": "BRE"
             },
             {
-                "away_team": "NEW",
-                "finished": false,
-                "home_team": "WHU"
+                "away_team": "LEI",
+                "finished": true,
+                "home_team": "CHE"
             }
         ],
         "29": [
             {
-                "away_team": "WHU",
-                "finished": false,
-                "home_team": "EVE"
-            },
-            {
-                "away_team": "NFO",
-                "finished": false,
-                "home_team": "IPS"
-            },
-            {
-                "away_team": "BHA",
-                "finished": false,
-                "home_team": "MCI"
-            },
-            {
-                "away_team": "WOL",
-                "finished": false,
-                "home_team": "SOU"
-            },
-            {
-                "away_team": "BRE",
-                "finished": false,
-                "home_team": "BOU"
-            },
-            {
                 "away_team": "CHE",
-                "finished": false,
+                "finished": true,
                 "home_team": "ARS"
             },
             {
                 "away_team": "TOT",
-                "finished": false,
+                "finished": true,
                 "home_team": "FUL"
             },
             {
-                "away_team": "MUN",
-                "finished": false,
-                "home_team": "LEI"
+                "away_team": "WOL",
+                "finished": true,
+                "home_team": "SOU"
+            },
+            {
+                "away_team": "NFO",
+                "finished": true,
+                "home_team": "IPS"
+            },
+            {
+                "away_team": "BRE",
+                "finished": true,
+                "home_team": "BOU"
+            },
+            {
+                "away_team": "BHA",
+                "finished": true,
+                "home_team": "MCI"
             }
         ],
         "30": [
             {
                 "away_team": "FUL",
-                "finished": false,
+                "finished": true,
                 "home_team": "ARS"
             },
             {
-                "away_team": "WHU",
-                "finished": false,
-                "home_team": "WOL"
+                "away_team": "CRY",
+                "finished": true,
+                "home_team": "SOU"
             },
             {
                 "away_team": "MUN",
-                "finished": false,
+                "finished": true,
                 "home_team": "NFO"
             },
             {
                 "away_team": "IPS",
-                "finished": false,
+                "finished": true,
                 "home_team": "BOU"
             },
             {
-                "away_team": "AVL",
-                "finished": false,
-                "home_team": "BHA"
-            },
-            {
-                "away_team": "LEI",
-                "finished": false,
-                "home_team": "MCI"
+                "away_team": "TOT",
+                "finished": true,
+                "home_team": "CHE"
             },
             {
                 "away_team": "BRE",
-                "finished": false,
+                "finished": true,
                 "home_team": "NEW"
             },
             {
-                "away_team": "CRY",
-                "finished": false,
-                "home_team": "SOU"
-            },
-            {
-                "away_team": "EVE",
-                "finished": false,
-                "home_team": "LIV"
-            },
-            {
-                "away_team": "TOT",
-                "finished": false,
-                "home_team": "CHE"
+                "away_team": "AVL",
+                "finished": true,
+                "home_team": "BHA"
             }
         ],
         "31": [
             {
                 "away_team": "ARS",
-                "finished": false,
+                "finished": true,
                 "home_team": "EVE"
             },
             {
-                "away_team": "BHA",
-                "finished": false,
-                "home_team": "CRY"
-            },
-            {
-                "away_team": "WOL",
-                "finished": false,
-                "home_team": "IPS"
-            },
-            {
-                "away_team": "BOU",
-                "finished": false,
-                "home_team": "WHU"
-            },
-            {
-                "away_team": "NFO",
-                "finished": false,
-                "home_team": "AVL"
-            },
-            {
-                "away_team": "CHE",
-                "finished": false,
-                "home_team": "BRE"
-            },
-            {
                 "away_team": "LIV",
-                "finished": false,
+                "finished": true,
                 "home_team": "FUL"
             },
             {
+                "away_team": "BHA",
+                "finished": true,
+                "home_team": "CRY"
+            },
+            {
                 "away_team": "SOU",
-                "finished": false,
+                "finished": true,
                 "home_team": "TOT"
             },
             {
-                "away_team": "MCI",
-                "finished": false,
-                "home_team": "MUN"
+                "away_team": "NFO",
+                "finished": true,
+                "home_team": "AVL"
             },
             {
-                "away_team": "NEW",
-                "finished": false,
-                "home_team": "LEI"
+                "away_team": "BOU",
+                "finished": true,
+                "home_team": "WHU"
+            },
+            {
+                "away_team": "CHE",
+                "finished": true,
+                "home_team": "BRE"
+            },
+            {
+                "away_team": "WOL",
+                "finished": true,
+                "home_team": "IPS"
             }
         ],
         "32": [
             {
-                "away_team": "CRY",
-                "finished": false,
-                "home_team": "MCI"
-            },
-            {
-                "away_team": "LEI",
-                "finished": false,
-                "home_team": "BHA"
-            },
-            {
-                "away_team": "EVE",
-                "finished": false,
-                "home_team": "NFO"
-            },
-            {
-                "away_team": "AVL",
-                "finished": false,
-                "home_team": "SOU"
-            },
-            {
                 "away_team": "BRE",
-                "finished": false,
+                "finished": true,
                 "home_team": "ARS"
             },
             {
-                "away_team": "IPS",
-                "finished": false,
-                "home_team": "CHE"
-            },
-            {
-                "away_team": "WHU",
-                "finished": false,
-                "home_team": "LIV"
-            },
-            {
-                "away_team": "TOT",
-                "finished": false,
-                "home_team": "WOL"
-            },
-            {
-                "away_team": "MUN",
-                "finished": false,
-                "home_team": "NEW"
-            },
-            {
                 "away_team": "FUL",
-                "finished": false,
+                "finished": true,
                 "home_team": "BOU"
             },
             {
                 "away_team": "CRY",
-                "finished": false,
+                "finished": true,
                 "home_team": "NEW"
+            },
+            {
+                "away_team": "AVL",
+                "finished": true,
+                "home_team": "SOU"
+            },
+            {
+                "away_team": "EVE",
+                "finished": true,
+                "home_team": "NFO"
+            },
+            {
+                "away_team": "TOT",
+                "finished": true,
+                "home_team": "WOL"
+            },
+            {
+                "away_team": "LEI",
+                "finished": true,
+                "home_team": "BHA"
+            },
+            {
+                "away_team": "IPS",
+                "finished": true,
+                "home_team": "CHE"
             }
         ],
         "33": [
             {
-                "away_team": "BHA",
-                "finished": false,
-                "home_team": "BRE"
-            },
-            {
-                "away_team": "BOU",
-                "finished": false,
-                "home_team": "CRY"
-            },
-            {
-                "away_team": "MCI",
-                "finished": false,
-                "home_team": "EVE"
-            },
-            {
-                "away_team": "SOU",
-                "finished": false,
-                "home_team": "WHU"
-            },
-            {
-                "away_team": "NEW",
-                "finished": false,
-                "home_team": "AVL"
+                "away_team": "CRY",
+                "finished": true,
+                "home_team": "ARS"
             },
             {
                 "away_team": "CHE",
-                "finished": false,
+                "finished": true,
                 "home_team": "FUL"
             },
             {
-                "away_team": "ARS",
-                "finished": false,
-                "home_team": "IPS"
-            },
-            {
-                "away_team": "WOL",
-                "finished": false,
-                "home_team": "MUN"
-            },
-            {
-                "away_team": "LIV",
-                "finished": false,
-                "home_team": "LEI"
+                "away_team": "SOU",
+                "finished": true,
+                "home_team": "WHU"
             },
             {
                 "away_team": "NFO",
-                "finished": false,
+                "finished": true,
                 "home_team": "TOT"
             },
             {
-                "away_team": "AVL",
-                "finished": false,
-                "home_team": "MCI"
+                "away_team": "BOU",
+                "finished": true,
+                "home_team": "CRY"
             },
             {
-                "away_team": "CRY",
-                "finished": false,
-                "home_team": "ARS"
+                "away_team": "BHA",
+                "finished": true,
+                "home_team": "BRE"
+            },
+            {
+                "away_team": "ARS",
+                "finished": true,
+                "home_team": "IPS"
             }
         ],
         "34": [
             {
-                "away_team": "EVE",
-                "finished": false,
-                "home_team": "CHE"
-            },
-            {
-                "away_team": "WHU",
-                "finished": false,
-                "home_team": "BHA"
-            },
-            {
-                "away_team": "IPS",
-                "finished": false,
-                "home_team": "NEW"
-            },
-            {
                 "away_team": "FUL",
-                "finished": false,
+                "finished": true,
                 "home_team": "SOU"
             },
             {
-                "away_team": "LEI",
-                "finished": false,
-                "home_team": "WOL"
+                "away_team": "BRE",
+                "finished": true,
+                "home_team": "NFO"
             },
             {
                 "away_team": "MUN",
-                "finished": false,
+                "finished": true,
                 "home_team": "BOU"
             },
             {
                 "away_team": "TOT",
-                "finished": false,
+                "finished": true,
                 "home_team": "LIV"
             },
             {
-                "away_team": "BRE",
-                "finished": false,
-                "home_team": "NFO"
+                "away_team": "WHU",
+                "finished": true,
+                "home_team": "BHA"
+            },
+            {
+                "away_team": "IPS",
+                "finished": true,
+                "home_team": "NEW"
+            },
+            {
+                "away_team": "EVE",
+                "finished": true,
+                "home_team": "CHE"
             }
         ],
         "35": [
             {
-                "away_team": "WOL",
-                "finished": false,
-                "home_team": "MCI"
-            },
-            {
-                "away_team": "FUL",
-                "finished": false,
-                "home_team": "AVL"
-            },
-            {
-                "away_team": "IPS",
-                "finished": false,
-                "home_team": "EVE"
-            },
-            {
-                "away_team": "SOU",
-                "finished": false,
-                "home_team": "LEI"
-            },
-            {
                 "away_team": "BOU",
-                "finished": false,
+                "finished": true,
                 "home_team": "ARS"
             },
             {
+                "away_team": "FUL",
+                "finished": true,
+                "home_team": "AVL"
+            },
+            {
+                "away_team": "NFO",
+                "finished": true,
+                "home_team": "CRY"
+            },
+            {
+                "away_team": "SOU",
+                "finished": true,
+                "home_team": "LEI"
+            },
+            {
+                "away_team": "TOT",
+                "finished": true,
+                "home_team": "WHU"
+            },
+            {
                 "away_team": "MUN",
-                "finished": false,
+                "finished": true,
                 "home_team": "BRE"
             },
             {
                 "away_team": "NEW",
-                "finished": false,
+                "finished": true,
                 "home_team": "BHA"
             },
             {
-                "away_team": "TOT",
-                "finished": false,
-                "home_team": "WHU"
+                "away_team": "IPS",
+                "finished": true,
+                "home_team": "EVE"
             },
             {
                 "away_team": "LIV",
-                "finished": false,
+                "finished": true,
                 "home_team": "CHE"
-            },
-            {
-                "away_team": "NFO",
-                "finished": false,
-                "home_team": "CRY"
             }
         ],
         "36": [
             {
+                "away_team": "ARS",
+                "finished": true,
+                "home_team": "LIV"
+            },
+            {
                 "away_team": "EVE",
-                "finished": false,
+                "finished": true,
                 "home_team": "FUL"
             },
             {
-                "away_team": "BRE",
-                "finished": false,
-                "home_team": "IPS"
-            },
-            {
-                "away_team": "MCI",
-                "finished": false,
-                "home_team": "SOU"
-            },
-            {
-                "away_team": "BHA",
-                "finished": false,
-                "home_team": "WOL"
-            },
-            {
-                "away_team": "AVL",
-                "finished": false,
-                "home_team": "BOU"
-            },
-            {
-                "away_team": "CHE",
-                "finished": false,
-                "home_team": "NEW"
-            },
-            {
-                "away_team": "WHU",
-                "finished": false,
-                "home_team": "MUN"
-            },
-            {
-                "away_team": "LEI",
-                "finished": false,
-                "home_team": "NFO"
-            },
-            {
                 "away_team": "CRY",
-                "finished": false,
+                "finished": true,
                 "home_team": "TOT"
             },
             {
-                "away_team": "ARS",
-                "finished": false,
-                "home_team": "LIV"
+                "away_team": "MCI",
+                "finished": true,
+                "home_team": "SOU"
+            },
+            {
+                "away_team": "LEI",
+                "finished": true,
+                "home_team": "NFO"
+            },
+            {
+                "away_team": "AVL",
+                "finished": true,
+                "home_team": "BOU"
+            },
+            {
+                "away_team": "BRE",
+                "finished": true,
+                "home_team": "IPS"
+            },
+            {
+                "away_team": "BHA",
+                "finished": true,
+                "home_team": "WOL"
+            },
+            {
+                "away_team": "CHE",
+                "finished": true,
+                "home_team": "NEW"
             }
         ],
         "37": [
             {
-                "away_team": "MUN",
-                "finished": false,
-                "home_team": "CHE"
-            },
-            {
-                "away_team": "SOU",
-                "finished": false,
-                "home_team": "EVE"
-            },
-            {
-                "away_team": "TOT",
-                "finished": false,
-                "home_team": "AVL"
-            },
-            {
-                "away_team": "NFO",
-                "finished": false,
-                "home_team": "WHU"
-            },
-            {
-                "away_team": "FUL",
-                "finished": false,
-                "home_team": "BRE"
-            },
-            {
-                "away_team": "IPS",
-                "finished": false,
-                "home_team": "LEI"
-            },
-            {
                 "away_team": "NEW",
-                "finished": false,
+                "finished": true,
                 "home_team": "ARS"
             },
             {
-                "away_team": "LIV",
-                "finished": false,
-                "home_team": "BHA"
+                "away_team": "FUL",
+                "finished": true,
+                "home_team": "BRE"
             },
             {
                 "away_team": "WOL",
-                "finished": false,
+                "finished": true,
                 "home_team": "CRY"
             },
             {
+                "away_team": "SOU",
+                "finished": true,
+                "home_team": "EVE"
+            },
+            {
+                "away_team": "NFO",
+                "finished": true,
+                "home_team": "WHU"
+            },
+            {
                 "away_team": "BOU",
-                "finished": false,
+                "finished": true,
                 "home_team": "MCI"
+            },
+            {
+                "away_team": "TOT",
+                "finished": true,
+                "home_team": "AVL"
+            },
+            {
+                "away_team": "LIV",
+                "finished": true,
+                "home_team": "BHA"
+            },
+            {
+                "away_team": "IPS",
+                "finished": true,
+                "home_team": "LEI"
+            },
+            {
+                "away_team": "MUN",
+                "finished": true,
+                "home_team": "CHE"
             }
         ],
         "38": [
             {
-                "away_team": "LEI",
-                "finished": false,
-                "home_team": "BOU"
-            },
-            {
-                "away_team": "MCI",
-                "finished": false,
-                "home_team": "FUL"
-            },
-            {
-                "away_team": "WHU",
-                "finished": false,
-                "home_team": "IPS"
-            },
-            {
-                "away_team": "CRY",
-                "finished": false,
-                "home_team": "LIV"
-            },
-            {
-                "away_team": "AVL",
-                "finished": false,
-                "home_team": "MUN"
-            },
-            {
-                "away_team": "EVE",
-                "finished": false,
-                "home_team": "NEW"
-            },
-            {
-                "away_team": "CHE",
-                "finished": false,
-                "home_team": "NFO"
-            },
-            {
                 "away_team": "ARS",
-                "finished": false,
+                "finished": true,
                 "home_team": "SOU"
             },
             {
+                "away_team": "MCI",
+                "finished": true,
+                "home_team": "FUL"
+            },
+            {
+                "away_team": "CRY",
+                "finished": true,
+                "home_team": "LIV"
+            },
+            {
+                "away_team": "CHE",
+                "finished": true,
+                "home_team": "NFO"
+            },
+            {
+                "away_team": "LEI",
+                "finished": true,
+                "home_team": "BOU"
+            },
+            {
                 "away_team": "BHA",
-                "finished": false,
+                "finished": true,
                 "home_team": "TOT"
             },
             {
                 "away_team": "BRE",
-                "finished": false,
+                "finished": true,
                 "home_team": "WOL"
+            },
+            {
+                "away_team": "WHU",
+                "finished": true,
+                "home_team": "IPS"
             }
         ]
     },

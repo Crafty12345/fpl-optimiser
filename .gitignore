@@ -1,4 +1,4 @@
 .ipynb_checkpoints/
 __pycache__/
 .venv/
-data/raw/old_data/players/individual/**
+data/raw/old_data/players/**

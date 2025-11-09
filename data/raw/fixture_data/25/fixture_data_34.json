@@ -1,1 +1,44 @@
-[{"code":2444803,"event":34,"finished":false,"finished_provisional":false,"id":334,"kickoff_time":"2025-04-26T11:30:00Z","minutes":0,"provisional_start_time":false,"started":false,"team_a":8,"team_a_score":null,"team_h":6,"team_h_score":null,"stats":[],"team_h_difficulty":3,"team_a_difficulty":4,"pulse_id":116160},{"code":2444802,"event":34,"finished":false,"finished_provisional":false,"id":333,"kickoff_time":"2025-04-26T14:00:00Z","minutes":0,"provisional_start_time":false,"started":false,"team_a":19,"team_a_score":null,"team_h":5,"team_h_score":null,"stats":[],"team_h_difficulty":2,"team_a_difficulty":3,"pulse_id":116159},{"code":2444806,"event":34,"finished":false,"finished_provisional":false,"id":337,"kickoff_time":"2025-04-26T14:00:00Z","minutes":0,"provisional_start_time":false,"started":false,"team_a":10,"team_a_score":null,"team_h":15,"team_h_score":null,"stats":[],"team_h_difficulty":2,"team_a_difficulty":4,"pulse_id":116163},{"code":2444808,"event":34,"finished":false,"finished_provisional":false,"id":339,"kickoff_time":"2025-04-26T14:00:00Z","minutes":0,"provisional_start_time":false,"started":false,"team_a":9,"team_a_score":null,"team_h":17,"team_h_score":null,"stats":[],"team_h_difficulty":3,"team_a_difficulty":1,"pulse_id":116165},{"code":2444809,"event":34,"finished":false,"finished_provisional":false,"id":340,"kickoff_time":"2025-04-26T14:00:00Z","minutes":0,"provisional_start_time":false,"started":false,"team_a":11,"team_a_score":null,"team_h":20,"team_h_score":null,"stats":[],"team_h_difficulty":1,"team_a_difficulty":3,"pulse_id":116166},{"code":2444800,"event":34,"finished":false,"finished_provisional":false,"id":332,"kickoff_time":"2025-04-27T13:00:00Z","minutes":0,"provisional_start_time":false,"started":false,"team_a":14,"team_a_score":null,"team_h":3,"team_h_score":null,"stats":[],"team_h_difficulty":2,"team_a_difficulty":3,"pulse_id":116158},{"code":2444804,"event":34,"finished":false,"finished_provisional":false,"id":335,"kickoff_time":"2025-04-27T15:30:00Z","minutes":0,"provisional_start_time":false,"started":false,"team_a":18,"team_a_score":null,"team_h":12,"team_h_score":null,"stats":[],"team_h_difficulty":2,"team_a_difficulty":5,"pulse_id":116161},{"code":2444807,"event":34,"finished":false,"finished_provisional":false,"id":338,"kickoff_time":"2025-05-01T18:30:00Z","minutes":0,"provisional_start_time":false,"started":false,"team_a":4,"team_a_score":null,"team_h":16,"team_h_score":null,"stats":[],"team_h_difficulty":3,"team_a_difficulty":4,"pulse_id":116164}]
+[
+    {
+        "away_team": "FUL",
+        "home_team": "SOU",
+        "finished": true,
+        "event": 34
+    },
+    {
+        "home_team": "NFO",
+        "away_team": "BRE",
+        "finished": true,
+        "event": 34
+    },
+    {
+        "home_team": "BOU",
+        "away_team": "MUN",
+        "finished": true,
+        "event": 34
+    },
+    {
+        "away_team": "TOT",
+        "home_team": "LIV",
+        "finished": true,
+        "event": 34
+    },
+    {
+        "home_team": "BHA",
+        "away_team": "WHU",
+        "finished": true,
+        "event": 34
+    },
+    {
+        "away_team": "IPS",
+        "home_team": "NEW",
+        "finished": true,
+        "event": 34
+    },
+    {
+        "home_team": "CHE",
+        "away_team": "EVE",
+        "finished": true,
+        "event": 34
+    }
+]

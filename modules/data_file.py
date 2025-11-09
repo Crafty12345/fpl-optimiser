@@ -65,6 +65,24 @@ class RawPlayerDataFile(DataFile):
         date = datetime.strptime(dateStr, r"%d-%m-%Y")
         return RawPlayerDataFile(season, pFilename, date)
     
+    @staticmethod
+    def parseOld(pFilename: str) -> DataFile:
+        pattern = r"^data\/raw\/old_data\/players\/(\d{2})-(\d{2})\/fpl_stats_(\d{2})-(\d{2})-(\d{4})\.json$"
+        regex = re.compile(pattern)
+        if not regex.fullmatch(pFilename):
+            raise ValueError(f"Invalid filename: '{pFilename}'")
+        args = regex.findall(pFilename)[0]
+        startYear = int(args[0])
+        endYear = int(args[1])
+        day = args[2]
+        month = args[3]
+        year = args[4]
+        season = Season(startYear, endYear)
+        dateStr = f"{day}-{month}-{year}"
+        date = datetime.strptime(dateStr, r"%d-%m-%Y")
+
+        return RawPlayerDataFile(season, pFilename, date)
+    
 class RawFixtureDataFile(DataFile):
 
     def __init__(self, pSeason: Season, pFilename: str, pGameweek: int):
