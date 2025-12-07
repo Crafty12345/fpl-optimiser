@@ -8,6 +8,8 @@ from tqdm import tqdm
 import numpy as np
 import json
 import line_profiler
+import time
+
 
 from modules.team_solver import TeamSolver, SolverMode
 from modules.team_predicter import TeamPredicter
@@ -49,10 +51,10 @@ class RFTeamPredicter(TeamPredicter):
         y: pd.DataFrame = tempDf[self.yCols]
         self.x: pd.DataFrame = tempDf.drop(columns=self.yCols)
         self.x["fixture_dif"] = self.x.apply(lambda x: self.getFixtureDiff(self.fixtureMatrix, x), axis=1)
-        self.x["fixture_dif"] = self.x["fixture_dif"].astype(np.float32)
         tempX = self.x[self.xCols]
 
         allR2s = []
+
         for position in tqdm(["GKP", "FWD", "MID", "DEF"], desc="Fitting models"):
             positionLoc = tempX["position"]==position
             # TODO: Maybe stop copying entire DF every time?
@@ -77,6 +79,7 @@ class RFTeamPredicter(TeamPredicter):
         meanR2 = sum(allR2s) / len(allR2s)
         self.accuracy = meanR2
         print(f"r2={meanR2}")
+
         
         # featureImportances = self.regressor.feature_importances_
         # featureNames = self.regressor.feature_names_in_

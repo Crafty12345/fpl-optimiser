@@ -1,6 +1,6 @@
 import json
 import pandas as pd
-from copy import copy
+from copy import copy, deepcopy
 from modules.utils import lerp
 import math
 from warnings import warn
@@ -9,6 +9,31 @@ import os
 import config
 
 class FixtureDifficultyMatrix():
+    class _Memoise():
+        def __init__(self, pFunc):
+            self.func = pFunc
+            self.memo = dict()
+
+        def __call__(self,
+                  pBehindSteps: int,
+                  pCurrentGameweek: int,
+                  pAheadSteps: int,
+                  pSeason: int,
+                  pScale: float):
+            
+            if (pSeason in self.memo.keys()):
+                if (pCurrentGameweek in self.memo[pSeason].keys()):
+                    dictList = self.memo[pSeason][pCurrentGameweek]
+                    for tempDict in dictList:
+                        otherBehindSteps = tempDict["behind_steps"]
+                        otherAheadSteps = tempDict["ahead_steps"]
+                        otherScale = tempDict["scale"]
+                        if (pBehindSteps == otherBehindSteps) and \
+                            (pAheadSteps == otherAheadSteps) and \
+                            (pScale == otherScale):
+                            return tempDict["data"]
+            result = self.func()
+
     def __init__(self):
         
         with open("./data/current_table.txt") as f:
@@ -27,6 +52,35 @@ class FixtureDifficultyMatrix():
         self.simpleDifficulties = dict()
         self.normalisedDifficulties = dict()
 
+        with open("./data/team_translation_table.json") as f:
+            teamNamesJson = json.load(f)
+        self.teamTranslationDict: dict[int, pd.DataFrame] = {int(k): pd.DataFrame.from_records(v) for k, v in teamNamesJson.items()}
+        fixtureDataPath = "./data/fixtures.json"
+        with open(fixtureDataPath, "r") as f:
+            self.fixturesJson: dict[str, dict[str, list[dict]]] = json.load(f)
+
+        self.cache = dict()
+
+    def _findCache(self,
+                  pBehindSteps: int,
+                  pCurrentGameweek: int,
+                  pAheadSteps: int,
+                  pSeason: int,
+                  pScale: float) -> dict | None:
+        
+        if (pSeason in self.cache.keys()):
+            if (pCurrentGameweek in self.cache[pSeason].keys()):
+                dictList = self.cache[pSeason][pCurrentGameweek]
+                for tempDict in dictList:
+                    otherBehindSteps = tempDict["behind_steps"]
+                    otherAheadSteps = tempDict["ahead_steps"]
+                    otherScale = tempDict["scale"]
+                    if (pBehindSteps == otherBehindSteps) and \
+                        (pAheadSteps == otherAheadSteps) and \
+                        (pScale == otherScale):
+                        return tempDict
+        return None
+
     def precomputeFixtureDifficulty(self,
                   pBehindSteps: int,
                   pCurrentGameweek: int,
@@ -34,6 +88,13 @@ class FixtureDifficultyMatrix():
                   pSeason: int,
                   pScale: float):
         
+        foundCache = self._findCache(pBehindSteps, pCurrentGameweek, pAheadSteps, pSeason, pScale)
+        if (foundCache is not None):
+            self.thisGameweekDiffs = foundCache["this_gw_diffs"]
+            self.simpleDifficulties = foundCache["simple_diffs"]
+            self.normalisedDifficulties = foundCache["normalised_diffs"]
+            return
+
         MIN_SCORE_OFFSET = -pScale
         MAX_SCORE_OFFSET = pScale
         if pCurrentGameweek < 0 or pCurrentGameweek > config.MAX_GAMEWEEKS:
@@ -43,21 +104,13 @@ class FixtureDifficultyMatrix():
         endGameweek = min(pCurrentGameweek + pAheadSteps, config.MAX_GAMEWEEKS)
 
         allFixtureDataRaw = []
-        with open("./data/team_translation_table.json") as f:
-            teamNamesJson = json.load(f)
-        teamTranslationDict: dict[int, pd.DataFrame] = {int(k): pd.DataFrame.from_records(v) for k, v in teamNamesJson.items()}
-
-
-        fixtureDataPath = "./data/fixtures.json"
-        with open(fixtureDataPath, "r") as f:
-            fixturesJson: dict[str, dict[str, list[dict]]] = json.load(f)
 
         numFixtures = len(allFixtureDataRaw)
         sums = dict()
-        for _season in fixturesJson.keys():
+        for _season in self.fixturesJson.keys():
             season = int(_season)
 
-            for _gameweek, weekData in fixturesJson[_season].items():
+            for _gameweek, weekData in self.fixturesJson[_season].items():
                 alreadyPlayedTeams = set()
                 currentGameweekDict = dict()
                 gameweek = int(_gameweek)
@@ -103,7 +156,7 @@ class FixtureDifficultyMatrix():
 
                         for team in self.allTeams:
                             if team not in self.thisGameweekDiffs.keys():
-                                if (team in teamTranslationDict[season]["name"]):
+                                if (team in self.teamTranslationDict[season]["name"]):
                                     print(f"Warning: {team} does not have any games in gameweek {gameweek} of season {season}")
                                     self.thisGameweekDiffs[team] = avg
 
@@ -115,7 +168,22 @@ class FixtureDifficultyMatrix():
             else:
                 self.simpleDifficulties[team] = sum / numFixtures
             self.normalisedDifficulties[team] = lerp(MIN_SCORE_OFFSET, MAX_SCORE_OFFSET, self.simpleDifficulties[team])
-        #print(jsonStr)
+
+        if pSeason not in self.cache.keys():
+            self.cache[pSeason] = dict()
+        
+        if (pCurrentGameweek not in self.cache[pSeason]):
+            self.cache[pSeason][pCurrentGameweek] = list()
+        
+        toAdd = dict()
+        toAdd["behind_steps"] = pBehindSteps
+        toAdd["ahead_steps"] = pAheadSteps
+        toAdd["scale"] = pScale
+        toAdd["this_gw_diffs"] = deepcopy(self.thisGameweekDiffs)
+        toAdd["simple_diffs"] = deepcopy(self.simpleDifficulties)
+        toAdd["normalised_diffs"] = deepcopy(self.normalisedDifficulties)
+
+        self.cache[pSeason][pCurrentGameweek].append(toAdd)
 
     def averageDifficulty(self, pDict: dict) -> float:
         total = sum(pDict.values())

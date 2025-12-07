@@ -152,7 +152,6 @@ def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: dict[str,lis
     player_data["gameweek"] = currentGameweek
     player_data["season"] = pDate.season.endYear
 
-    # TODO: Get old points data
     # UNK = "UNKOWN"
     if "opposing_team" not in player_data.columns:
         player_data["opposing_team"] = "UNK"

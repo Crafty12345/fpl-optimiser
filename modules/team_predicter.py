@@ -15,15 +15,20 @@ class TeamPredicter(TeamSolver):
         self.allDummyColumns: set[str] = set()
         self.idNameDict: dict[int, str] = dict()
     
+    # TODO: Optimise this method
     def concatWeeks(self, pCallback = None) -> pd.DataFrame:
         tempDf = pd.DataFrame(columns=self.allCols)
+        toConcat: np.array[pd.DataFrame] = np.ndarray(len(self.allData)+1, dtype=object)
+        toConcat[0] = tempDf
+        i: int = 1
         for datum in self.allData:
-
             if (pCallback is not None):
                 pCallback(datum)
+            toConcat[i] = datum
+            i += 1
 
-            tempDf = pd.concat([tempDf, datum])
-        return tempDf.copy()
+        assert i == len(toConcat)
+        return pd.concat(toConcat)
 
     def setDummyCols(self, pDatum: pd.DataFrame):
         playerIds = zip(pDatum["id"].values, pDatum["name"])
@@ -77,5 +82,7 @@ class TeamPredicter(TeamSolver):
         pDf["points_this_week"] = pDf["points_this_week"].astype(np.float64)
         pDf["gameweek"] = pDf["gameweek"].astype(np.uint16)
         pDf["season"] = pDf["season"].astype(np.uint16)
+        if "fixture_dif" in pDf.columns:
+            pDf["fixture_dif"] = pDf["fixture_dif"].astype(np.float32)
 
         return pDf
