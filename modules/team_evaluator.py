@@ -14,6 +14,7 @@ class TeamEvaluator(TeamSolver):
 				   		 pMode=SolverMode.CHEAPEST_FIRST,
 						 verbose=False)
 		self.allData = []
+		self.EVAL_COLUMN = "total_points"
 
 	def evaluate(self, pModel: TeamSolver) -> float:
 		_sum: float = 0.0
@@ -27,8 +28,8 @@ class TeamEvaluator(TeamSolver):
 			for (_gameweek, playerData) in tqdm(tempDict.items(), desc=f"Evaluating {pModel.label}"):
 				gameweek: int = int(_gameweek)
 				currentData = pd.DataFrame.from_records(playerData)
-				if(currentData["points_this_week"].notnull().all()):
-					currentData["score"] = currentData["points_this_week"]
+				if(currentData[self.EVAL_COLUMN].notnull().all()):
+					currentData["score"] = currentData[self.EVAL_COLUMN]
 					self.latestData = currentData
 					self.train()
 					self.find_team()

@@ -57,12 +57,12 @@ def writeTeamTable(pFilename: str, pSeason: Season):
         jsonData: list[dict] = json.loads(f.read())
     outputList: list[dict] = []
     requiredKeys = ["code", "id", "short_name"]
-    for tempDict in jsonData:
+    for tempDict in jsonData["teams"]:
         outDict = dict()
         for key in requiredKeys:
             outDict[key] = tempDict[key]
         outputList.append(outDict)
-    currentData[pSeason.startYear] = outputList
+    currentData[pSeason.endYear] = outputList
     with open(teamTableFilename, "w+") as f:
         json.dump(currentData, f, indent=4)
     
@@ -128,7 +128,8 @@ def getFixtureHistory(pSeason: Season):
     if (response.status_code != 200):
         print(f"Unable to retrieve data. HTTP status code: {response.status_code}")
         return
-    history: list[dict] = json.loads(response.text)["history"]
+    responseJson = json.loads(response.text)
+    history: list[dict] = responseJson["history"]
     fixtures: dict[int, list[dict]] = dict()
     playerIds: list[int] = []
     seenTeams: dict[int, set[str]] = dict()
@@ -149,6 +150,8 @@ def getFixtureHistory(pSeason: Season):
 
 
     outputDir = f"data/raw/fixture_data/{pSeason.endYear}"
+    os.makedirs(outputDir, exist_ok=True)
+
     for week, fixture in fixtures.items():
         outputFilename = f"fixture_data_{week}.json"
         outputPath = outputDir + "/" + outputFilename
@@ -159,10 +162,19 @@ def getFixtureHistory(pSeason: Season):
             val["event"] = week
         with open(outputPath, "w+") as f:
             json.dump(fixture, f, indent=4)
+    
+    currentPointHistory: dict = dict()
+    pointFilename = "data/raw/old_data/points/old_points.json"
+    if (os.path.exists(pointFilename)):
+        with open(pointFilename, "r") as f:
+            currentPointHistory = json.load(f)
+    if (str(pSeason.endYear)) in currentPointHistory.keys():
+        return
+    currentPointHistory[str(pSeason.endYear)] = responseJson["matrix"]
+    with open(pointFilename, "w+") as f:
+        json.dump(currentPointHistory, f, indent=4)
 
-
-
-
-season: Season = Season(24,25)
-#loadCachedFiles(season)
-getFixtureHistory(season)
+seasons = [Season(22,23), Season(23,24), Season(24,25)]
+for season in seasons:
+    loadCachedFiles(season)
+    getFixtureHistory(season)

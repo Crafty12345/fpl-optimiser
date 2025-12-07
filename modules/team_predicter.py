@@ -1,14 +1,15 @@
 import pandas as pd
 import numpy as np
+import line_profiler
 
 from modules.team_solver import TeamSolver
 
 class TeamPredicter(TeamSolver):
-    def __init__(self, pHeuristic, pMode, verbose = False, pLabel = None):
-        super().__init__(pHeuristic, pMode, verbose, pLabel)
+    def __init__(self, pHeuristic, pMode, verbose = False, pLabel = None, pFreeHit = False):
+        super().__init__(pHeuristic, pMode, verbose, pLabel, pFreeHit=pFreeHit)
         self.xCols = ["id","ict_index", "position", "team", "gameweek", "season", "form", "opposing_team", "play_percent", "fixture_dif", "clean_sheets", "expected_goals", "status"]
         self.categoricalColumns = ["id", "position", "team", "opposing_team", "status"]
-        self.yCols = ["points_this_week"]
+        self.yCols = ["total_points"]
         self.toDummyColumns = ["team", "opposing_team", "status"]
         self.allCols = self.xCols + self.yCols
         self.allDummyColumns: set[str] = set()
@@ -41,14 +42,32 @@ class TeamPredicter(TeamSolver):
         currentStatuses = set(pDatum["status"].apply(lambda x: "status_" + x))
         self.allDummyColumns = self.allDummyColumns.union(currentStatuses)
 
+    @line_profiler.profile
     def setDummies(self, pToDummy: pd.DataFrame) -> pd.DataFrame:
         result = pd.get_dummies(pToDummy, columns=self.toDummyColumns)
-        colsToAdd = set()
+        colsToAdd = np.ndarray(len(self.allDummyColumns), dtype=object)
+        numColsToAdd = 0
         xCols: set[str] = set(result.columns)
         for col in self.allDummyColumns:
             if col not in xCols and col not in pToDummy.columns:
-                result.insert(len(result.columns), col, 0)
-                result = result.copy()
+                # TODO: Fix this
+                #result.insert(len(result.columns), col, 0)
+                #print(col)
+                colsToAdd[numColsToAdd] = col
+                numColsToAdd += 1
+
+        colsToAdd = colsToAdd[colsToAdd != np.array(None)]
+        
+        colsDf = pd.DataFrame(columns=colsToAdd)
+        result = pd.concat([result, colsDf], axis=1)
+        #print(colsDf.columns)
+        for col in colsDf.columns:
+            assert col in result.columns
+        for col in self.allDummyColumns:
+            assert col in result.columns
+
+        
+        #result = result.copy()
         result = result.sort_index(axis=1)
         if "id" in result.columns:
             result["id"] = result["id"].astype("category")

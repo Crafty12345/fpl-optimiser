@@ -94,7 +94,7 @@ def updateDict(pId: int, pName: str, pPlayerNameDict: dict[int, str]):
     pPlayerNameDict[pId] = pName
 
 
-def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: list[dict], pPlayerNameDict: dict[int, str]) -> pd.DataFrame:
+def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: dict[str,list[dict]], pPlayerNameDict: dict[int, str]) -> pd.DataFrame:
     '''
     Function to clean data
     '''
@@ -111,7 +111,7 @@ def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: list[dict], 
 
     df = pd.DataFrame(pRawData["elements"])
     
-    allowed_cols = ["id", "first_name","second_name","now_cost","ict_index","total_points","points_per_game","element_type", "form", "status", "clean_sheets", "expected_goals", "minutes"]
+    allowed_cols = ["id", "first_name","second_name","now_cost","ict_index","total_points","points_per_game","element_type", "form", "status", "clean_sheets", "minutes"]
     if "team_name" in df.columns:
         allowed_cols.append("team_name")
     elif "team_code" in df.columns:
@@ -122,7 +122,7 @@ def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: list[dict], 
     player_data = df[allowed_cols]
 
     player_data["clean_sheets"] = player_data["clean_sheets"].astype(np.float64)
-    player_data["expected_goals"] = player_data["expected_goals"].astype(np.float64)
+    #player_data["expected_goals"] = player_data["expected_goals"].astype(np.float64)
     playPercent = player_data["minutes"] / (currentGameweek + 1) / 90.00
     player_data = player_data.drop(columns=["minutes"])
     player_data["play_percent"] = playPercent
@@ -152,6 +152,7 @@ def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: list[dict], 
     player_data["gameweek"] = currentGameweek
     player_data["season"] = pDate.season.endYear
 
+    # TODO: Get old points data
     # UNK = "UNKOWN"
     if "opposing_team" not in player_data.columns:
         player_data["opposing_team"] = "UNK"
@@ -193,7 +194,8 @@ def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: list[dict], 
             player_data.loc[player_data["id"]==_id, "points_this_week"] = receivedPoints
         player_data["points_this_week"] = player_data["points_this_week"].fillna(0.0)
     else:
-        for temp in pOldData:
+        oldSeasonPoints: list[dict] = pOldData.get(str(pDate.season.endYear), list())
+        for temp in oldSeasonPoints:
             playerId = int(temp["id"])
             pointsAtGameweek = temp["gw_points"].get(str(currentGameweek), 0)
             # Fix an edge case where some players may not play anymore
@@ -226,8 +228,8 @@ def filterDuplicates(pToFilter: list[DataFile]):
 
 allFiles = glob("./data/raw/player_stats/**-**/*.json")\
 
-with open("./data/raw/old_data/points/24-25.json", "r") as f:
-    old2025Data = json.load(f)["matrix"]
+with open("./data/raw/old_data/points/old_points.json", "r") as f:
+    oldPointData = json.load(f)
 
 # Source: https://fantasy.premierleague.com/api/bootstrap-static/
 filesSorted: list[RawPlayerDataFile] = parseFileNames(allFiles)
@@ -242,7 +244,7 @@ playerNames: dict[int, str] = dict()
 for i, fileName in enumerate(filesSorted):
     with open(fileName.filename, "r") as f:
         jsonData = json.load(f)
-    data, gameweek, teams = processFile(jsonData, fileName, old2025Data, playerNames)
+    data, gameweek, teams = processFile(jsonData, fileName, oldPointData, playerNames)
     filesProcessed.append({
         "gameweek": gameweek,
         "season": fileName.season.endYear,

@@ -1,0 +1,32 @@
+[
+    {
+        "away_team": "ARS",
+        "home_team": "BRE",
+        "finished": true,
+        "event": 8
+    },
+    {
+        "away_team": "FUL",
+        "home_team": "NFO",
+        "finished": true,
+        "event": 8
+    },
+    {
+        "away_team": "SOU",
+        "home_team": "AVL",
+        "finished": true,
+        "event": 8
+    },
+    {
+        "home_team": "EVE",
+        "away_team": "WHU",
+        "finished": true,
+        "event": 8
+    },
+    {
+        "away_team": "MCI",
+        "home_team": "WOL",
+        "finished": true,
+        "event": 8
+    }
+]

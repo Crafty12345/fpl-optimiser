@@ -2,6 +2,7 @@ import pandas as pd
 import os
 import time
 import json
+import cProfile
 
 from modules.team_solver import TeamSolver,SolverMode
 from modules.lin_team_predicter import LinearTeamPredicter
@@ -45,6 +46,11 @@ rfTeam.fit()
 rfTeam.updatePredictionData(config.CURRENT_SEASON, config.CURRENT_SEASON, config.CURRENT_GAMEWEEK, config.CURRENT_GAMEWEEK+1)
 all_teams.append(rfTeam)
 
+# rfTeam = RFTeamPredicter(SolverMode.HIGHEST_COST_FIRST,verbose=True, pLabel="Random Forest with Free Hit", pFreeHit=True)
+# rfTeam.fit()
+# rfTeam.updatePredictionData(config.CURRENT_SEASON, config.CURRENT_SEASON, config.CURRENT_GAMEWEEK, config.CURRENT_GAMEWEEK+1)
+# all_teams.append(rfTeam)
+
 # nnTeam = NNTeamPredicter(SolverMode.CHEAPEST_FIRST,verbose=True)
 # nnTeam.fit()
 # nnTeam.saveModel(nnFilename)
@@ -62,12 +68,12 @@ resultList: list[dict] = []
 for (i, team) in enumerate(all_teams):
      # TODO: Somehow combine team.train() and team.find_team() into one method
      # TODO: Make HTML outputting more expandable
-     evaluator = TeamEvaluator()
-     accuracy: float = evaluator.evaluate(team)
+     #evaluator = TeamEvaluator()
+     #accuracy: float = evaluator.evaluate(team)
      team.train()
      team.find_team()
 
-     team.setAccuracy(accuracy)
+     #team.setAccuracy(accuracy)
      team.save_summary(summary_filename,date=CURRENT_DATE, pIndex=i)
      resultList.append(team.toDict())
     

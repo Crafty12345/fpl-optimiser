@@ -357,3 +357,5 @@ class BenchTeam(Team):
         return minMin
     def getBenchPlayerList(self) -> list[Player]:
         return self.benchPlayersList
+    def getAllPlayerList(self) -> list[Player]:
+        return self.getBenchPlayerList() + self.getPlayers()

@@ -7,6 +7,7 @@ from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from tqdm import tqdm
 import numpy as np
 import json
+import line_profiler
 
 from modules.team_solver import TeamSolver, SolverMode
 from modules.team_predicter import TeamPredicter
@@ -21,8 +22,9 @@ class RFTeamPredicter(TeamPredicter):
     def __init__(self,
             pSolverMode: SolverMode, 
             verbose = False, 
-            pLabel: str = None):
-        super().__init__("score", pSolverMode, verbose, pLabel)
+            pLabel: str = None,
+            pFreeHit = False):
+        super().__init__("score", pSolverMode, verbose, pLabel, pFreeHit=pFreeHit)
         # TODO: Seperate this into `fit()` argument 
         # TODO: Implement way of saving model
         # TODO: Improve accuracy by seperating different positions into different models
@@ -50,11 +52,10 @@ class RFTeamPredicter(TeamPredicter):
         self.x["fixture_dif"] = self.x["fixture_dif"].astype(np.float32)
         tempX = self.x[self.xCols]
 
-        # TODO: Make sure there is a column for ALL unique players (across all gameweeks, all seasons)
-        # This would fix a bug caused by differences in the number of players
         allR2s = []
         for position in tqdm(["GKP", "FWD", "MID", "DEF"], desc="Fitting models"):
             positionLoc = tempX["position"]==position
+            # TODO: Maybe stop copying entire DF every time?
             xCopy = tempX.copy()[positionLoc]
             xCopy = xCopy.drop(columns=["position"])
             x = self.setDummies(xCopy)
@@ -68,11 +69,13 @@ class RFTeamPredicter(TeamPredicter):
             # Interestingly, accuracy seems to be MUCH higher when hyperparameters are NOT tuned!!!
             regressor = regressor.fit(xTrain, np.ravel(yTrain.values))
             yPredicted = regressor.predict(xTest)
+            # TODO: Calculate adjusted r2
             r2 = r2_score(yTest, yPredicted)
             allR2s.append(r2)
             self.models[position] = regressor
 
         meanR2 = sum(allR2s) / len(allR2s)
+        self.accuracy = meanR2
         print(f"r2={meanR2}")
         
         # featureImportances = self.regressor.feature_importances_
@@ -127,6 +130,7 @@ class RFTeamPredicter(TeamPredicter):
         self.latestData.loc[dataLoc, "score"] = _score
         self.latestData.loc[dataLoc, "opposing_team"] = _oppTeam
 
+    @line_profiler.profile
     def updatePredictionData(self, pSeason: int, pTargetSeason: int, pGameweek: int, pTargetWeek: int) -> None:
         """
         :param int pSeason: The season to default to if pTargetSeason has not happened yet

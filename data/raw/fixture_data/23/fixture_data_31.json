@@ -1,0 +1,56 @@
+[
+    {
+        "away_team": "FUL",
+        "home_team": "EVE",
+        "finished": true,
+        "event": 31
+    },
+    {
+        "home_team": "SOU",
+        "away_team": "CRY",
+        "finished": true,
+        "event": 31
+    },
+    {
+        "home_team": "AVL",
+        "away_team": "NEW",
+        "finished": true,
+        "event": 31
+    },
+    {
+        "home_team": "WHU",
+        "away_team": "ARS",
+        "finished": true,
+        "event": 31
+    },
+    {
+        "home_team": "CHE",
+        "away_team": "BHA",
+        "finished": true,
+        "event": 31
+    },
+    {
+        "away_team": "BRE",
+        "home_team": "WOL",
+        "finished": true,
+        "event": 31
+    },
+    {
+        "home_team": "LEE",
+        "away_team": "LIV",
+        "finished": true,
+        "event": 31
+    },
+    {
+        "home_team": "NFO",
+        "away_team": "MUN",
+        "finished": true,
+        "event": 31
+    },
+    {
+        "home_team": "MCI",
+        "away_team": "LEI",
+        "finished": true,
+        "event": 31
+    }
+]

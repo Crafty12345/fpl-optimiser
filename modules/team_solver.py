@@ -16,7 +16,7 @@ NUM_FORWARD = 2
 NUM_MID = 4
 assert NUM_GOALKEEPERS + NUM_DEFENDERS + NUM_FORWARD + NUM_MID == 11
 
-MAX_BUDGET = 1000
+MAX_BUDGET = 995
 MAX_AMT_REMAINING = 2
 
 instance_count = 0
@@ -39,7 +39,7 @@ class TeamSolver(ABC):
 	@abstractmethod
 	def fit(self): raise NotImplementedError()
 
-	def __init__(self, pHeuristic: str, pMode: SolverMode, verbose: bool=False, pLabel: str = None):
+	def __init__(self, pHeuristic: str, pMode: SolverMode, verbose: bool=False, pLabel: str = None, pFreeHit = False):
 		self.accuracy = None
 		if (pLabel is None):
 			self.label = type(self).__name__
@@ -49,6 +49,7 @@ class TeamSolver(ABC):
 		self.max_iters = config.MAX_ITERS
 		self.mode = pMode
 		self.verbose = verbose
+		self.freeHit = pFreeHit
 
 		if(self.verbose):
 			print("[DEBUG]: Reading from data file...")
@@ -100,6 +101,9 @@ class TeamSolver(ABC):
 	def train(self):
 		self.default_players = dict()
 		self.latestData = self.latestData.set_index(self.latestData["id"])
+		
+		self.latestData.loc[((self.latestData["status"] == "i") | (self.latestData["status"] == "s")), "score"] = 0.0
+
 		assert (self.latestData["id"].values == self.latestData.index.values).all()
 		goalkeepers = self.latestData.loc[self.latestData["position"]=="GKP"]
 		defenders = self.latestData.loc[self.latestData["position"]=="DEF"]
@@ -116,27 +120,50 @@ class TeamSolver(ABC):
 
 		self.players: dict[str,pd.DataFrame] = dict()
 		
+
+		# TODO: Refactor this to reduce code duplication
 		# Add 1 for bench
-		self.players["GKP"] = self.default_players["GKP"].head(NUM_GOALKEEPERS+1)
+		if (self.freeHit):
+			self.players["GKP"] = self.default_players["GKP"].head(NUM_GOALKEEPERS)
+			cheapestGkp = self.default_players["GKP"].loc[self.default_players["GKP"]["cost"] == self.default_players["GKP"]["cost"].min()].head(1)
+			self.players["GKP"] = pd.concat([self.players["GKP"], cheapestGkp])
+		else:
+			self.players["GKP"] = self.default_players["GKP"].head(NUM_GOALKEEPERS+1)
 
 		teamCounts = self.countTeams()
 		boolArr: pd.Series[bool] = self.default_players["DEF"]["team"].apply(lambda x: teamCounts.get(x, 0) < 3)
 		possibleDefs = self.default_players["DEF"].loc[boolArr]
-		self.players["DEF"] = self.default_players["DEF"].head(NUM_DEFENDERS+1)
+		if (self.freeHit):
+			self.players["DEF"] = possibleDefs.head(NUM_DEFENDERS)
+			cheapestDef = possibleDefs.loc[possibleDefs["cost"] == possibleDefs["cost"].min()].head(1)
+			self.players["DEF"] = pd.concat([self.players["DEF"], cheapestDef])
+		else:
+			self.players["DEF"] = possibleDefs.head(NUM_DEFENDERS+1)
 
 		teamCounts = self.countTeams()
 		boolArr: pd.Series[bool] = self.default_players["FWD"]["team"].apply(lambda x: teamCounts.get(x, 0) < 3)
 		possibleFwds = self.default_players["FWD"].loc[boolArr]
-		self.players["FWD"] = possibleFwds.head(NUM_FORWARD+1)
+		if (self.freeHit):
+			self.players["FWD"] = possibleFwds.head(NUM_FORWARD)
+			cheapestFwd = possibleFwds.loc[possibleFwds["cost"] == possibleFwds["cost"].min()].head(1)
+			self.players["FWD"] = pd.concat([self.players["FWD"], cheapestFwd])
+		else:
+			self.players["FWD"] = possibleFwds.head(NUM_FORWARD+1)
 
 		teamCounts = self.countTeams()
 		boolArr: pd.Series[bool] = self.default_players["MID"]["team"].apply(lambda x: teamCounts.get(x, 0) < 3)
 		possibleMids = self.default_players["MID"].loc[boolArr]
-		self.players["MID"] = possibleMids.head(NUM_MID+1)
+		if (self.freeHit):
+			self.players["MID"] = possibleMids.head(NUM_MID)
+			cheapestMid = possibleMids.loc[possibleMids["cost"] == possibleMids["cost"].min()].head(1)
+			self.players["MID"] = pd.concat([self.players["MID"], cheapestMid])
+		else:
+			self.players["MID"] = possibleMids.head(NUM_MID+1)
 
 
 		#self.validate_team()
 
+		teamCounts = self.countTeams()
 		self.total_cost = self.sum_stat("cost")
 		self.total_score = self.sum_stat("score")
 		self.profit = self.budget-self.total_cost

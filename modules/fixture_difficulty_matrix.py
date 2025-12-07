@@ -14,11 +14,12 @@ class FixtureDifficultyMatrix():
         with open("./data/current_table.txt") as f:
             self.table = f.readlines()
         self.table = [team.strip() for team in self.table]
-        self.numTeams = len(self.table)
+        # Add 1 because unknown team
+        self.numTeams = config.NUM_TEAMS + 1
         self.allTeams = sorted(self.table)
         self.indexes = dict()
         for i, team in enumerate(self.table):
-            self.indexes[team] = (i+1) / self.numTeams
+            self.indexes[team] = min(i+1, self.numTeams) / self.numTeams
 
         self.thisGameweekDiffs = dict()
         self.fixtureDataExists = True
@@ -43,8 +44,8 @@ class FixtureDifficultyMatrix():
 
         allFixtureDataRaw = []
         with open("./data/team_translation_table.json") as f:
-            teamNamesJson = json.load(f)[str(pSeason)]
-        teamNameDf: pd.DataFrame = pd.DataFrame.from_records(teamNamesJson)
+            teamNamesJson = json.load(f)
+        teamTranslationDict: dict[int, pd.DataFrame] = {int(k): pd.DataFrame.from_records(v) for k, v in teamNamesJson.items()}
 
 
         fixtureDataPath = "./data/fixtures.json"
@@ -102,8 +103,9 @@ class FixtureDifficultyMatrix():
 
                         for team in self.allTeams:
                             if team not in self.thisGameweekDiffs.keys():
-                                print(f"Warning: {team} does not have any games in gameweek {gameweek} of season {season}")
-                                self.thisGameweekDiffs[team] = avg
+                                if (team in teamTranslationDict[season]["name"]):
+                                    print(f"Warning: {team} does not have any games in gameweek {gameweek} of season {season}")
+                                    self.thisGameweekDiffs[team] = avg
 
         for team, sum in sums.items():
             # simpleDifficulties = average of how badly a team will do in relation to another team

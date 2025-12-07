@@ -1,4 +1,5 @@
 from glob import glob
+import line_profiler
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
@@ -22,29 +23,45 @@ class LinearTeamPredicter(TeamSolver):
 				pLabel: str = None):
 		
 		super().__init__(pHeuristic, pSolverMode, verbose, pLabel)
-		self.uniquePlayers = self.allData[-1]["name"]
+		self.uniquePlayers = self.latestData["name"]
 		self.playerModelDict: dict[str, LinearRegression] = dict()
 
+	@line_profiler.profile
 	def fit(self) -> None:
+		# TODO: Get r2
 		if(self.verbose):
 			print("[DEBUG]: Done reading data files! Calculating linear regression...")
 
-		for player in self.uniquePlayers:
-			y = []
-			for dataFile in self.allData:
-				toAppend = dataFile.loc[dataFile["name"]==player]["score"]
-				if(len(toAppend) == 0):
-					toAppend = 0.0
+		nameColIndex = [i for (i, col) in enumerate(self.latestData.columns) if col == "name"][0]
+		scoreColIndex = [i for (i, col) in enumerate(self.latestData.columns) if col == "score"][0]
+
+		for playerId in self.latestData.index:
+			y = np.ndarray(shape=len(self.allData), dtype=np.float32)
+			playerName = self.latestData.iat[playerId, nameColIndex]
+			for (i, dataFile) in enumerate(self.allData):
+				if (playerId in dataFile.index):
+					toAppend = dataFile.iat[playerId, scoreColIndex]
 				else:
-					toAppend = toAppend.values[0]
-				y.append(toAppend)
+					toAppend = 0.0
+				#toAppend = dataFile.loc[dataFile["name"]==player, "score"]
+				# print("toAppendIndex=", toAppend.index)
+				# if(len(toAppend.index) > 0):
+				# 	print(toAppend.iat[toAppend.index[0]])
+				# if (len(toAppend) > 0):
+				# 	toAppend = toAppend.item()
+				# else:
+				# 	toAppend = 0.0
+
+				y[i] = (toAppend)
 			x = np.arange(self.sampleSize).reshape((-1, 1))
 			model = LinearRegression().fit(x, y)
-			self.playerModelDict[player] = model
+			self.playerModelDict[playerName] = model
 			xToPredict = np.asarray([self.sampleSize]).reshape((1, -1))
 
-			predictedWeightedScore = self.predictPlayer(xToPredict, player)
-			self.latestData.loc[self.latestData["name"] == player, "score"] = predictedWeightedScore
+			predictedWeightedScore = self.predictPlayer(xToPredict, playerName)
+
+			#print("latestData.index=", self.latestData.loc[self.latestData["name"] == player, "score"].index)
+			self.latestData.iat[playerId, scoreColIndex] = predictedWeightedScore.item()
 
 		if(self.verbose):
 			print("Done calculating linear regression!")
