@@ -70,6 +70,7 @@ for (i, team) in enumerate(all_teams):
      # TODO: Make HTML outputting more expandable
      #evaluator = TeamEvaluator()
      #accuracy: float = evaluator.evaluate(team)
+     print(team.label)
      team.train()
      team.find_team()
 

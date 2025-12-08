@@ -17,6 +17,7 @@ class TeamPredicter(TeamSolver):
     
     # TODO: Optimise this method
     def concatWeeks(self, pCallback = None) -> pd.DataFrame:
+        # TODO: Add dtype parameter to DataFrame creation
         tempDf = pd.DataFrame(columns=self.allCols)
         toConcat: np.array[pd.DataFrame] = np.ndarray(len(self.allData)+1, dtype=object)
         toConcat[0] = tempDf
@@ -47,7 +48,6 @@ class TeamPredicter(TeamSolver):
         currentStatuses = set(pDatum["status"].apply(lambda x: "status_" + x))
         self.allDummyColumns = self.allDummyColumns.union(currentStatuses)
 
-    @line_profiler.profile
     def setDummies(self, pToDummy: pd.DataFrame) -> pd.DataFrame:
         result = pd.get_dummies(pToDummy, columns=self.toDummyColumns)
         colsToAdd = np.ndarray(len(self.allDummyColumns), dtype=object)
@@ -78,6 +78,7 @@ class TeamPredicter(TeamSolver):
             result["id"] = result["id"].astype("category")
         return result
 
+    @line_profiler.profile
     def fixDataTypes(self, pDf: pd.DataFrame) -> pd.DataFrame:
         pDf["points_this_week"] = pDf["points_this_week"].astype(np.float64)
         pDf["gameweek"] = pDf["gameweek"].astype(np.uint16)

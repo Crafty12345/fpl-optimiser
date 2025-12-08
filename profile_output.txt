@@ -1,6 +1,94 @@
 Timer unit: 1e-09 s
 
-Total time: 7.52677 s
+Total time: 0.011494 s
+File: /media/Expansion/Stuff/Python/FPL_Optimisation/modules/team_predicter.py
+Function: TeamPredicter.fixDataTypes at line 81
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    81                                               @line_profiler.profile
+    82                                               def fixDataTypes(self, pDf: pd.DataFrame) -> pd.DataFrame:
+    83         2    1505071.0 752535.5     13.1          pDf["points_this_week"] = pDf["points_this_week"].astype(np.float64)
+    84         2    3169511.0 1.58e+06     27.6          pDf["gameweek"] = pDf["gameweek"].astype(np.uint16)
+    85         2    3269600.0 1.63e+06     28.4          pDf["season"] = pDf["season"].astype(np.uint16)
+    86         2      11890.0   5945.0      0.1          if "fixture_dif" in pDf.columns:
+    87         2    3535652.0 1.77e+06     30.8              pDf["fixture_dif"] = pDf["fixture_dif"].astype(np.float32)
+    88                                           
+    89         2       2291.0   1145.5      0.0          return pDf
+
+Total time: 12.0016 s
+File: /media/Expansion/Stuff/Python/FPL_Optimisation/modules/forest_team_predicter.py
+Function: RFTeamPredicter.updatePredictionData at line 137
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   137                                               @line_profiler.profile
+   138                                               def updatePredictionData(self, pSeason: int, pTargetSeason: int, pGameweek: int, pTargetWeek: int) -> None:
+   139                                                   """
+   140                                                   :param int pSeason: The season to default to if pTargetSeason has not happened yet
+   141                                                   :param int pTargetSeason: The season to predict values for
+   142                                                   :param int pGameweek: The gameweek to default to if pTargetWeek has not happened yet
+   143                                                   :param int pTargetWeek: The gameweek to predict values for
+   144                                                   """
+   145                                           
+   146         2       9450.0   4725.0      0.0          if (len(self.models) == 0):
+   147                                                       raise ValueError("Regressor has not been fitted yet. Remember to call fit().")
+   148                                           
+   149         2   26928818.0 1.35e+07      0.2          xForPredict: pd.DataFrame = self.x.copy()[self.xCols]
+   150         2       1755.0    877.5      0.0          selectedGameweek: int = pGameweek
+   151         2        771.0    385.5      0.0          predictionWeek: int = pTargetWeek
+   152                                           
+   153         2       1161.0    580.5      0.0          assert predictionWeek > -1
+   154         2        738.0    369.0      0.0          assert selectedGameweek > -1
+   155                                           
+   156         2        740.0    370.0      0.0          selectedSeason: int = pSeason
+   157         2        733.0    366.5      0.0          predictionSeason: int = pTargetSeason
+   158                                                   
+   159         2        837.0    418.5      0.0          assert selectedSeason > -1
+   160         2        982.0    491.0      0.0          assert selectedGameweek > -1
+   161                                           
+   162         2    2634672.0 1.32e+06      0.0          latestDataLoc = (self.x["gameweek"] == selectedGameweek) & (self.x["season"] == selectedSeason)
+   163         2    4912375.0 2.46e+06      0.0          xForPredict = xForPredict.loc[latestDataLoc]
+   164         2     432771.0 216385.5      0.0          IDs = xForPredict["id"]
+   165         2      13559.0   6779.5      0.0          if len(xForPredict) < 1:
+   166                                                       print(f"An error occured when trying to process week {selectedGameweek} of season {selectedSeason}")
+   167                                                       print(self.x.head(10))
+   168                                                       print(self.x.tail(10))
+   169         2       6829.0   3414.5      0.0          assert len(xForPredict) > 0
+   170                                           
+   171         2       2117.0   1058.5      0.0          fixtureJsonRaw = dict()
+   172         4     121674.0  30418.5      0.0          with open(f"./data/fixtures.json", "r") as f:
+   173         2    1457879.0 728939.5      0.0              fixtureJsonRaw = json.load(f)
+   174                                           
+   175         2     109022.0  54511.0      0.0          fixtureJsonRaw = fixtureJsonRaw[str(predictionSeason)][str(predictionWeek)]
+   176         2    2581650.0 1.29e+06      0.0          self.fixtureDf: pd.DataFrame = pd.DataFrame.from_records(fixtureJsonRaw)
+   177                                           
+   178         2 2114562904.0 1.06e+09     17.6          opposingTeams = xForPredict["team"].apply(lambda x: self.getOpposingTeam(x, self.fixtureDf))
+   179         2     643713.0 321856.5      0.0          xForPredict["opposing_team"] = opposingTeams
+   180         2     538975.0 269487.5      0.0          xForPredict["gameweek"] = predictionWeek
+   181         2     294301.0 147150.5      0.0          xForPredict["season"] = predictionSeason
+   182                                           
+   183         2  136443999.0 6.82e+07      1.1          xForPredict["fixture_dif"] = xForPredict.apply(lambda x: self.getFixtureDiff(self.fixtureMatrix, x), axis=1)
+   184         2    1023732.0 511866.0      0.0          xForPredict["fixture_dif"] = xForPredict["fixture_dif"].astype(np.float32)
+   185                                                   
+   186        10      12248.0   1224.8      0.0          for position in ["GKP", "DEF", "MID", "FWD"]:
+   187         8    3388722.0 423590.2      0.0              loc = xForPredict["position"] == position
+   188         8    8586724.0 1.07e+06      0.1              xOfPosition = xForPredict.loc[loc]
+   189         8    7297986.0 912248.2      0.1              xOfPosition = xOfPosition.drop(columns=["position"])
+   190         8 1081544850.0 1.35e+08      9.0              xOfPosition = self.setDummies(xOfPosition)
+   191         8 6959148868.0  8.7e+08     58.0              futureScores = self.models[position].predict(xOfPosition)
+   192         8   23310793.0 2.91e+06      0.2              dfCopy: pd.DataFrame = xOfPosition.copy()
+   193         8    6000186.0 750023.2      0.0              dfCopy["temp"] = futureScores
+   194                                                   # TODO: Fix `PerformanceWarning`
+   195                                                   #dfCopy["id"] = IDs
+   196         8 1618677972.0 2.02e+08     13.5              dfCopy = dfCopy.apply(self.updateScores, axis=1)
+   197                                           
+   198         2     635495.0 317747.5      0.0          self.latestData["gameweek"] = predictionWeek
+   199         2     304759.0 152379.5      0.0          self.latestData["season"] = predictionSeason
+   200                                                   #self.latestData["score"] *= self.latestData["play_percent"]
+   201                                                   #self.latestData = self.latestData.set_index(self.x["id"])
+
+Total time: 19.5367 s
 File: /media/Expansion/Stuff/Python/FPL_Optimisation/modules/lin_team_predicter.py
 Function: LinearTeamPredicter.fit at line 29
 
@@ -9,41 +97,45 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
     29                                           	@line_profiler.profile
     30                                           	def fit(self) -> None:
     31                                           		# TODO: Get r2
-    32         1       1386.0   1386.0      0.0  		if(self.verbose):
-    33         1      14478.0  14478.0      0.0  			print("[DEBUG]: Done reading data files! Calculating linear regression...")
+    32         2       2678.0   1339.0      0.0  		if(self.verbose):
+    33         2       9507.0   4753.5      0.0  			print("[DEBUG]: Done reading data files! Calculating linear regression...")
     34                                           
-    35         1      16846.0  16846.0      0.0  		nameColIndex = [i for (i, col) in enumerate(self.latestData.columns) if col == "name"][0]
-    36         1       7219.0   7219.0      0.0  		scoreColIndex = [i for (i, col) in enumerate(self.latestData.columns) if col == "score"][0]
-    37                                           
-    38       681    1252582.0   1839.3      0.0  		for playerId in self.latestData.index:
-    39       681    2512175.0   3689.0      0.0  			y = np.ndarray(shape=len(self.allData), dtype=np.float32)
-    40       681   54415335.0  79905.0      0.7  			playerName = self.latestData.iat[playerId, nameColIndex]
-    41     53756   28451364.0    529.3      0.4  			for (i, dataFile) in enumerate(self.allData):
-    42     53076  315537626.0   5945.0      4.2  				if (playerId in dataFile.index):
-    43     52040 3508606522.0  67421.3     46.6  					toAppend = dataFile.iat[playerId, scoreColIndex]
-    44                                           				else:
-    45      1036     388862.0    375.3      0.0  					toAppend = 0.0
-    46                                           				#toAppend = dataFile.loc[dataFile["name"]==player, "score"]
-    47                                           				# print("toAppendIndex=", toAppend.index)
-    48                                           				# if(len(toAppend.index) > 0):
-    49                                           				# 	print(toAppend.iat[toAppend.index[0]])
-    50                                           				# if (len(toAppend) > 0):
-    51                                           				# 	toAppend = toAppend.item()
-    52                                           				# else:
-    53                                           				# 	toAppend = 0.0
-    54                                           
-    55     53075   51983312.0    979.4      0.7  				y[i] = (toAppend)
-    56       680    4835956.0   7111.7      0.1  			x = np.arange(self.sampleSize).reshape((-1, 1))
-    57       680 1443836672.0 2.12e+06     19.2  			model = LinearRegression().fit(x, y)
-    58       680     705080.0   1036.9      0.0  			self.playerModelDict[playerName] = model
-    59       680    3226634.0   4745.1      0.0  			xToPredict = np.asarray([self.sampleSize]).reshape((1, -1))
-    60                                           
-    61       680 2037557024.0    3e+06     27.1  			predictedWeightedScore = self.predictPlayer(xToPredict, playerName)
+    35      1518    2391813.0   1575.6      0.0  		for playerId in self.latestData.index:
+    36      1516    6104047.0   4026.4      0.0  			y = np.ndarray(shape=len(self.allData), dtype=np.float32)
+    37      1516  157731492.0 104044.5      0.8  			playerName = self.latestData.at[playerId, "name"]
+    38    119764   71227313.0    594.7      0.4  			for (i, dataFile) in enumerate(self.allData):
+    39    118248  487682557.0   4124.2      2.5  				if (playerId in dataFile.index):
+    40    109240 9739823687.0  89159.9     49.9  					toAppend = dataFile.at[playerId, "score"]
+    41                                           				else:
+    42      9008    3669128.0    407.3      0.0  					toAppend = 0.0
+    43                                           				#toAppend = dataFile.loc[dataFile["name"]==player, "score"]
+    44                                           				# print("toAppendIndex=", toAppend.index)
+    45                                           				# if(len(toAppend.index) > 0):
+    46                                           				# 	print(toAppend.iat[toAppend.index[0]])
+    47                                           				# if (len(toAppend) > 0):
+    48                                           				# 	toAppend = toAppend.item()
+    49                                           				# else:
+    50                                           				# 	toAppend = 0.0
+    51                                           
+    52    118248   58800534.0    497.3      0.3  				try:
+    53    118248  142825242.0   1207.8      0.7  					y[i] = toAppend
+    54                                           				except ValueError as err:
+    55                                           					print(f"toAppend={toAppend}")
+    56                                           					print(f"player:{dataFile.iloc[playerId]}")
+    57                                           					raise err
+    58      1516   19047284.0  12564.2      0.1  			x = np.arange(self.sampleSize).reshape((-1, 1))
+    59      1516 3668632879.0 2.42e+06     18.8  			model = LinearRegression().fit(x, y)
+    60      1516    2098642.0   1384.3      0.0  			self.playerModelDict[playerName] = model
+    61      1516    8206709.0   5413.4      0.0  			xToPredict = np.asarray([self.sampleSize]).reshape((1, -1))
     62                                           
-    63                                           			#print("latestData.index=", self.latestData.loc[self.latestData["name"] == player, "score"].index)
-    64       680   73424947.0 107977.9      1.0  			self.latestData.iat[playerId, scoreColIndex] = predictedWeightedScore.item()
-    65                                           
-    66                                           		if(self.verbose):
-    67                                           			print("Done calculating linear regression!")
+    63      1516 4957524729.0 3.27e+06     25.4  			predictedWeightedScore = self.predictPlayer(xToPredict, playerName)
+    64                                           
+    65                                           			#print("latestData.index=", self.latestData.loc[self.latestData["name"] == player, "score"].index)
+    66      1516  210929035.0 139135.2      1.1  			self.latestData.at[playerId, "score"] = predictedWeightedScore.item()
+    67                                           
+    68         2       1603.0    801.5      0.0  		if(self.verbose):
+    69         2      11859.0   5929.5      0.0  			print("Done calculating linear regression!")
 
-  7.53 seconds - /media/Expansion/Stuff/Python/FPL_Optimisation/modules/lin_team_predicter.py:29 - LinearTeamPredicter.fit
+  0.01 seconds - /media/Expansion/Stuff/Python/FPL_Optimisation/modules/team_predicter.py:81 - TeamPredicter.fixDataTypes
+ 12.00 seconds - /media/Expansion/Stuff/Python/FPL_Optimisation/modules/forest_team_predicter.py:137 - RFTeamPredicter.updatePredictionData
+ 19.54 seconds - /media/Expansion/Stuff/Python/FPL_Optimisation/modules/lin_team_predicter.py:29 - LinearTeamPredicter.fit

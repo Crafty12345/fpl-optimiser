@@ -127,11 +127,12 @@ class RFTeamPredicter(TeamPredicter):
         _oppTeam = self.valueFromDummies(pScore, "opposing_team")
         #name = pScore["name"]
         _score = pScore["temp"]
-        dataLoc = self.latestData["id"]==_id
+        #print(self.latestData["id"])
+        index = _id
 
         # TODO: Add way to get actual opposing team from `pScore`
-        self.latestData.loc[dataLoc, "score"] = _score
-        self.latestData.loc[dataLoc, "opposing_team"] = _oppTeam
+        self.latestData.at[index, "score"] = _score
+        self.latestData.at[index, "opposing_team"] = _oppTeam
 
     @line_profiler.profile
     def updatePredictionData(self, pSeason: int, pTargetSeason: int, pGameweek: int, pTargetWeek: int) -> None:

@@ -32,15 +32,12 @@ class LinearTeamPredicter(TeamSolver):
 		if(self.verbose):
 			print("[DEBUG]: Done reading data files! Calculating linear regression...")
 
-		nameColIndex = [i for (i, col) in enumerate(self.latestData.columns) if col == "name"][0]
-		scoreColIndex = [i for (i, col) in enumerate(self.latestData.columns) if col == "score"][0]
-
 		for playerId in self.latestData.index:
 			y = np.ndarray(shape=len(self.allData), dtype=np.float32)
-			playerName = self.latestData.iat[playerId, nameColIndex]
+			playerName = self.latestData.at[playerId, "name"]
 			for (i, dataFile) in enumerate(self.allData):
 				if (playerId in dataFile.index):
-					toAppend = dataFile.iat[playerId, scoreColIndex]
+					toAppend = dataFile.at[playerId, "score"]
 				else:
 					toAppend = 0.0
 				#toAppend = dataFile.loc[dataFile["name"]==player, "score"]
@@ -52,7 +49,12 @@ class LinearTeamPredicter(TeamSolver):
 				# else:
 				# 	toAppend = 0.0
 
-				y[i] = (toAppend)
+				try:
+					y[i] = toAppend
+				except ValueError as err:
+					print(f"toAppend={toAppend}")
+					print(f"player:{dataFile.iloc[playerId]}")
+					raise err
 			x = np.arange(self.sampleSize).reshape((-1, 1))
 			model = LinearRegression().fit(x, y)
 			self.playerModelDict[playerName] = model
@@ -61,7 +63,7 @@ class LinearTeamPredicter(TeamSolver):
 			predictedWeightedScore = self.predictPlayer(xToPredict, playerName)
 
 			#print("latestData.index=", self.latestData.loc[self.latestData["name"] == player, "score"].index)
-			self.latestData.iat[playerId, scoreColIndex] = predictedWeightedScore.item()
+			self.latestData.at[playerId, "score"] = predictedWeightedScore.item()
 
 		if(self.verbose):
 			print("Done calculating linear regression!")

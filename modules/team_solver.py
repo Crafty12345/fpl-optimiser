@@ -67,6 +67,7 @@ class TeamSolver(ABC):
 			for (currentGameweek, playerData) in tempDict.items():
 				currentGameweek = int(currentGameweek)
 				currentData = pd.DataFrame.from_records(playerData)
+				currentData = currentData.set_index("id", drop=False)
 				currentData["gameweek"] = currentData["gameweek"].astype(np.uint16)
 				currentData["season"] = currentData["season"].astype(np.uint16)
 				self.precalcScores(currentData, currentGameweek, season)
@@ -89,6 +90,7 @@ class TeamSolver(ABC):
 					result = datum
 		return result
 	
+	# TODO: replace .loc with .at
 	def getOpposingTeam(self, pTeam: str, pFixtureDf: pd.DataFrame) -> str:
 		result = pFixtureDf.loc[pFixtureDf["home_team"]==pTeam]["away_team"]
 		if len(result) == 0:
@@ -96,15 +98,16 @@ class TeamSolver(ABC):
 		if len(result) == 0:
 			return "UNK"
 		else:
-			return result.values[0]
+			return result.item()
 	
 	def train(self):
 		self.default_players = dict()
-		self.latestData = self.latestData.set_index(self.latestData["id"])
+		if "id" in self.latestData.columns:
+			self.latestData = self.latestData.set_index(self.latestData["id"])
+			assert (self.latestData["id"].values == self.latestData.index.values).all()
 		
 		self.latestData.loc[((self.latestData["status"] == "i") | (self.latestData["status"] == "s")), "score"] = 0.0
 
-		assert (self.latestData["id"].values == self.latestData.index.values).all()
 		goalkeepers = self.latestData.loc[self.latestData["position"]=="GKP"]
 		defenders = self.latestData.loc[self.latestData["position"]=="DEF"]
 		forward = self.latestData.loc[self.latestData["position"]=="FWD"]
