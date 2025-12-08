@@ -19,7 +19,7 @@ class TeamPredicter(TeamSolver):
     def concatWeeks(self, pCallback = None) -> pd.DataFrame:
         # TODO: Add dtype parameter to DataFrame creation
         tempDf = pd.DataFrame(columns=self.allCols)
-        toConcat: np.array[pd.DataFrame] = np.ndarray(len(self.allData)+1, dtype=object)
+        toConcat: np.ndarray[pd.DataFrame] = np.ndarray(len(self.allData)+1, dtype=object)
         toConcat[0] = tempDf
         i: int = 1
         for datum in self.allData:

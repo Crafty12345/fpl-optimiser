@@ -10,12 +10,11 @@ import json
 import line_profiler
 import time
 
-
 from modules.team_solver import TeamSolver, SolverMode
 from modules.team_predicter import TeamPredicter
 from modules.fixture_difficulty_matrix import FixtureDifficultyMatrix
 
-NUM_TREES = 2000
+NUM_TREES = 500
 
 class RFTeamPredicter(TeamPredicter):
     '''
