@@ -7,10 +7,10 @@ from modules.team_solver import TeamSolver
 class TeamPredicter(TeamSolver):
     def __init__(self, pHeuristic, pMode, verbose = False, pLabel = None, pFreeHit = False):
         super().__init__(pHeuristic, pMode, verbose, pLabel, pFreeHit=pFreeHit)
-        self.xCols = ["id","ict_index", "position", "team", "gameweek", "season", "form", "opposing_team", "play_percent", "fixture_dif", "clean_sheets", "expected_goals", "status"]
-        self.categoricalColumns = ["id", "position", "team", "opposing_team", "status"]
+        self.xCols = ["id","ict_index", "position", "team", "gameweek", "season", "form", "play_percent", "fixture_dif", "clean_sheets", "expected_goals", "status"]
+        self.categoricalColumns = ["id", "position", "team", "status"]
         self.yCols = ["total_points"]
-        self.toDummyColumns = ["team", "opposing_team", "status"]
+        self.toDummyColumns = ["team", "status"]
         self.allCols = self.xCols + self.yCols
         self.allDummyColumns: set[str] = set()
         self.idNameDict: dict[int, str] = dict()
@@ -29,6 +29,7 @@ class TeamPredicter(TeamSolver):
             i += 1
 
         assert i == len(toConcat)
+        # TODO: Fix some players having multiple indexes
         return pd.concat(toConcat)
 
     def setDummyCols(self, pDatum: pd.DataFrame):
@@ -42,8 +43,8 @@ class TeamPredicter(TeamSolver):
         currentTeams = set(pDatum["team"].apply(lambda x: "team_" + x))
         self.allDummyColumns = self.allDummyColumns.union(currentTeams)
 
-        currentOpposingTeams = set(pDatum["opposing_team"].apply(lambda x: "opposing_team_" + x))
-        self.allDummyColumns = self.allDummyColumns.union(currentOpposingTeams)
+        #currentOpposingTeams = set(pDatum["opposing_team"].apply(lambda x: "opposing_team_" + x))
+        #self.allDummyColumns = self.allDummyColumns.union(currentOpposingTeams)
 
         currentStatuses = set(pDatum["status"].apply(lambda x: "status_" + x))
         self.allDummyColumns = self.allDummyColumns.union(currentStatuses)

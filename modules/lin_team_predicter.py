@@ -52,9 +52,10 @@ class LinearTeamPredicter(TeamSolver):
 				try:
 					y[i] = toAppend
 				except ValueError as err:
-					print(f"toAppend={toAppend}")
-					print(f"player:{dataFile.iloc[playerId]}")
-					raise err
+					#print(f"toAppend={toAppend}")
+					#print(f"player:{dataFile.iloc[playerId]}")
+					#raise err
+					y[i] = toAppend.values[0]
 			x = np.arange(self.sampleSize).reshape((-1, 1))
 			model = LinearRegression().fit(x, y)
 			self.playerModelDict[playerName] = model

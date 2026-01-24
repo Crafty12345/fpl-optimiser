@@ -15,9 +15,10 @@ So, here we are! The quest to achieve the mathematically perfect FPL team!
  - [X] Potentially add XGBoost to Random Forest
  - [X] Create validation dataset
  - - [X] Have abstract `predict` method of some sort
- - [ ] Make HTML saving more maintainable
- - [ ] Potentially have RF Team Solver calculate different RFs for different positions
- - - [ ] Experiment more with different independent variables used for RF
+ - [ ] Make HTML saving more maintainable and scalable
+ - [X] Potentially have RF Team Solver calculate different RFs for different positions
+ - - [X] Experiment more with different independent variables used for RF
+ - [ ] Change team difficulty calculator to take into account a number calculated by summing the number of points in each team for some window of `n` gameweeks
  - [ ] Get opposition teams for old gameweeks
  - [ ] Implement Unit Tests
  - Improve accuracy (ongoing task)

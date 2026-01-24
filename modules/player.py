@@ -1,5 +1,6 @@
 from enum import Enum
 import pandas as pd
+import math
 from modules.fixture_difficulty_matrix import FixtureDifficultyMatrix
 
 class Position(Enum):
@@ -90,12 +91,14 @@ class Player():
     def getName(self): return self.name
     def getCost(self): return self.cost
     def getPosition(self): return self.position
+    def getTeam(self): return self.teamName
     def getScore(self): return self.score
     def isCaptain(self): return self.captain
     def isViceCaptain(self): return self.viceCaptain
     def isBenched(self): return self.benchPlayer
     def isAvailable(self): return self.available
     def getCurrentDifficulty(self): return self.currentFixtureDifficulty
+    def getWeightedScore(self): return self.weightedScore
     
     def __str__(self):
         isCaptainStr = " (Captain) " if (self.isCaptain() and not self.isBenched()) else ""
@@ -118,8 +121,9 @@ class Player():
                 f"<td>{self.ictIndex}</td>"
                 f"<td>{self.totalPoints}</td>"
                 f"<td>{self.form}</td>"
-                f"<td>{self.fixtureDifficulty:.3f}</td>"
+                #f"<td>{self.fixtureDifficulty:.3f}</td>"
                 f"<td>{self.normalisedFixtureDifficulty:.3f}</td>"
+                f"<td>{self.expDifficulty():.3f}</td>"
                 f"<td>{self.currentFixtureDifficulty:.4f}</td>"
                 f"<td>{self.position}</td>"
                 f"<td>{self.available}</td>"
@@ -146,7 +150,8 @@ class Player():
         """
         EXPERIMENTAL method to calculate score whilst taking into account fixture difficulties
         """
-        self.score = (self.rawScore * (1- self.normalisedFixtureDifficulty))
+        #self.score = (self.rawScore * (1- self.normalisedFixtureDifficulty))
+        self.score = (self.rawScore * (1- self.expDifficulty()))
 
     def calculateScorePPG(self):
         """
@@ -166,3 +171,7 @@ class Player():
         """
         self.score = (self.form * self.combinedScore - self.normalisedFixtureDifficulty) * self.available * self.startsPer90
         pass
+
+    def expDifficulty(self):
+        x: float = self.normalisedFixtureDifficulty
+        return 0.5 * (1-math.cos(math.pi * x))

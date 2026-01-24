@@ -106,7 +106,8 @@ class TeamSolver(ABC):
 			self.latestData = self.latestData.set_index(self.latestData["id"])
 			assert (self.latestData["id"].values == self.latestData.index.values).all()
 		
-		self.latestData.loc[((self.latestData["status"] == "i") | (self.latestData["status"] == "s")), "score"] = 0.0
+		self.latestData.loc[~(self.latestData["status"]=="a"), "score"] = 0.0
+		# self.latestData.loc[((self.latestData["status"] == "i") | (self.latestData["status"] == "s") | (self.latestData["status"] == "n")), "score"] = 0.0
 
 		goalkeepers = self.latestData.loc[self.latestData["position"]=="GKP"]
 		defenders = self.latestData.loc[self.latestData["position"]=="DEF"]

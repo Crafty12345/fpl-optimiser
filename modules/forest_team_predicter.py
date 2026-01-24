@@ -9,6 +9,7 @@ import numpy as np
 import json
 import line_profiler
 import time
+import math
 
 from modules.team_solver import TeamSolver, SolverMode
 from modules.team_predicter import TeamPredicter
@@ -36,20 +37,30 @@ class RFTeamPredicter(TeamPredicter):
     def precalcScores(self, pData, pGameweek, pSeason):
         return
     
-    def getFixtureDiff(self, pMatrix: FixtureDifficultyMatrix, pDatum: pd.Series):
-        pMatrix.precomputeFixtureDifficulty(0, pDatum["gameweek"], 3, pDatum["season"], 1.0)
+    def getFixtureDiff(self, pMatrix: FixtureDifficultyMatrix, pDatum: pd.Series, pAheadSteps: int):
+        pMatrix.precomputeFixtureDifficulty(0, pDatum["gameweek"], pAheadSteps, pDatum["season"], 1.0)
         result = pMatrix.calcNormalisedDifficulty(pDatum["team"], pDatum["opposing_team"], -1.0, 1.0)
         return result
 
     def fit(self):
         tempDf = self.concatWeeks(self.setDummyCols)
-        tempDf = self.fixDataTypes(tempDf)
-        
-        self.fixtureMatrix = FixtureDifficultyMatrix()
+        tempDf: pd.DataFrame = self.fixDataTypes(tempDf)
+        tempDf = tempDf.assign(t=0)
+        tempDf["t"] = tempDf["t"].astype(np.uint16)
+        t: int = 0
+        for season in tempDf["season"].unique():
+            weeks = tempDf.loc[tempDf["season"] == season]["gameweek"].unique()
+            for week in weeks:
+                loc = (tempDf["season"] == season) & (tempDf["gameweek"] == week)
+                tempDf.loc[loc, "t"] = t
+                t += 1
+        #print(tempDf["season"].is_monotonic_increasing)
+
+        fixtureMatrix = FixtureDifficultyMatrix()
 
         y: pd.DataFrame = tempDf[self.yCols]
         self.x: pd.DataFrame = tempDf.drop(columns=self.yCols)
-        self.x["fixture_dif"] = self.x.apply(lambda x: self.getFixtureDiff(self.fixtureMatrix, x), axis=1)
+        self.x["fixture_dif"] = self.x.apply(lambda x: self.getFixtureDiff(fixtureMatrix, x, 0), axis=1)
         tempX = self.x[self.xCols]
 
         allR2s = []
@@ -57,21 +68,30 @@ class RFTeamPredicter(TeamPredicter):
         for position in tqdm(["GKP", "FWD", "MID", "DEF"], desc="Fitting models"):
             positionLoc = tempX["position"]==position
             # TODO: Maybe stop copying entire DF every time?
+            weightDecay = 0.66
+            #weights = np.exp(tempDf[positionLoc]["t"])
+            weights = tempDf[positionLoc]["t"].apply(lambda x: self.decayTime(x, t-1, weightDecay))
             xCopy = tempX.copy()[positionLoc]
             xCopy = xCopy.drop(columns=["position"])
+            #xCopy["weight"] = weights
             x = self.setDummies(xCopy)
+            xTrain = x
             yOfPos = y.loc[positionLoc]
-            xTrain, xTest, yTrain, yTest = train_test_split(x, yOfPos, test_size=0.2, random_state=19)
+            #xTrain, xTest, yTrain, yTest = train_test_split(x, yOfPos, test_size=0.2, random_state=19)
         
-            yTrain: pd.Series = yTrain
+            yTrain = yOfPos
+            #yTrain: pd.Series = yTrain
             regressor = RandomForestRegressor(random_state=13, n_jobs=-1, n_estimators=NUM_TREES, verbose=1)
             #regressor = xgb.XGBRFRegressor(random_state=19)
+            #xTrain = xTrain.drop(columns=["weight"])
+            #xTest = xTest.drop(columns=["weight"])
 
             # Interestingly, accuracy seems to be MUCH higher when hyperparameters are NOT tuned!!!
-            regressor = regressor.fit(xTrain, np.ravel(yTrain.values))
-            yPredicted = regressor.predict(xTest)
+            regressor = regressor.fit(xTrain, np.ravel(yTrain.values), sample_weight=weights)
+            #yPredicted = regressor.predict(xTest)
+            yPredicted = regressor.predict(xTrain)
             # TODO: Calculate adjusted r2
-            r2 = r2_score(yTest, yPredicted)
+            r2 = r2_score(yTrain, yPredicted)
             allR2s.append(r2)
             self.models[position] = regressor
 
@@ -109,6 +129,13 @@ class RFTeamPredicter(TeamPredicter):
 
         self.setAccuracy(r2)
 
+
+    def decayTime(self, t, pMaxT, pDecay: float = 0.02) -> float:
+        # https://stats.stackexchange.com/questions/454415/how-to-account-for-the-recency-of-the-observations-in-a-regression-problem
+        # https://jackbakerds.com/posts/upweight-recent-observations-regression-classification/
+        #return math.exp(-pDecay * (pMaxT - t))
+        return pDecay ** (pMaxT - t)
+
     def valueFromDummies(self, pDummies: pd.Series, pColumn: str) -> str:
         columnPrefix: str = f"{pColumn}_"
         for column in pDummies.index:
@@ -123,7 +150,9 @@ class RFTeamPredicter(TeamPredicter):
     def updateScores(self, pScore: pd.Series):
         _id = int(pScore["id"])
         #_id = int(self.valueFromDummies(pScore, "id"))
-        _oppTeam = self.valueFromDummies(pScore, "opposing_team")
+        #print(pScore["opposing_team"])
+        #_oppTeam = self.valueFromDummies(pScore, "opposing_team")
+        _oppTeam = pScore["opposing_team"]
         #name = pScore["name"]
         _score = pScore["temp"]
         #print(self.latestData["id"])
@@ -179,17 +208,23 @@ class RFTeamPredicter(TeamPredicter):
         xForPredict["gameweek"] = predictionWeek
         xForPredict["season"] = predictionSeason
 
-        xForPredict["fixture_dif"] = xForPredict.apply(lambda x: self.getFixtureDiff(self.fixtureMatrix, x), axis=1)
+        fixtureMatrix = FixtureDifficultyMatrix()
+
+        xForPredict["fixture_dif"] = xForPredict.apply(lambda x: self.getFixtureDiff(fixtureMatrix, x, 5), axis=1)
         xForPredict["fixture_dif"] = xForPredict["fixture_dif"].astype(np.float32)
         
         for position in ["GKP", "DEF", "MID", "FWD"]:
             loc = xForPredict["position"] == position
             xOfPosition = xForPredict.loc[loc]
+            opposingTeams = xOfPosition["opposing_team"]
+            xOfPosition = xOfPosition.drop(columns=["opposing_team"])
             xOfPosition = xOfPosition.drop(columns=["position"])
             xOfPosition = self.setDummies(xOfPosition)
             futureScores = self.models[position].predict(xOfPosition)
             dfCopy: pd.DataFrame = xOfPosition.copy()
             dfCopy["temp"] = futureScores
+            dfCopy["opposing_team"] = opposingTeams
+            #print(dfCopy["opposing_team"])
         # TODO: Fix `PerformanceWarning`
         #dfCopy["id"] = IDs
             dfCopy = dfCopy.apply(self.updateScores, axis=1)
