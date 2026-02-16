@@ -3,4 +3,4 @@ __pycache__/
 .venv/
 data/raw/old_data/players/**
 profile_output_*.txt
-results/**
+results/
