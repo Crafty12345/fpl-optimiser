@@ -7,7 +7,7 @@ from modules.team_solver import TeamSolver
 class TeamPredicter(TeamSolver):
     def __init__(self, pHeuristic, pMode, verbose = False, pLabel = None, pFreeHit = False):
         super().__init__(pHeuristic, pMode, verbose, pLabel, pFreeHit=pFreeHit)
-        self.xCols = ["id","ict_index", "position", "team", "gameweek", "season", "form", "play_percent", "fixture_dif", "clean_sheets", "expected_goals", "status"]
+        self.xCols = ["id","ict_index", "position", "team", "gameweek", "season", "form", "play_percent", "fixture_dif", "clean_sheets", "expected_goals", "status", "home_game"]
         self.categoricalColumns = ["id", "position", "team", "status"]
         self.yCols = ["total_points"]
         self.toDummyColumns = ["team", "status"]
@@ -31,6 +31,18 @@ class TeamPredicter(TeamSolver):
         assert i == len(toConcat)
         # TODO: Fix some players having multiple indexes
         return pd.concat(toConcat)
+
+    def assignTime(self, pDf: pd.DataFrame) -> pd.DataFrame:
+        pDf = pDf.assign(t=0)
+        pDf["t"] = pDf["t"].astype(np.uint16)
+        t: int = 0
+        for season in pDf["season"].unique():
+            weeks = pDf.loc[pDf["season"] == season]["gameweek"].unique()
+            for week in weeks:
+                loc = (pDf["season"] == season) & (pDf["gameweek"] == week)
+                pDf.loc[loc, "t"] = t
+                t += 1
+        return pDf
 
     def setDummyCols(self, pDatum: pd.DataFrame):
         playerIds = zip(pDatum["id"].values, pDatum["name"])

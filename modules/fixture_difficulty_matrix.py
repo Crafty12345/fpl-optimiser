@@ -7,7 +7,7 @@ from warnings import warn
 import os
 
 import config
-
+# TODO: Have FixtureDifficultyMatrix take into account how well a team is doing NOW (sliding window??)
 class FixtureDifficultyMatrix():
     class _Memoise():
         def __init__(self, pFunc):
@@ -36,15 +36,40 @@ class FixtureDifficultyMatrix():
 
     def __init__(self):
         
-        with open("./data/current_table.txt") as f:
-            self.table = f.readlines()
-        self.table = [team.strip() for team in self.table]
+        with open("./data/current_table.txt", "r") as f:
+            self.txtTable = f.readlines()
+        with open(f"./data/team_points.json", "r") as f:
+            teamPoints = json.load(f)
+
+        self.txtTable: list[str] = [line.strip() for line in self.txtTable]
+
+        seasonPoints: dict[str, int] = teamPoints.get(str(config.CURRENT_SEASON), dict())
+        start = max(config.CURRENT_GAMEWEEK-config.TEAM_POINT_SAMPLE_SIZE, 1)
+        totals: dict[str, int] = dict()
+        if (len(seasonPoints) > 0):
+            for i in range(start, config.CURRENT_GAMEWEEK):
+                for k, v in seasonPoints[str(i)].items():
+                    teamTotal = totals.get(k, 0)
+                    teamTotal += v
+                    totals[k] = teamTotal
+            totals["UNK"] = 9999
+            # Add defaults for teams that have been relegated
+            for team in self.txtTable:
+                if team not in totals.keys():
+                    totals[team] = -9999
+            self.table = sorted(totals.items(), key=lambda x: x[1])[::-1]
+            self.table = [x[0] for x in self.table]
+        else:
+            self.table = [team.strip() for team in self.table]
+        #print(max(teamPoints.keys()))
         # Add 1 because unknown team
         self.numTeams = config.NUM_TEAMS + 1
         self.allTeams = sorted(self.table)
         self.indexes = dict()
         for i, team in enumerate(self.table):
             self.indexes[team] = min(i+1, self.numTeams) / self.numTeams
+        print("Team rankings:")
+        print(self.indexes)
 
         self.thisGameweekDiffs = dict()
         self.fixtureDataExists = True
@@ -56,6 +81,7 @@ class FixtureDifficultyMatrix():
             teamNamesJson = json.load(f)
         self.teamTranslationDict: dict[int, pd.DataFrame] = {int(k): pd.DataFrame.from_records(v) for k, v in teamNamesJson.items()}
         fixtureDataPath = "./data/fixtures.json"
+        # TODO: Implement data/team_points.json
         with open(fixtureDataPath, "r") as f:
             self.fixturesJson: dict[str, dict[str, list[dict]]] = json.load(f)
 
@@ -194,12 +220,27 @@ class FixtureDifficultyMatrix():
         return math.exp(-(multiplier*pNewVal))
 
     def calcNormalisedDifficulty(self, pTeamA: str, pTeamB: str, pMin: float, pMax: float):
-        simpleDifficulty = self.calcSimpleDifficulty(pTeamA, pTeamB)
+        if ("," in pTeamB):
+            simpleDifficulty = self.calcSimpleDifficulty(pTeamA, pTeamB.split(","))
+        else: 
+            simpleDifficulty = self.calcSimpleDifficulty(pTeamA, pTeamB)
         return lerp(pMin, pMax,simpleDifficulty)
 
-    def calcSimpleDifficulty(self, pTeamA: str, pTeamB: str) -> float:
+    def calcSimpleDifficulty(self, pTeamA: str, pTeamB: str | list[str]) -> float:
         teamAPosition = self.indexes[pTeamA]
-        teamBPosition = self.indexes[pTeamB]
+        # Factor in double-gameweeks
+        if (type(pTeamB) is type(list())):
+            total = 0
+            numTeams = len(pTeamB)
+            # Artificially lower the difficulty in the case of double-gameweeks
+            for (i, team) in enumerate(pTeamB):
+                weight = (numTeams - i) / numTeams
+                total += self.indexes[team] * weight
+            teamBPosition = total / numTeams
+        elif (type(pTeamB) is type(str())):
+            teamBPosition = self.indexes[pTeamB]
+        else:
+            raise AssertionError()
         simpleDifficulty = (teamAPosition - teamBPosition + 1) / 2
         return simpleDifficulty
         

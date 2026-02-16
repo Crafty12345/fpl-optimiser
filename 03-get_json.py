@@ -62,23 +62,32 @@ def teamFromId(teamId: int, pTeamData: pd.DataFrame) -> str:
 def getOpposingTeam(pPlayingTeamCode: int, pTeamData: pd.DataFrame, pFixtureData: pd.DataFrame) -> str:
     #print(pFixtureData[["team_h","team_a"]])
 
-    playingTeamId: int = pTeamData.loc[pTeamData["code"]==pPlayingTeamCode]["id"].values[0]
+    playingTeamId: int = pTeamData.loc[pTeamData["code"]==pPlayingTeamCode]["id"].item()
     homeTeamResult = pFixtureData.loc[pFixtureData["team_h"]==playingTeamId]
 
     resultInt: int = -1
     # If team is playing home that week
     if(len(homeTeamResult) >= 1):
-        resultInt = homeTeamResult["team_a"].values[0]
+        resultInt = homeTeamResult["team_a"].item()
     else:
         # If team is playing away that week
         awayTeamResult = pFixtureData.loc[pFixtureData["team_a"]==playingTeamId]
         if (len(awayTeamResult) > 0):
-            resultInt = awayTeamResult["team_h"].values[0]
+            resultInt = awayTeamResult["team_h"].item()
     if resultInt > -1:
         return teamFromId(resultInt, pTeamData)
     else:
         # There may be weeks in which teams don't have a game
         return "UNK"
+
+def isHomeGame(pPlayingTeamCode: int, pTeamData: pd.DataFrame, pFixtureData: pd.DataFrame) -> bool:
+    playingTeamId: int = pTeamData.loc[pTeamData["code"]==pPlayingTeamCode]["id"].item()
+    homeTeamResult = pFixtureData.loc[pFixtureData["team_h"]==playingTeamId]
+    return len(homeTeamResult) > 0
+
+def isOldHomeGame(pPlayingTeam: str, pFixtureData: pd.DataFrame) -> bool:
+    homeTeamResult = pFixtureData.loc[pFixtureData["home_team"]==pPlayingTeam]
+    return len(homeTeamResult) > 0
 
 def getOldOpposingTeam(pPlayingTeam: str, pFixtures: pd.DataFrame):
     homeTeamResult = pFixtures.loc[pFixtures["home_team"]==pPlayingTeam]
@@ -93,11 +102,14 @@ def getOldOpposingTeam(pPlayingTeam: str, pFixtures: pd.DataFrame):
 def updateDict(pId: int, pName: str, pPlayerNameDict: dict[int, str]):
     pPlayerNameDict[pId] = pName
 
+fixtureCache: dict[str, pd.DataFrame] = dict()
 
 def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: dict[str,list[dict]], pPlayerNameDict: dict[int, str]) -> pd.DataFrame:
     '''
     Function to clean data
     '''
+
+    global fixtureCache
 
     # Need eventData in order to get correct gameweek
     eventData = pd.DataFrame(pRawData["events"])
@@ -111,7 +123,7 @@ def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: dict[str,lis
 
     df = pd.DataFrame(pRawData["elements"])
     
-    allowed_cols = ["id", "first_name","second_name","now_cost","ict_index","total_points","points_per_game","element_type", "form", "status", "clean_sheets", "minutes"]
+    allowed_cols = ["id", "first_name","second_name","now_cost","ict_index","total_points","points_per_game","element_type", "form", "status", "clean_sheets", "chance_of_playing_next_round", "minutes"]
     if "team_name" in df.columns:
         allowed_cols.append("team_name")
     elif "team_code" in df.columns:
@@ -120,6 +132,9 @@ def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: dict[str,lis
         raise KeyError(f"Unable to find team in gameweek {currentGameweek} of season {currentSeason}")
     
     player_data = df[allowed_cols]
+    player_data = player_data.rename(columns={"chance_of_playing_next_round": "play_chance"})
+    # Fix a bug where players who are fully-available have a NaN chance of playing
+    player_data["play_chance"] = player_data["play_chance"].fillna(100)
 
     player_data["clean_sheets"] = player_data["clean_sheets"].astype(np.float64)
     #player_data["expected_goals"] = player_data["expected_goals"].astype(np.float64)
@@ -155,16 +170,28 @@ def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: dict[str,lis
     # UNK = "UNKOWN"
     if "opposing_team" not in player_data.columns:
         player_data["opposing_team"] = "UNK"
+        # TODO: cache fixtures???
         fixtureFilename = f"./data/raw/fixture_data/{pDate.season.endYear}/fixture_data_{currentGameweek}.json"
+        fixturesFound: bool = True
         altFixtureFilename = f"data/raw/old_data/fixtures/"
-        if(os.path.isfile(fixtureFilename)):
-            with open(fixtureFilename, "r") as f:
-                dataJson = json.load(f)
-            fixtures = pd.DataFrame.from_records(dataJson)
+        if (fixtureFilename in fixtureCache.keys()):
+            fixtures: pd.DataFrame = fixtureCache[fixtureFilename]
+        else:
+            if(os.path.isfile(fixtureFilename)):
+                with open(fixtureFilename, "r") as f:
+                    dataJson = json.load(f)
+                fixtures = pd.DataFrame.from_records(dataJson)
+                fixtureCache[fixtureFilename] = fixtures
+            else:
+                fixturesFound = False
+        player_data["home_game"] = False
+        if fixturesFound:
             if ("team_h" in fixtures) and ("team_a" in fixtures):
                 player_data["opposing_team"] = player_data["team_code"].apply(lambda x: getOpposingTeam(x, team_data, fixtures))
+                player_data["home_game"] = player_data["team_code"].apply(lambda x: isHomeGame(x, team_data, fixtures))
             else:
                 player_data["opposing_team"] = player_data["team"].apply(lambda x: getOldOpposingTeam(x, fixtures))
+                player_data["home_game"] = player_data["team_code"].apply(lambda x: isOldHomeGame(x, fixtures))
 
     if "team_code" in player_data.columns:
         player_data = player_data.drop(columns=["team_code"])
@@ -183,6 +210,7 @@ def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: dict[str,lis
     player_data["points_this_week"] = 0
 
     actualPointsFilename: str = f"./data/raw/weekly_points/{pDate.season.endYear}/{currentGameweek}.json"
+
     if(os.path.isfile(actualPointsFilename)):
         with open(actualPointsFilename, "r") as f:
             actualPointsAllTemp = json.load(f)
@@ -264,6 +292,7 @@ for file in filteredFiles:
 previousForm: pd.DataFrame = None
 allJsonData = dict()
 teamDict: dict[int, dict] = dict()
+teamPointsDict: dict[int, dict[int, dict[str, int]]] = dict()
 
 for (i, file) in enumerate(filteredFiles):
 
@@ -297,6 +326,10 @@ for (i, file) in enumerate(filteredFiles):
             previousForm = file["data"][["name", "form"]]
 
         file["data"] = file["data"].sort_values(by="id")
+        temp = file["data"].groupby("team").sum()["points_this_week"]
+        if season not in teamPointsDict.keys():
+            teamPointsDict[season] = dict()
+        teamPointsDict[season][gameweek] = temp.to_dict()
 
         # Fixes an issue where Python's `json` library expects a Python int (not int64 which is used by Pandas)
         tempDict: dict = file["data"].to_dict(orient="records")
@@ -328,6 +361,9 @@ for (i, file) in enumerate(filteredFiles):
 dataDir = f"./data/player_stats.json"
 with open(dataDir, "w+") as f:
     json.dump(allJsonData, f,indent=4, allow_nan=True, sort_keys=True)
+
+with open(f"./data/team_points.json", "w+") as f:
+    json.dump(teamPointsDict, f, indent=4, sort_keys=True)
 
 with open(f"./data/team_translation_table.json", "w+") as f:
     json.dump(teamDict, f, indent=4, sort_keys=True)
@@ -374,7 +410,7 @@ for file in tempFixtureFiles:
             results[currentSeason][actualGameweek] = []
         results[currentSeason][actualGameweek].append(toAdd)
 
-print(results)
+#print(results)
 
 with open("./data/fixtures.json", "w+") as f:
     json.dump(results, f, indent=4, sort_keys=True)

@@ -4,6 +4,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.tree import export_graphviz
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+from sklearn.linear_model import LinearRegression
 from tqdm import tqdm
 import numpy as np
 import json
@@ -45,15 +46,8 @@ class RFTeamPredicter(TeamPredicter):
     def fit(self):
         tempDf = self.concatWeeks(self.setDummyCols)
         tempDf: pd.DataFrame = self.fixDataTypes(tempDf)
-        tempDf = tempDf.assign(t=0)
-        tempDf["t"] = tempDf["t"].astype(np.uint16)
-        t: int = 0
-        for season in tempDf["season"].unique():
-            weeks = tempDf.loc[tempDf["season"] == season]["gameweek"].unique()
-            for week in weeks:
-                loc = (tempDf["season"] == season) & (tempDf["gameweek"] == week)
-                tempDf.loc[loc, "t"] = t
-                t += 1
+        tempDf = self.assignTime(tempDf)
+
         #print(tempDf["season"].is_monotonic_increasing)
 
         fixtureMatrix = FixtureDifficultyMatrix()
@@ -64,13 +58,14 @@ class RFTeamPredicter(TeamPredicter):
         tempX = self.x[self.xCols]
 
         allR2s = []
+        maxT = tempDf["t"].max()
 
         for position in tqdm(["GKP", "FWD", "MID", "DEF"], desc="Fitting models"):
             positionLoc = tempX["position"]==position
             # TODO: Maybe stop copying entire DF every time?
             weightDecay = 0.66
             #weights = np.exp(tempDf[positionLoc]["t"])
-            weights = tempDf[positionLoc]["t"].apply(lambda x: self.decayTime(x, t-1, weightDecay))
+            weights = tempDf[positionLoc]["t"].apply(lambda x: self.decayTime(x, maxT-1, weightDecay))
             xCopy = tempX.copy()[positionLoc]
             xCopy = xCopy.drop(columns=["position"])
             #xCopy["weight"] = weights
@@ -99,35 +94,7 @@ class RFTeamPredicter(TeamPredicter):
         self.accuracy = meanR2
         print(f"r2={meanR2}")
 
-        
-        # featureImportances = self.regressor.feature_importances_
-        # featureNames = self.regressor.feature_names_in_
-        # tempDf = pd.DataFrame({"column": featureNames, "importance": featureImportances}).sort_values(by="importance", ascending=False)
-        # print("Best parameters:")
-        # print(tempDf.head(20))
-        # estimator = self.regressor
-        # print("Finished fitting models.")
-
-        # treeLimit = 5
-        # assert treeLimit < len(estimator.estimators_)
-
-        # print("Saving trees...")
-        # featureNames = []
-        # for column in x.columns:
-        #     toAdd: str = column
-        #     if (column.startswith("id_")):
-        #         actualId = int(column.split("id_")[1])
-        #         toAdd = self.idNameDict[actualId]
-        #     featureNames.append(toAdd)
-
-        # for i in range(treeLimit):
-        #     tree = estimator.estimators_[i]
-        #     export_graphviz(tree, f"trees/tree{i}.dot", feature_names=featureNames, label="all", filled=True)
-        #     subprocess.run(["dot", "-Tpng", f"trees/tree{i}.dot", "-o", f"trees/tree{i}.png"])
-        #     subprocess.run(["rm", f"trees/tree{i}.dot"])
-        # print("Finished saving trees")
-
-        self.setAccuracy(r2)
+        self.setAccuracy(meanR2)
 
 
     def decayTime(self, t, pMaxT, pDecay: float = 0.02) -> float:
@@ -148,19 +115,22 @@ class RFTeamPredicter(TeamPredicter):
 
     # TODO: repredict() method
     def updateScores(self, pScore: pd.Series):
-        _id = int(pScore["id"])
-        #_id = int(self.valueFromDummies(pScore, "id"))
+        name = pScore["name"]
+
+        #_id = int(pScore["id"])
         #print(pScore["opposing_team"])
         #_oppTeam = self.valueFromDummies(pScore, "opposing_team")
         _oppTeam = pScore["opposing_team"]
         #name = pScore["name"]
         _score = pScore["temp"]
         #print(self.latestData["id"])
-        index = _id
 
-        # TODO: Add way to get actual opposing team from `pScore`
-        self.latestData.at[index, "score"] = _score
-        self.latestData.at[index, "opposing_team"] = _oppTeam
+        # Fixes a bug where one player can have multiple IDs
+        self.latestData.loc[self.latestData["name"]==name, "score"] = _score
+        self.latestData.loc[self.latestData["name"]==name, "opposing_team"] = ",".join(_oppTeam)
+
+    def sigmoid(self, pX: float) -> float:
+        return 1.0 / (1 + math.exp(-pX))
 
     @line_profiler.profile
     def updatePredictionData(self, pSeason: int, pTargetSeason: int, pGameweek: int, pTargetWeek: int) -> None:
@@ -175,6 +145,7 @@ class RFTeamPredicter(TeamPredicter):
             raise ValueError("Regressor has not been fitted yet. Remember to call fit().")
 
         xForPredict: pd.DataFrame = self.x.copy()[self.xCols]
+        xWithNames: pd.DataFrame = self.x.copy()["name"]
         selectedGameweek: int = pGameweek
         predictionWeek: int = pTargetWeek
 
@@ -189,7 +160,8 @@ class RFTeamPredicter(TeamPredicter):
 
         latestDataLoc = (self.x["gameweek"] == selectedGameweek) & (self.x["season"] == selectedSeason)
         xForPredict = xForPredict.loc[latestDataLoc]
-        IDs = xForPredict["id"]
+        xWithNames = xWithNames.loc[latestDataLoc]
+
         if len(xForPredict) < 1:
             print(f"An error occured when trying to process week {selectedGameweek} of season {selectedSeason}")
             print(self.x.head(10))
@@ -204,6 +176,7 @@ class RFTeamPredicter(TeamPredicter):
         self.fixtureDf: pd.DataFrame = pd.DataFrame.from_records(fixtureJsonRaw)
 
         opposingTeams = xForPredict["team"].apply(lambda x: self.getOpposingTeam(x, self.fixtureDf))
+        xForPredict["home_game"] = xForPredict["team"].apply(lambda x: self.isHomeGame(x, self.fixtureDf))
         xForPredict["opposing_team"] = opposingTeams
         xForPredict["gameweek"] = predictionWeek
         xForPredict["season"] = predictionSeason
@@ -212,17 +185,72 @@ class RFTeamPredicter(TeamPredicter):
 
         xForPredict["fixture_dif"] = xForPredict.apply(lambda x: self.getFixtureDiff(fixtureMatrix, x, 5), axis=1)
         xForPredict["fixture_dif"] = xForPredict["fixture_dif"].astype(np.float32)
+
+        tempDf = self.concatWeeks()
+        #print(len(tempDf["name"].unique()))
+        tempDf: pd.DataFrame = self.fixDataTypes(tempDf)
+        tempDf = self.assignTime(tempDf)
+        tempDf["improvement"] = 0.0
+        #print(tempDf.loc[tempDf["name"]=="Erling Haaland"][["name", "t", "points_this_week"]])
+        # Fix a bug where some players have multiple IDs
+        for name in tempDf["name"].unique():
+        #name = "Erling Haaland"
+            playerData = tempDf.loc[(tempDf["name"]==name) & (tempDf["season"] == predictionSeason)]
+            if len(playerData) > 0:
+                x: pd.Series = playerData["t"]
+                # Normalise x so that all x values start from 0
+                x -= x.min()
+                x = x.values.reshape(-1, 1)
+                y = playerData["points_this_week"].values.reshape(-1, 1)
+                tempModel = LinearRegression()
+                tempModel = tempModel.fit(x, y)
+                tempDf.loc[tempDf["name"]==name, "improvement"] = tempModel.coef_
+
+        #tempDf["improvement"] += abs(tempDf["improvement"].min())
+        #print(tempDf.loc[tempDf["name"]=="Erling Haaland", ["name", "improvement"]])
+        #expVals = np.exp(tempDf["improvement"].values)
+        #print(f"expVals={expVals}")
+        #expSum = expVals.sum()
+        #print(f"expSum={expSum}")
+        #weights = expVals / expSum
+        #tempDf["coef"] = weights
+        #print(tempDf.loc[tempDf["name"]=="Erling Haaland", ["name", "coef", "improvement"]])
+        #assert False
+        #tempDf["coef"] = tempDf["improvement"] / tempDf["improvement"].max()
+        #print(tempDf.sample(n=20))
+        defaultCoef = 0.0
+        #tempDf["coef"] = defaultCoef
+
+        namesSet: set[str] = set(tempDf["name"].values)
+        #possibleIDs: set[int] = set(dfCopy["id"].values)
+        stdDev: float = np.std(tempDf["points_this_week"].values)
+        # #dfCopy["temp"] *= dfCopy["coef"]
         
         for position in ["GKP", "DEF", "MID", "FWD"]:
             loc = xForPredict["position"] == position
             xOfPosition = xForPredict.loc[loc]
+            namesOfPosition = xWithNames.loc[loc]
+            assert len(xOfPosition) == len(namesOfPosition)
             opposingTeams = xOfPosition["opposing_team"]
             xOfPosition = xOfPosition.drop(columns=["opposing_team"])
             xOfPosition = xOfPosition.drop(columns=["position"])
             xOfPosition = self.setDummies(xOfPosition)
             futureScores = self.models[position].predict(xOfPosition)
             dfCopy: pd.DataFrame = xOfPosition.copy()
-            dfCopy["temp"] = futureScores
+            #print(len(dfCopy), len(namesOfPosition))
+            dfCopy = dfCopy.assign(name=namesOfPosition)
+            #dfCopy["name"] = namesOfPosition
+            #idsOfLoc = IDs[loc]
+            for name in dfCopy["name"]:
+                improvRate = 0.0
+                if name in namesSet:
+                    improvRate = tempDf.loc[tempDf["name"]==name, "improvement"].values[0]
+                    #print(improvRate)
+                    #assert False
+                    #coef = tempDf.loc[tempDf["id"]==_id, "coef"].values[0]
+                    #print(coef)
+                dfCopy["temp"] = futureScores + (stdDev * improvRate)
+
             dfCopy["opposing_team"] = opposingTeams
             #print(dfCopy["opposing_team"])
         # TODO: Fix `PerformanceWarning`

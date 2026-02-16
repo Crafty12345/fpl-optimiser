@@ -70,11 +70,23 @@ class TeamSolver(ABC):
 				currentData = currentData.set_index("id", drop=False)
 				currentData["gameweek"] = currentData["gameweek"].astype(np.uint16)
 				currentData["season"] = currentData["season"].astype(np.uint16)
+				currentData = currentData.set_index("id", drop=False)
 				self.precalcScores(currentData, currentGameweek, season)
 				
 				self.allData.append(currentData)
 				self.sampleSize += 1
 		self.allData = sorted(self.allData,key=lambda x: (x["season"].values[0], x["gameweek"].values[0]))
+		# playerIdDict: dict[str, int] = dict()
+		# # Fix an issue where some players have multiple IDs
+		# for i in reversed(range(len(self.allData))):
+		# 	datum = self.allData[i]
+		# 	for name in datum["name"].unique():
+		# 		if name in playerIdDict:
+		# 			datum.loc[datum["name"]==name, "id"] = playerIdDict[name]
+		# 		else:
+		# 			playerIdDict[name] = datum.loc[datum["name"]==name, "id"].values[0]
+		#	self.allData[i] = datum.set_index("id", drop=False)
+
 		self.latestData: pd.DataFrame = self.allData[-1].copy()
 
 	def calcPScores(self, pSeries: pd.Series) -> pd.Series:
@@ -90,23 +102,28 @@ class TeamSolver(ABC):
 					result = datum
 		return result
 	
-	# TODO: replace .loc with .at
+	# TODO: replace .at with .loc
 	def getOpposingTeam(self, pTeam: str, pFixtureDf: pd.DataFrame) -> str:
 		result = pFixtureDf.loc[pFixtureDf["home_team"]==pTeam]["away_team"]
 		if len(result) == 0:
 			result = pFixtureDf.loc[pFixtureDf["away_team"]==pTeam]["home_team"]
 		if len(result) == 0:
-			return "UNK"
+			return ["UNK"]
 		else:
-			return result.item()
+			return list(result.values)
+		
+	def isHomeGame(self, pTeam: str, pFixtureDf: pd.DataFrame) -> bool:
+		result = pFixtureDf.loc[pFixtureDf["home_team"]==pTeam]
+		return len(result) > 0
 	
 	def train(self):
 		self.default_players = dict()
 		if "id" in self.latestData.columns:
 			self.latestData = self.latestData.set_index(self.latestData["id"])
 			assert (self.latestData["id"].values == self.latestData.index.values).all()
-		
-		self.latestData.loc[~(self.latestData["status"]=="a"), "score"] = 0.0
+
+		self.latestData["score"] *= self.latestData["play_chance"] / 100.0
+		#self.latestData.loc[~(self.latestData["status"]=="a"), "score"] = 0.0
 		# self.latestData.loc[((self.latestData["status"] == "i") | (self.latestData["status"] == "s") | (self.latestData["status"] == "n")), "score"] = 0.0
 
 		goalkeepers = self.latestData.loc[self.latestData["position"]=="GKP"]

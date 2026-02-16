@@ -9,6 +9,7 @@ from modules.lin_team_predicter import LinearTeamPredicter
 from modules.forest_team_predicter import RFTeamPredicter
 from modules.nn_team_predicter import NNTeamPredicter
 from modules.team_evaluator import TeamEvaluator
+from modules.fixture_difficulty_matrix import FixtureDifficultyMatrix
 import config
 # TODO: Output into markdown document
 
@@ -28,13 +29,13 @@ nnFilename = f"{resultsDirectory}/model_{CURRENT_DATE}.pkl"
 
 all_teams: list[TeamSolver] = []
 
-team_solver = LinearTeamPredicter("combined",SolverMode.CHEAPEST_FIRST,verbose=True)
-team_solver.fit()
-all_teams.append(team_solver)
+# team_solver = LinearTeamPredicter("combined",SolverMode.CHEAPEST_FIRST,verbose=True)
+# team_solver.fit()
+# all_teams.append(team_solver)
 
-team_solver = LinearTeamPredicter("combined",SolverMode.HIGHEST_COST_FIRST,verbose=True)
-team_solver.fit()
-all_teams.append(team_solver)
+# team_solver = LinearTeamPredicter("combined",SolverMode.HIGHEST_COST_FIRST,verbose=True)
+# team_solver.fit()
+# all_teams.append(team_solver)
 
 rfTeam = RFTeamPredicter(SolverMode.CHEAPEST_FIRST,verbose=True)
 rfTeam.fit()
@@ -46,10 +47,10 @@ rfTeam.fit()
 rfTeam.updatePredictionData(config.CURRENT_SEASON, config.CURRENT_SEASON, config.CURRENT_GAMEWEEK, config.CURRENT_GAMEWEEK+1)
 all_teams.append(rfTeam)
 
-# rfTeam = RFTeamPredicter(SolverMode.HIGHEST_COST_FIRST,verbose=True, pLabel="Random Forest with Free Hit", pFreeHit=True)
-# rfTeam.fit()
-# rfTeam.updatePredictionData(config.CURRENT_SEASON, config.CURRENT_SEASON, config.CURRENT_GAMEWEEK, config.CURRENT_GAMEWEEK+1)
-# all_teams.append(rfTeam)
+rfTeam = RFTeamPredicter(SolverMode.HIGHEST_COST_FIRST,verbose=True, pLabel="Random Forest with Free Hit", pFreeHit=True)
+rfTeam.fit()
+rfTeam.updatePredictionData(config.CURRENT_SEASON, config.CURRENT_SEASON, config.CURRENT_GAMEWEEK, config.CURRENT_GAMEWEEK+1)
+all_teams.append(rfTeam)
 
 # nnTeam = NNTeamPredicter(SolverMode.CHEAPEST_FIRST,verbose=True)
 # nnTeam.fit()
