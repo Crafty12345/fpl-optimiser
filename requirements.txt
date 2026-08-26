@@ -1,0 +1,7 @@
+pandas==3.0.1
+numpy==2.4.3
+line_profiler==5.0.2
+scikit-learn==1.8.0
+tqdm==4.67.3
+torch==2.10.0
+requests==2.34.2

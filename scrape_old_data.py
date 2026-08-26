@@ -35,7 +35,6 @@ def writeFile(pFilename: str, pDate: dict, pSeason: Season) -> None:
     outputDirectory = f"data/raw/old_data/players/{seasonStr}"
     os.makedirs(outputDirectory, exist_ok=True)
     outputFilename = f"{outputDirectory}/fpl_stats_{pDate['day']:02}-{pDate['month']:02}-{pDate['year']:04}.json"
-
     with lzma.open(pFilename, "rt", encoding="utf-8") as f:
         jsonData = json.loads(f.read())
 
@@ -71,12 +70,18 @@ def loadCachedFiles(pSeason: Season) -> list[dict]:
     START_MONTH: int = 8
     END_MONTH: int = 5
     startYearFull = "20" + str(pSeason.startYear)
+    endYearFull = "20" + str(pSeason.endYear)
     startYearGlob = glob(f"external/fplcache/cache/{startYearFull}/*")
+    endYearGlob = glob(f"external/fplcache/cache/{endYearFull}/*")
+    allFilesGlob = startYearGlob + endYearGlob
     toUse = []
 
-    for file in tqdm(startYearGlob):
+    for file in tqdm(allFilesGlob):
         date = parseFilename(file)
-        if date["month"] >= START_MONTH:
+        yearNum = int(date["year"])
+        monthNum = int(date["month"])
+        if ((yearNum == int(endYearFull)) and (monthNum <= END_MONTH)) or \
+            (yearNum == int(startYearFull) and (monthNum >= START_MONTH)):
             dayGlob = glob(file + "/*")
             for dayDir in dayGlob:
                 day = parseDay(dayDir)
@@ -174,7 +179,7 @@ def getFixtureHistory(pSeason: Season):
     with open(pointFilename, "w+") as f:
         json.dump(currentPointHistory, f, indent=4)
 
-seasons = [Season(22,23), Season(23,24), Season(24,25)]
+seasons = [Season(22,23), Season(23,24), Season(24,25), Season(25,26)]
 for season in seasons:
     loadCachedFiles(season)
     getFixtureHistory(season)

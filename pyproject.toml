@@ -1,0 +1,15 @@
+[project]
+name = "fpl-optimisation"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "line-profiler==5.0.2",
+    "numpy==2.4.3",
+    "pandas==3.0.1",
+    "requests>=2.34.2",
+    "scikit-learn==1.8.0",
+    "torch==2.10.0",
+    "tqdm==4.67.3",
+]

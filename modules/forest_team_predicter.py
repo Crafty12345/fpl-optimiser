@@ -102,7 +102,7 @@ class RFTeamPredicter(TeamPredicter):
         # https://jackbakerds.com/posts/upweight-recent-observations-regression-classification/
         #return math.exp(-pDecay * (pMaxT - t))
         return pDecay ** (pMaxT - t)
-
+    
     def valueFromDummies(self, pDummies: pd.Series, pColumn: str) -> str:
         columnPrefix: str = f"{pColumn}_"
         for column in pDummies.index:

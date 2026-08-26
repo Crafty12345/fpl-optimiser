@@ -42,6 +42,7 @@ class Player():
                  pIsAvailable: bool,
                  pStartsPer90: float,
                  pOpposingTeam: float,
+                 pPlayChance: float,
                  pScore: float = 0):
         self.id = id
         self.name = name
@@ -64,6 +65,7 @@ class Player():
         self.available = pIsAvailable
         self.startsPer90 = pStartsPer90
         self.opposingTeam = pOpposingTeam
+        self.playChance = pPlayChance
         pass
 
     @classmethod
@@ -85,7 +87,8 @@ class Player():
         isAvailable = playerDf["status"].values[0] == "a"
         startsPer90 = playerDf["play_percent"].values[0]
         opposingTeam = playerDf["opposing_team"].values[0]
-        return cls(id, name, cost, ictIndex, totalPoints, pointsPerGame, form, position, teamName, combinedScore, isAvailable, startsPer90, opposingTeam)
+        playChance = playerDf["play_chance"].values[0]
+        return cls(id, name, cost, ictIndex, totalPoints, pointsPerGame, form, position, teamName, combinedScore, isAvailable, startsPer90, opposingTeam, playChance)
 
     def getId(self): return self.id
     def getName(self): return self.name
@@ -98,6 +101,7 @@ class Player():
     def isBenched(self): return self.benchPlayer
     def isAvailable(self): return self.available
     def getCurrentDifficulty(self): return self.currentFixtureDifficulty
+    def getPlayChance(self): return self.playChance
     def getWeightedScore(self): return self.weightedScore
     
     def __str__(self):
@@ -125,6 +129,7 @@ class Player():
                 f"<td>{self.normalisedFixtureDifficulty:.3f}</td>"
                 f"<td>{self.expDifficulty():.3f}</td>"
                 f"<td>{self.currentFixtureDifficulty:.4f}</td>"
+                f"<td>{self.playChance}"
                 f"<td>{self.position}</td>"
                 f"<td>{self.available}</td>"
                 f"<td>{self.teamName}</td>"

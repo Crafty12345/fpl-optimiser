@@ -60,7 +60,7 @@ class FixtureDifficultyMatrix():
             self.table = sorted(totals.items(), key=lambda x: x[1])[::-1]
             self.table = [x[0] for x in self.table]
         else:
-            self.table = [team.strip() for team in self.table]
+            self.table = [team.strip() for team in self.txtTable]
         #print(max(teamPoints.keys()))
         # Add 1 because unknown team
         self.numTeams = config.NUM_TEAMS + 1

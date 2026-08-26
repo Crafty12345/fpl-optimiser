@@ -59,7 +59,7 @@ class Team():
                                player["points_per_game"],
                                player["form"],
                                Position.fromString(player["position"]),
-                               player["team"], player["score"], isAvailable, player["play_percent"], player["opposing_team"], pScore=player["score"])
+                               player["team"], player["score"], isAvailable, player["play_percent"], player["opposing_team"], player["play_chance"], pScore=player["score"])
             players.append(newPlayer)
         return cls.fromPlayerList(players)
 
@@ -142,6 +142,7 @@ class Team():
                     "<th>Normalised Average Fixture Difficulty</th>"
                     "<th>Exponential Difficulty"
                     "<th>Current Fixture Difficulty</th>"
+                    "<th>Chance of Playing</th>"
                     "<th>Position</th>"
                     "<th>Availability</th>"
                     "<th>Team</th>"

@@ -59,26 +59,32 @@ def team_from_code(team_code: int, pTeamData: pd.DataFrame) -> str:
 def teamFromId(teamId: int, pTeamData: pd.DataFrame) -> str:
     return pTeamData.loc[pTeamData["id"]==teamId]["short_name"].values[0]
 
-def getOpposingTeam(pPlayingTeamCode: int, pTeamData: pd.DataFrame, pFixtureData: pd.DataFrame) -> str:
+def getOpposingTeam(pPlayingTeamCode: int, pTeamData: pd.DataFrame, pFixtureData: pd.DataFrame) -> list[str]:
     #print(pFixtureData[["team_h","team_a"]])
 
     playingTeamId: int = pTeamData.loc[pTeamData["code"]==pPlayingTeamCode]["id"].item()
     homeTeamResult = pFixtureData.loc[pFixtureData["team_h"]==playingTeamId]
 
-    resultInt: int = -1
+    resultList: list[int] = []
     # If team is playing home that week
     if(len(homeTeamResult) >= 1):
-        resultInt = homeTeamResult["team_a"].item()
+        if (len(homeTeamResult) > 1):
+            resultList = list(homeTeamResult["team_a"].values)
+        else:
+            resultList = [homeTeamResult["team_a"].item()]
     else:
         # If team is playing away that week
         awayTeamResult = pFixtureData.loc[pFixtureData["team_a"]==playingTeamId]
         if (len(awayTeamResult) > 0):
-            resultInt = awayTeamResult["team_h"].item()
-    if resultInt > -1:
-        return teamFromId(resultInt, pTeamData)
+            if (len(awayTeamResult) > 1):
+                resultList = list(awayTeamResult["team_h"].values)
+            else:
+                resultList = [awayTeamResult["team_h"].item()]
+    if (len(resultList) > 0):
+        return [teamFromId(x, pTeamData) for x in resultList]
     else:
         # There may be weeks in which teams don't have a game
-        return "UNK"
+        return ["UNK"]
 
 def isHomeGame(pPlayingTeamCode: int, pTeamData: pd.DataFrame, pFixtureData: pd.DataFrame) -> bool:
     playingTeamId: int = pTeamData.loc[pTeamData["code"]==pPlayingTeamCode]["id"].item()
@@ -187,6 +193,7 @@ def processFile(pRawData: dict, pDate: RawPlayerDataFile, pOldData: dict[str,lis
         player_data["home_game"] = False
         if fixturesFound:
             if ("team_h" in fixtures) and ("team_a" in fixtures):
+                # TODO: cache this
                 player_data["opposing_team"] = player_data["team_code"].apply(lambda x: getOpposingTeam(x, team_data, fixtures))
                 player_data["home_game"] = player_data["team_code"].apply(lambda x: isHomeGame(x, team_data, fixtures))
             else:
@@ -253,6 +260,24 @@ def filterDuplicates(pToFilter: list[DataFile]):
             seenGameweeks[season].add(tempFiles[-1]["gameweek"])
     return filteredFiles
 
+def shouldIncludeFile(pRawData: dict, pDate: RawPlayerDataFile, pSeenWeeks: dict):
+    season = pDate.season.endYear
+    eventData = pd.DataFrame(pRawData["events"])
+    nextWeek = eventData.loc[eventData["is_next"]==True]
+
+    if len(nextWeek) < 1:
+        currentGameweek = 0
+    else:
+        nextGameweek: int = nextWeek["id"].values[-1]
+        currentGameweek = nextGameweek - 1
+    if season in pSeenWeeks:
+        if (currentGameweek in pSeenWeeks[season]):
+            return (False, pSeenWeeks)
+    else:
+        pSeenWeeks[season] = set()
+    pSeenWeeks[season].add(currentGameweek)
+    return (True, pSeenWeeks)
+
 allFiles = glob("./data/raw/player_stats/**-**/*.json")\
 
 with open("./data/raw/old_data/points/old_points.json", "r") as f:
@@ -263,8 +288,17 @@ filesSorted: list[RawPlayerDataFile] = parseFileNames(allFiles)
 
 allOldFiles = glob("data/raw/old_data/players/**/**.json")
 filesSorted += parseOldFilenames(allOldFiles)
-filesSorted = sorted(filesSorted)
-
+filesSorted = sorted(filesSorted, reverse=True)
+tempFiles = []
+foundWeeks = dict()
+for fileName in filesSorted:
+    with open(fileName.filename, "r") as f:
+        jsonData = json.load(f)
+    include, foundWeeks = shouldIncludeFile(jsonData, fileName, foundWeeks) 
+    if (include):
+        tempFiles.append(fileName)
+        
+filesSorted = tempFiles[::-1]
 filesProcessed: list[dict] = []
 playerNames: dict[int, str] = dict()
 
@@ -286,7 +320,6 @@ temp = []
 for file in filteredFiles:
     temp.append((file["gameweek"], file["season"]))
 
-
 # Make sure each gameweek only has 1 file
 
 previousForm: pd.DataFrame = None
@@ -304,7 +337,7 @@ for (i, file) in enumerate(filteredFiles):
     teamDf = pd.DataFrame.from_records(file["teams"])
 
     # Ignore files where opposing team is unknown
-    if((file["data"]["opposing_team"]=="UNK").all()):
+    if((file["data"]["opposing_team"]=="UNK").all() and (not gameweek == 0)):
         print(f"Warning: Unable to find opposing team of week {gameweek} of season {season}")
         ignoreFile = True
 
